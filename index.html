@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Pathfinder web character sheet</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.8/react-bootstrap.min.js"></script>
+        <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
+
+        <script>
+            var Alert = ReactBootstrap.Alert;
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
+            const { Grid, Col, Checkbox, FormControl } = ReactBootstrap
+            function App() {
+                return (
+                <Grid>
+                <form>
+                    <Field name='Character'/>
+                </form>
+                </Grid>
+                );
+            }
+            function Field(props) {
+                return <Col md={4}>{props.name}</Col>;
+            }
+            ReactDOM.render( <App />, document.getElementById('root'));
+        </script>
+    </body>
+</html>
