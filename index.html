@@ -18,18 +18,37 @@
     <body>
         <div id="root"></div>
         <script type="text/babel">
-            const { Grid, Col, Checkbox, FormControl } = ReactBootstrap
+            const { Grid, Col, Checkbox, FormGroup, FormControl } = ReactBootstrap
             function App() {
                 return (
                 <Grid>
                 <form>
-                    <Field name='Character'/>
+                    <FormGroup controlId="stats">
+                    <Field name="Character" cols={6}/>
+                    <Field name="Player" cols={6}/>
+                    <Field name="Race" cols={3}/>
+                    <Field name="Size" cols={1}/>
+                    <Field name="Gender" cols={1}/>
+                    <Field name="Height" cols={1}/>
+                    <Field name="Weight" cols={1}/>
+                    <Field name="Hair" cols={2}/>
+                    <Field name="Eyes" cols={1}/>
+                    <Field name="Skin" cols={1}/>
+                    <Field name="Age" cols={1}/>
+                    <Field name="Alignment" cols={2}/>
+                    <Field name="Deity" cols={3}/>
+                    <Field name="Homeland and occupation" cols={7}/>
+                    <Field name="Languages" cols={12}/>
+                    </FormGroup>
                 </form>
                 </Grid>
                 );
             }
             function Field(props) {
-                return <Col md={4}>{props.name}</Col>;
+                return <Col md={props.cols}>
+                    {props.name}
+                    <FormControl type="text" name={props.name} />
+                </Col>;
             }
             ReactDOM.render( <App />, document.getElementById('root'));
         </script>
