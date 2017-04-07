@@ -62,7 +62,29 @@
                     </Table>
                     </Col>
                     <Col md={7}>
-                    TODO: class table
+                    <Table responsive compact>
+                        <thead>
+                            <tr>
+                                <th><small>class name</small></th>
+                                <th><small>HD</small></th>
+                                <th><small>hp gained</small></th>
+                                <th><small>BAB</small></th>
+                                <th><small>skill</small></th>
+                                <th><small>fc hps</small></th>
+                                <th><small>fort</small></th>
+                                <th><small>ref</small></th>
+                                <th><small>will</small></th>
+                                <th><small>levels</small></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ClassRow name="class1" />
+                            <ClassRow name="class2" />
+                            <ClassRow name="class3" />
+                            <ClassRow name="class4" />
+                            TODO: totals
+                        </tbody>
+                    </Table>
                     </Col>
                     </Row>
                 </Form>
@@ -86,13 +108,29 @@
             function StatRow(props) {
                 return (
                 <tr>
-                <td className="active">{props.name}</td>
-                <td className="success"></td>
-                <td className="success"></td>
-                <td><FormControl type="text" name={props.name+'base'} value="10" /></td>
-                <td><FormControl type="text" name={props.name+'enh'} /></td>
-                <td><FormControl type="text" name={props.name+'misc'} /></td>
-                <td><FormControl type="text" name={props.name+'temp'} /></td>
+                    <td className="active">{props.name}</td>
+                    <td className="success"></td>
+                    <td className="success"></td>
+                    <td><FormControl type="text" name={props.name+'base'} value="10" /></td>
+                    <td><FormControl type="text" name={props.name+'enh'} /></td>
+                    <td><FormControl type="text" name={props.name+'misc'} /></td>
+                    <td><FormControl type="text" name={props.name+'temp'} /></td>
+                </tr>
+                );
+            }
+            function ClassRow(props) {
+                return (
+                <tr>
+                    <td><FormControl type="text" name={props.name+'-class'} /></td>
+                    <td><FormControl type="text" name={props.name+'-hd'} /></td>
+                    <td><FormControl type="text" name={props.name+'-hp'} /></td>
+                    <td><FormControl type="text" name={props.name+'-bab'} /></td>
+                    <td><FormControl type="text" name={props.name+'-skill'} /></td>
+                    <td><FormControl type="text" name={props.name+'-fchp'} /></td>
+                    <td><FormControl type="text" name={props.name+'-fort'} /></td>
+                    <td><FormControl type="text" name={props.name+'-ref'} /></td>
+                    <td><FormControl type="text" name={props.name+'-will'} /></td>
+                    <td><FormControl type="text" name={props.name+'-levels'} /></td>
                 </tr>
                 );
             }
