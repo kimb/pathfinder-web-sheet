@@ -10,20 +10,17 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
-
-        <script>
-            var Alert = ReactBootstrap.Alert;
-        </script>
-    </head>
-    <body>
-        <div id="root"></div>
+        <style media="print">
+            html, body { width: 1200px !important; }
+        </style>
         <script type="text/babel">
-            const { Grid, Col, Checkbox, FormGroup, FormControl } = ReactBootstrap
+            const { Grid, Row, Col, Table, Checkbox, FormGroup, FormControl } = ReactBootstrap
             function App() {
                 return (
-                <Grid>
+                <Grid fluid>
                 <form>
-                    <FormGroup controlId="stats">
+                    <FormGroup controlId="stats" bsSize="sm">
+                    <Row>
                     <Field name="Character" cols={6}/>
                     <Field name="Player" cols={6}/>
                     <Field name="Race" cols={3}/>
@@ -39,17 +36,70 @@
                     <Field name="Deity" cols={3}/>
                     <Field name="Homeland and occupation" cols={7}/>
                     <Field name="Languages" cols={12}/>
+                    </Row>
+                    <Row>
+                    <Col md={5}>
+                    <Table responsive compact>
+                        <thead>
+                            <tr>
+                                <th><small>ability</small></th>
+                                <th><small>total</small></th>
+                                <th><small>mod</small></th>
+                                <th><small>base</small></th>
+                                <th><small>enhance</small></th>
+                                <th><small>misc</small></th>
+                                <th><small>temp</small></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <StatRow name="STR" />
+                            <StatRow name="DEX" />
+                            <StatRow name="CON" />
+                            <StatRow name="INT" />
+                            <StatRow name="WIS" />
+                            <StatRow name="CHA" />
+                        </tbody>
+                    </Table>
+                    </Col>
+                    <Col md={7}>
+                    TODO: class table
+                    </Col>
+                    </Row>
                     </FormGroup>
                 </form>
                 </Grid>
                 );
             }
+        </script>
+        <script type="text/babel">
             function Field(props) {
-                return <Col md={props.cols}>
+                return (
+                <Col bsClass="col" sm={props.cols}>
+                <small>
                     {props.name}
-                    <FormControl type="text" name={props.name} />
-                </Col>;
+                </small>
+                <FormControl type="text" name={props.name} />
+                </Col>
+                );
             }
+            function StatRow(props) {
+                return (
+                <tr>
+                <td className="active">{props.name}</td>
+                <td className="success"></td>
+                <td className="success"></td>
+                <td><FormControl type="text" name={props.name+'base'} value="10" /></td>
+                <td><FormControl type="text" name={props.name+'enh'} /></td>
+                <td><FormControl type="text" name={props.name+'misc'} /></td>
+                <td><FormControl type="text" name={props.name+'temp'} /></td>
+                </tr>
+                );
+            }
+        </script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <script type="text/babel">
             ReactDOM.render( <App />, document.getElementById('root'));
         </script>
     </body>
