@@ -10,13 +10,16 @@
 
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/latest/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
+        <style>
+            .form-group { margin-bottom: 0px; }
+        </style>
+
         <script type="text/babel">
-            const { Grid, Row, Col, Table, Checkbox, FormGroup, FormControl } = ReactBootstrap
+            const { Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel } = ReactBootstrap
             function App() {
                 return (
                 <Grid fluid>
-                <form>
-                    <FormGroup controlId="stats" bsSize="sm">
+                <Form>
                     <Row>
                     <Field name="Character" cols={6}/>
                     <Field name="Player" cols={6}/>
@@ -62,8 +65,7 @@
                     TODO: class table
                     </Col>
                     </Row>
-                    </FormGroup>
-                </form>
+                </Form>
                 </Grid>
                 );
             }
@@ -72,10 +74,12 @@
             function Field(props) {
                 return (
                 <Col bsClass="col" sm={props.cols}>
-                <small>
-                    {props.name}
-                </small>
+                <FormGroup controlId="{props.name}" bsSize="sm">
+                <ControlLabel>
+                <small>{props.name}</small>
+                </ControlLabel>
                 <FormControl type="text" name={props.name} />
+                </FormGroup>
                 </Col>
                 );
             }
