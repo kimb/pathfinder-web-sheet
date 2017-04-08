@@ -60,7 +60,23 @@
                         this.state[stat] = { 'base': 10 };
                     });
                     this.state.handleChange = this.handleChange.bind(this);
-                    this.handleChange = this.handleChange.bind(this);
+                }
+                componentDidUpdate(prevProps, prevState) {
+                    history.pushState('','','?state='+JSON.stringify(this.state));
+                }
+                componentWillMount() {
+                    function getQueryParams(qs) {
+                        qs = qs.split('+').join(' ');
+                        var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+                        while (tokens = re.exec(qs)) {
+                            params[decodeURIComponent(tokens[1])] =
+                                decodeURIComponent(tokens[2]);
+                        }
+                        return params;
+                    }
+                    let s = JSON.parse( getQueryParams(window.location.search).state );
+                    console.info( 'componentWillMount: restoring state:', s );
+                    this.setState( s );
                 }
                 handleChange(path) {
                     //console.log('creating handleChange for '+path+':', path);
