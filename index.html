@@ -74,7 +74,9 @@
                         }
                         return params;
                     }
-                    let s = JSON.parse( getQueryParams(window.location.search).state );
+                    let stateParam = getQueryParams(window.location.search).state;
+                    if ( !stateParam ) return;
+                    let s = JSON.parse( stateParam );
                     console.info( 'componentWillMount: restoring state:', s );
                     this.setState( s );
                 }
