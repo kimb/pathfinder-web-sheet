@@ -87,13 +87,8 @@
                         this.setState( (prevState, setProps) => {
                             console.log('setState', prevState, setProps, newVal);
                             // assert len(path)==2
-                            const prevStateVal = prevState[path[0]];
-                            let newStateVal = Object.create(prevStateVal);
-                            newStateVal[path[1]] = newVal;
-                            console.log('handleChange ', path,' from ', prevStateVal, 'to', newStateVal);
-                            const newState = {};
-                            newState[path[0]] = newStateVal;
-                            return newState;
+                            prevState[path[0]][path[1]] = newVal;
+                            return prevState;
                         } );
                     };
                 };
