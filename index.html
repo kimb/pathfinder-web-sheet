@@ -49,82 +49,114 @@
 
         <script type="text/babel">
             const { Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel } = ReactBootstrap
-            function App() {
-                return (
-                <Grid fluid>
-                <Form>
-                    <Row>
-                    <Field name="Character" xs={8} sm={6}/>
-                    <Field name="Player" xs={4} sm={6}/>
-                    <Field name="Race" sm={3}/>
-                    <Field name="Size" sm={1}/>
-                    <Field name="Gender" sm={1}/>
-                    <Field name="Height" sm={1}/>
-                    <Field name="Weight" sm={1}/>
-                    <Field name="Hair" sm={2}/>
-                    <Field name="Eyes" sm={1}/>
-                    <Field name="Skin" sm={1}/>
-                    <Field name="Age" sm={1}/>
-                    <Field name="Alignment" sm={2}/>
-                    <Field name="Deity" sm={3}/>
-                    <Field name="Homeland and occupation" sm={7}/>
-                    <Field name="Languages" sm={12}/>
-                    </Row>
-                    <Row>
-                    <Col md={5}>
-                    <Table compact>
-                        <thead>
-                            <tr>
-                                <th><small>ability</small></th>
-                                <th><small>total</small></th>
-                                <th><small>mod</small></th>
-                                <th><small>base</small></th>
-                                <th><small>enhance</small></th>
-                                <th><small>misc</small></th>
-                                <th><small>temp</small></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <StatRow name="STR" />
-                            <StatRow name="DEX" />
-                            <StatRow name="CON" />
-                            <StatRow name="INT" />
-                            <StatRow name="WIS" />
-                            <StatRow name="CHA" />
-                        </tbody>
-                    </Table>
-                    </Col>
-                    <Col md={7}>
-                    <Table compact>
-                        <thead>
-                            <tr>
-                                <th><small>classname</small></th>
-                                <th><small>HD</small></th>
-                                <th><small>hp gained</small></th>
-                                <th><small>BAB</small></th>
-                                <th><small>skill</small></th>
-                                <th><small>fc hps</small></th>
-                                <th><small>fort</small></th>
-                                <th><small>ref</small></th>
-                                <th><small>will</small></th>
-                                <th><small>levels</small></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ClassRow name="class1" />
-                            <ClassRow name="class2" />
-                            <ClassRow name="class3" />
-                            <ClassRow name="class4" />
-                            TODO: totals
-                        </tbody>
-                    </Table>
-                    </Col>
-                    </Row>
-                </Form>
-                </Grid>
-                );
+            const STATS = ['STR','DEX','CON', 'INT','WIS','CHA'];
+            const STAT_TYPES = ['base','enhance','misc','temp'];
+
+            class App extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = {};
+                    STATS.map( (stat) => {
+                        this.state[stat] = { 'base': 10 };
+                    });
+                    this.state.handleChange = this.handleChange.bind(this);
+                    this.handleChange = this.handleChange.bind(this);
+                }
+                handleChange(path) {
+                    //console.log('creating handleChange for '+path+':', path);
+                    return (e) => {
+                        const newVal = e.target.value;
+                        this.setState( (prevState, setProps) => {
+                            console.log('setState', prevState, setProps, newVal);
+                            // assert len(path)==2
+                            const prevStateVal = prevState[path[0]];
+                            let newStateVal = Object.create(prevStateVal);
+                            newStateVal[path[1]] = newVal;
+                            console.log('handleChange ', path,' from ', prevStateVal, 'to', newStateVal);
+                            const newState = {};
+                            newState[path[0]] = newStateVal;
+                            return newState;
+                        } );
+                    };
+                };
+                render() {
+                    return (
+                    <Grid fluid>
+                    <Form>
+                        <Row>
+                        <Field name="Character" xs={8} sm={6}/>
+                        <Field name="Player" xs={4} sm={6}/>
+                        <Field name="Race" sm={3}/>
+                        <Field name="Size" sm={1}/>
+                        <Field name="Gender" sm={1}/>
+                        <Field name="Height" sm={1}/>
+                        <Field name="Weight" sm={1}/>
+                        <Field name="Hair" sm={2}/>
+                        <Field name="Eyes" sm={1}/>
+                        <Field name="Skin" sm={1}/>
+                        <Field name="Age" sm={1}/>
+                        <Field name="Alignment" sm={2}/>
+                        <Field name="Deity" sm={3}/>
+                        <Field name="Homeland and occupation" sm={7}/>
+                        <Field name="Languages" sm={12}/>
+                        </Row>
+                        <Row>
+                        <Col md={5}>
+                        <Table compact>
+                            <thead>
+                                <tr>
+                                    <th><small>ability</small></th>
+                                    <th><small>total</small></th>
+                                    <th><small>mod</small></th>
+                                    <th><small>base</small></th>
+                                    <th><small>enhance</small></th>
+                                    <th><small>misc</small></th>
+                                    <th><small>temp</small></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <StatRow {...this.state} ability="STR" />
+                                <StatRow {...this.state} ability="DEX" />
+                                <StatRow {...this.state} ability="CON" />
+                                <StatRow {...this.state} ability="INT" />
+                                <StatRow {...this.state} ability="WIS" />
+                                <StatRow {...this.state} ability="CHA" />
+                            </tbody>
+                        </Table>
+                        </Col>
+                        <Col md={7}>
+                        <Table compact>
+                            <thead>
+                                <tr>
+                                    <th><small>classname</small></th>
+                                    <th><small>HD</small></th>
+                                    <th><small>hp gained</small></th>
+                                    <th><small>BAB</small></th>
+                                    <th><small>skill</small></th>
+                                    <th><small>fc hps</small></th>
+                                    <th><small>fort</small></th>
+                                    <th><small>ref</small></th>
+                                    <th><small>will</small></th>
+                                    <th><small>levels</small></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ClassRow name="class1" />
+                                <ClassRow name="class2" />
+                                <ClassRow name="class3" />
+                                <ClassRow name="class4" />
+                                TODO: totals
+                            </tbody>
+                        </Table>
+                        </Col>
+                        </Row>
+                    </Form>
+                    </Grid>
+                    );
+                }
             }
         </script>
+
         <script type="text/babel">
             function Field(props) {
                 return (
@@ -139,16 +171,34 @@
                 );
             }
             function StatRow(props) {
+                const ability=props.ability;
+                //console.log('row base for '+ability+':', props[ability]['base']);
+                const total = STAT_TYPES.reduce(
+                    (acc,type) => acc + parseInt(props[ability][type]||0), 0);
+                const valueRows = STAT_TYPES.map( (type) =>
+                    <td><PropValue {...props}
+                        prop={[ability,type]} />
+                    </td> );
                 return (
                 <tr>
-                    <td className="active">{props.name}</td>
-                    <td className="success"></td>
-                    <td className="success"></td>
-                    <td><FormControl type="text" name={props.name+'base'} value="10" /></td>
-                    <td><FormControl type="text" name={props.name+'enh'} /></td>
-                    <td><FormControl type="text" name={props.name+'misc'} /></td>
-                    <td><FormControl type="text" name={props.name+'temp'} /></td>
+                    <td className="active">{ability}</td>
+                    <td className="success">{total}</td>
+                    <td className="success">{Math.round((total-11)/2)}</td>
+                    {valueRows}
                 </tr>
+                );
+            }
+            function PropValue(props) {
+                const prop = props.prop;
+                let value = props;
+                prop.map((key) => { value = value[key] });
+                //console.log('name', name, props);
+                return (
+                <FormControl type="text"
+                    name={prop}
+                    value={value}
+                    onChange={props.handleChange(prop)}
+                />
                 );
             }
             function ClassRow(props) {
