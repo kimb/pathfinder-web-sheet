@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
         <style>
             .form-group { margin-bottom: 0px; }
+            .class-name { width: 20%; }
             @media print {
                 body { zoom: 50%; }
                 .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
@@ -51,6 +52,8 @@
             const { Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel } = ReactBootstrap
             const STATS = ['STR','DEX','CON', 'INT','WIS','CHA'];
             const STAT_TYPES = ['base','enhance','misc','temp'];
+            const CLASSES = ['class1','class2','class3','class4'];
+            const CLASS_TYPES = [ 'class', 'hd', 'hp', 'bab', 'skill', 'fort', 'ref', 'will', 'levels' ];
 
             class App extends React.Component {
                 constructor(props) {
@@ -60,6 +63,8 @@
                         this.state[stat] = { 'base': 10 };
                     });
                     this.state.handleChange = this.handleChange.bind(this);
+                    this.state.getState = this.getState.bind(this);
+                    this.state.getClassTypeTotal = this.getClassTypeTotal.bind(this);
                 }
                 componentDidUpdate(prevProps, prevState) {
                     history.pushState('','','?state='+JSON.stringify(this.state));
@@ -86,12 +91,24 @@
                         const newVal = parseFloat(e.target.value) || e.target.value;
                         this.setState( (prevState, setProps) => {
                             console.log('setState', prevState, setProps, newVal);
-                            // assert len(path)==2
+                            console.assert(path.length==2, path);
+                            if( prevState[path[0]] === undefined ) {
+                                prevState[path[0]] = {}
+                            }
                             prevState[path[0]][path[1]] = newVal;
                             return prevState;
                         } );
                     };
-                };
+                }
+                getState(prop) {
+                    let value = this.state;
+                    prop.map((key) => { value!==undefined ? value = value[key] : 0 });
+                    return value;
+                }
+                getClassTypeTotal(type) {
+                    return CLASSES.reduce(
+                        (sum, classN) => (sum+(this.getState([classN,type])||0)), 0)
+                }
                 render() {
                     return (
                     <Grid fluid>
@@ -115,7 +132,7 @@
                         </Row>
                         <Row>
                         <Col md={5}>
-                        <Table compact>
+                        <Table condensed>
                             <thead>
                                 <tr>
                                     <th><small>ability</small></th>
@@ -138,15 +155,14 @@
                         </Table>
                         </Col>
                         <Col md={7}>
-                        <Table compact>
+                        <Table condensed>
                             <thead>
                                 <tr>
-                                    <th><small>classname</small></th>
+                                    <th className="class-name"><small>classname</small></th>
                                     <th><small>HD</small></th>
                                     <th><small>hp gained</small></th>
                                     <th><small>BAB</small></th>
                                     <th><small>skill</small></th>
-                                    <th><small>fc hps</small></th>
                                     <th><small>fort</small></th>
                                     <th><small>ref</small></th>
                                     <th><small>will</small></th>
@@ -154,11 +170,21 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <ClassRow name="class1" />
-                                <ClassRow name="class2" />
-                                <ClassRow name="class3" />
-                                <ClassRow name="class4" />
-                                TODO: totals
+                                <ClassRow {...this.state} name="class1" />
+                                <ClassRow {...this.state} name="class2" />
+                                <ClassRow {...this.state} name="class3" />
+                                <ClassRow {...this.state} name="class4" />
+                                <tr>
+                                    <th>totals</th>
+                                    <th></th>
+                                    <th>{this.getClassTypeTotal('hp')}</th>
+                                    <th>{this.getClassTypeTotal('bab')}</th>
+                                    <th>{this.getClassTypeTotal('skill')}</th>
+                                    <th>{this.getClassTypeTotal('fort')}</th>
+                                    <th>{this.getClassTypeTotal('ref')}</th>
+                                    <th>{this.getClassTypeTotal('will')}</th>
+                                    <th>{this.getClassTypeTotal('levels')}</th>
+                                </tr>
                             </tbody>
                         </Table>
                         </Col>
@@ -189,7 +215,7 @@
                 const total = STAT_TYPES.reduce(
                     (acc,type) => acc + parseInt(props[ability][type]||0), 0);
                 const valueRows = STAT_TYPES.map( (type) =>
-                    <td><PropValue {...props}
+                    <td><StatePropControl {...props}
                         prop={[ability,type]} />
                     </td> );
                 return (
@@ -201,32 +227,25 @@
                 </tr>
                 );
             }
-            function PropValue(props) {
-                const prop = props.prop;
-                let value = props;
-                prop.map((key) => { value = value[key] });
-                //console.log('name', name, props);
+            function StatePropControl(props) {
+                //console.debug(props.prop, props.getState(props.prop));
                 return (
                 <FormControl type="text"
-                    name={prop}
-                    value={value}
-                    onChange={props.handleChange(prop)}
+                    name={props.prop.toString()}
+                    value={props.getState(props.prop)}
+                    onChange={props.handleChange(props.prop)}
                 />
                 );
             }
             function ClassRow(props) {
+                const rowName = props.name;
+                const valueRows = CLASS_TYPES.map( (type) =>
+                    <td><StatePropControl {...props}
+                        prop={[rowName,type]} />
+                    </td> );
                 return (
                 <tr>
-                    <td><FormControl type="text" name={props.name+'-class'} /></td>
-                    <td><FormControl type="text" name={props.name+'-hd'} /></td>
-                    <td><FormControl type="text" name={props.name+'-hp'} /></td>
-                    <td><FormControl type="text" name={props.name+'-bab'} /></td>
-                    <td><FormControl type="text" name={props.name+'-skill'} /></td>
-                    <td><FormControl type="text" name={props.name+'-fchp'} /></td>
-                    <td><FormControl type="text" name={props.name+'-fort'} /></td>
-                    <td><FormControl type="text" name={props.name+'-ref'} /></td>
-                    <td><FormControl type="text" name={props.name+'-will'} /></td>
-                    <td><FormControl type="text" name={props.name+'-levels'} /></td>
+                    {valueRows}
                 </tr>
                 );
             }
