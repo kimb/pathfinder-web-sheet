@@ -54,8 +54,8 @@
                 <Grid fluid>
                 <Form>
                     <Row>
-                    <Field name="Character" sm={6}/>
-                    <Field name="Player" sm={6}/>
+                    <Field name="Character" xs={6} sm={6}/>
+                    <Field name="Player" xs={6} sm={6}/>
                     <Field name="Race" sm={3}/>
                     <Field name="Size" sm={1}/>
                     <Field name="Gender" sm={1}/>
@@ -128,7 +128,7 @@
         <script type="text/babel">
             function Field(props) {
                 return (
-                <Col bsClass="col" xs={props.xs || Math.min(props.sm*2,12) } sm={props.sm}>
+                <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
                 <FormGroup controlId="{props.name}" bsSize="sm">
                 <ControlLabel>
                 <small>{props.name}</small>
