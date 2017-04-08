@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=0.55">
+        <meta name="viewport" content="width=device-width, initial-scale=0.75">
         <title>Pathfinder web character sheet</title>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
@@ -54,21 +54,21 @@
                 <Grid fluid>
                 <Form>
                     <Row>
-                    <Field name="Character" cols={6}/>
-                    <Field name="Player" cols={6}/>
-                    <Field name="Race" cols={3}/>
-                    <Field name="Size" cols={1}/>
-                    <Field name="Gender" cols={1}/>
-                    <Field name="Height" cols={1}/>
-                    <Field name="Weight" cols={1}/>
-                    <Field name="Hair" cols={2}/>
-                    <Field name="Eyes" cols={1}/>
-                    <Field name="Skin" cols={1}/>
-                    <Field name="Age" cols={1}/>
-                    <Field name="Alignment" cols={2}/>
-                    <Field name="Deity" cols={3}/>
-                    <Field name="Homeland and occupation" cols={7}/>
-                    <Field name="Languages" cols={12}/>
+                    <Field name="Character" sm={6}/>
+                    <Field name="Player" sm={6}/>
+                    <Field name="Race" sm={3}/>
+                    <Field name="Size" sm={1}/>
+                    <Field name="Gender" sm={1}/>
+                    <Field name="Height" sm={1}/>
+                    <Field name="Weight" sm={1}/>
+                    <Field name="Hair" sm={2}/>
+                    <Field name="Eyes" sm={1}/>
+                    <Field name="Skin" sm={1}/>
+                    <Field name="Age" sm={1}/>
+                    <Field name="Alignment" sm={2}/>
+                    <Field name="Deity" sm={3}/>
+                    <Field name="Homeland and occupation" sm={7}/>
+                    <Field name="Languages" sm={12}/>
                     </Row>
                     <Row>
                     <Col md={5}>
@@ -128,7 +128,7 @@
         <script type="text/babel">
             function Field(props) {
                 return (
-                <Col bsClass="col" sm={props.cols}>
+                <Col bsClass="col" xs={props.xs || props.sm*3} sm={props.sm}>
                 <FormGroup controlId="{props.name}" bsSize="sm">
                 <ControlLabel>
                 <small>{props.name}</small>
