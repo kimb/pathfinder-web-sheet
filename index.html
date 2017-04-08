@@ -106,8 +106,8 @@
                     return value;
                 }
                 getClassTypeTotal(type) {
-                    return CLASSES.reduce(
-                        (sum, classN) => (sum+(this.getState([classN,type])||0)), 0)
+                    return CLASSES.reduce( (sum, classN) =>
+                        ( sum+parseFloat('0'+this.getState([classN,type]))), 0)
                 }
                 render() {
                     return (
