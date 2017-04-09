@@ -107,9 +107,9 @@
                         } );
                     };
                 }
-                getState(prop) {
+                getState(propKey) {
                     let value = this.state;
-                    prop.map((key) => { value!==undefined ? value = value[key] : 0 });
+                    propKey.map((key) => { value!==undefined ? value=value[key] : 0 });
                     return value;
                 }
                 getClassTypeTotal(type) {
@@ -121,20 +121,20 @@
                     <Grid fluid>
                     <Form>
                         <Row>
-                        <Field name="Character" xs={8} sm={6}/>
-                        <Field name="Player" xs={4} sm={6}/>
-                        <Field name="Race" sm={3}/>
-                        <Field name="Size" sm={1}/>
-                        <Field name="Gender" sm={1}/>
-                        <Field name="Height" sm={1}/>
-                        <Field name="Weight" sm={1}/>
-                        <Field name="Hair" sm={2}/>
-                        <Field name="Eyes" sm={1}/>
-                        <Field name="Skin" sm={1}/>
-                        <Field name="Age" sm={1}/>
-                        <Field name="Alignment" sm={2}/>
-                        <Field name="Deity" sm={3}/>
-                        <Field name="Homeland and occupation" sm={7}/>
+                        <Field propKey="Character" xs={8} sm={6}/>
+                        <Field propKey="Player" xs={4} sm={6}/>
+                        <Field propKey="Race" sm={3}/>
+                        <Field propKey="Size" sm={1}/>
+                        <Field propKey="Gender" sm={1}/>
+                        <Field propKey="Height" sm={1}/>
+                        <Field propKey="Weight" sm={1}/>
+                        <Field propKey="Hair" sm={2}/>
+                        <Field propKey="Eyes" sm={1}/>
+                        <Field propKey="Skin" sm={1}/>
+                        <Field propKey="Age" sm={1}/>
+                        <Field propKey="Alignment" sm={2}/>
+                        <Field propKey="Deity" sm={3}/>
+                        <Field propKey="Homeland and occupation" sm={7}/>
                         <Field name="Languages" sm={12}/>
                         </Row>
                         <Row>
@@ -208,11 +208,11 @@
             function Field(props) {
                 return (
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
-                <FormGroup controlId="{props.name}" bsSize="sm">
+                <FormGroup controlId="{props.propKey}" bsSize="sm">
                 <ControlLabel>
-                <small>{props.name}</small>
+                <small>{props.propKey}</small>
                 </ControlLabel>
-                <FormControl type="text" name={props.name} />
+                <FormControl type="text" name={props.propKey} />
                 </FormGroup>
                 </Col>
                 );
@@ -224,7 +224,7 @@
                     (acc,type) => acc + parseInt(props[ability][type]||0), 0);
                 const valueRows = STAT_TYPES.map( (type) =>
                     <td><StatePropControl {...props}
-                        prop={[ability,type]} />
+                        propKey={[ability,type]} />
                     </td> );
                 return (
                 <tr>
@@ -236,12 +236,12 @@
                 );
             }
             function StatePropControl(props) {
-                //console.debug(props.prop, props.getState(props.prop));
+                //console.debug(props.propKey, props.getState(props.propKey));
                 return (
                 <FormControl type="text"
-                    name={props.prop.toString()}
-                    value={props.getState(props.prop)}
-                    onChange={props.handleChange(props.prop)}
+                    name={props.propKey.join('-')}
+                    value={props.getState(props.propKey)}
+                    onChange={props.handleChange(props.propKey)}
                 />
                 );
             }
@@ -249,7 +249,7 @@
                 const rowName = props.name;
                 const valueRows = CLASS_TYPES.map( (type) =>
                     <td><StatePropControl {...props}
-                        prop={[rowName,type]} />
+                        propKey={[rowName,type]} />
                     </td> );
                 return (
                 <tr>
