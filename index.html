@@ -86,17 +86,20 @@
                     console.info( 'componentWillMount: restoring state:', s );
                     this.setState( s );
                 }
-                handleChange(path) {
-                    //console.log('creating handleChange for '+path+':', path);
+                handleChange(propKey) {
+                    //console.log('creating handleChange for '+propKey+':', propKey);
                     return (e) => {
                         const newVal = parseFloat(e.target.value) || e.target.value;
                         this.setState( (prevState, setProps) => {
                             console.log('setState', prevState, setProps, newVal);
-                            console.assert(path.length==2, path);
-                            if( prevState[path[0]] === undefined ) {
-                                prevState[path[0]] = {}
-                            }
-                            prevState[path[0]][path[1]] = newVal;
+                            let leaf = propKey.slice(0,-1).reduce(
+                                ( childState, key ) => {
+                                    if( childState[key] === undefined ) {
+                                        return childState[key] = {};
+                                    }
+                                    return childState[key];
+                            }, prevState );
+                            leaf[propKey[propKey.length-1]] = newVal;
                             return prevState;
                         } );
                     };
