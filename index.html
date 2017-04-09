@@ -69,6 +69,8 @@
                     this.state.handleChange = this.handleChange.bind(this);
                     this.state.getState = this.getState.bind(this);
                     this.state.getClassTypeTotal = this.getClassTypeTotal.bind(this);
+                    this.state.getAbilityTotal = this.getAbilityTotal.bind(this);
+                    this.state.getAbilityMod = this.getAbilityMod.bind(this);
                 }
                 componentDidUpdate(prevProps, prevState) {
                     history.pushState('','','?state='+JSON.stringify(this.state));
@@ -110,14 +112,23 @@
                         } );
                     };
                 }
-                getState(propKey) {
+                getState(propKey, defaultTo) {
                     let value = this.state;
                     propKey.map((key) => { value!==undefined ? value=value[key] : 0 });
+                    if( value === undefined ) return defaultTo;
                     return value;
                 }
                 getClassTypeTotal(type) {
                     return CLASSES.reduce( (sum, classN) =>
                         ( sum+parseFloat('0'+this.getState([classN,type]))), 0)
+                }
+                getAbilityTotal(ability) {
+                    return STAT_TYPES.reduce(
+                        (sum,type) =>
+                            sum + parseInt(this.getState([ability,type])||0), 0);
+                }
+                getAbilityMod(ability) {
+                    return Math.round((this.getAbilityTotal(ability)-11)/2);
                 }
                 render() {
                     return (
@@ -200,6 +211,111 @@
                         </Table>
                         </Col>
                         </Row>
+                        <Row>
+                        <Col sm={7}>
+                        <Table condensed>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Total</th>
+                                <th></th>
+                                <th>Armor</th>
+                                <th>Shield</th>
+                                <th>Dex</th>
+                                <th>Size</th>
+                                <th>Dodge</th>
+                                <th>Natural</th>
+                                <th>Deflect</th>
+                                <th>Misc</th>
+                                <th>Temp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th className="active">AC</th>
+                                <th className="success text-center">
+                                    {10
+                                    +this.getState(['armor','ac'],0)
+                                    +this.getState(['shield','ac'],0)
+                                    +this.getAbilityMod('DEX')
+                                    +this.getState(['ac','size'],0)
+                                    +this.getState(['ac','dodge'],0)
+                                    +this.getState(['ac','natural'],0)
+                                    +this.getState(['ac','deflect'],0)
+                                    +this.getState(['ac','misc'],0)
+                                    +this.getState(['ac','temp'],0)}
+                                </th>
+                                <td><small>10+</small></td>
+                                <td>{this.getState(['armor','ac'],'')}</td>
+                                <td>{this.getState(['shield','ac'],'')}</td>
+                                <td>{this.getAbilityMod('DEX')}</td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['ac','size']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['ac','dodge']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['ac','natural']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['ac','deflect']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['ac','misc']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['ac','temp']} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th className="active">Touch</th>
+                                <th className="success text-center">
+                                    {10+this.getAbilityMod('DEX')
+                                    +this.getState(['ac','size'],0)
+                                    +this.getState(['ac','dodge'],0)
+                                    +this.getState(['ac','deflect'],0)
+                                    +this.getState(['ac','misc'],0)
+                                    +this.getState(['ac','temp'],0)}
+                                </th>
+                                <td><small>10+</small></td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>{this.getAbilityMod('DEX')}</td>
+                                <td>{this.getState(['ac','size'],'')}</td>
+                                <td>{this.getState(['ac','dodge'],'')}</td>
+                                <td>-</td>
+                                <td>{this.getState(['ac','deflect'],'')}</td>
+                                <td>{this.getState(['ac','misc'],'')}</td>
+                                <td>{this.getState(['ac','temp'],'')}</td>
+                            </tr>
+                            <tr>
+                                <th className="active">Flat-foot</th>
+                                <th className="success text-center">
+                                    {10
+                                    +this.getState(['armor','ac'],0)
+                                    +this.getState(['shield','ac'],0)
+                                    +this.getState(['ac','size'],0)
+                                    +this.getState(['ac','natural'],0)
+                                    +this.getState(['ac','deflect'],0)
+                                    +this.getState(['ac','misc'],0)
+                                    +this.getState(['ac','temp'],0)}
+                                </th>
+                                <td><small>10+</small></td>
+                                <td>{this.getState(['armor','ac'],'')}</td>
+                                <td>{this.getState(['shield','ac'],'')}</td>
+                                <td>-</td>
+                                <td>{this.getState(['ac','size'],'')}</td>
+                                <td>-</td>
+                                <td>{this.getState(['ac','natural'],'')}</td>
+                                <td>{this.getState(['ac','deflect'],'')}</td>
+                                <td>{this.getState(['ac','misc'],'')}</td>
+                                <td>{this.getState(['ac','temp'],'')}</td>
+                            </tr>
+                        </tbody>
+                        </Table>
+                        </Col>
+                        </Row>
                     </Form>
                     </Grid>
                     );
@@ -228,8 +344,6 @@
             function StatRow(props) {
                 const ability=props.ability;
                 //console.log('row base for '+ability+':', props[ability]['base']);
-                const total = STAT_TYPES.reduce(
-                    (acc,type) => acc + parseInt(props[ability][type]||0), 0);
                 const valueRows = STAT_TYPES.map( (type) =>
                     <td><StatePropControl {...props}
                         propKey={[ability,type]} />
@@ -237,8 +351,8 @@
                 return (
                 <tr>
                     <th className="active">{ability}</th>
-                    <td className="success">{total}</td>
-                    <th className="success">{Math.round((total-11)/2)}</th>
+                    <td className="success text-center">{props.getAbilityTotal(ability)}</td>
+                    <th className="success text-center">{props.getAbilityMod(ability)}</th>
                     {valueRows}
                 </tr>
                 );
