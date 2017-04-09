@@ -93,8 +93,8 @@
                     //console.log('creating handleChange for '+propKey+':', propKey);
                     return (e) => {
                         const evval = e.target.value;
-                        const newVal = parseFloat(evval)
-                            || (evval && evval.length>0 && evval)
+                        const newVal = !isNaN(parseFloat(evval)) ? parseFloat(evval) :
+                            (evval && evval.length>0 && evval)
                             || undefined;
                         this.setState( (prevState, setProps) => {
                             console.log('setState', prevState, setProps, newVal);
