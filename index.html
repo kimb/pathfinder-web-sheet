@@ -124,21 +124,21 @@
                     <Grid fluid>
                     <Form>
                         <Row>
-                        <Field propKey="Character" xs={8} sm={6}/>
-                        <Field propKey="Player" xs={4} sm={6}/>
-                        <Field propKey="Race" sm={3}/>
-                        <Field propKey="Size" sm={1}/>
-                        <Field propKey="Gender" sm={1}/>
-                        <Field propKey="Height" sm={1}/>
-                        <Field propKey="Weight" sm={1}/>
-                        <Field propKey="Hair" sm={2}/>
-                        <Field propKey="Eyes" sm={1}/>
-                        <Field propKey="Skin" sm={1}/>
-                        <Field propKey="Age" sm={1}/>
-                        <Field propKey="Alignment" sm={2}/>
-                        <Field propKey="Deity" sm={3}/>
-                        <Field propKey="Homeland and occupation" sm={7}/>
-                        <Field name="Languages" sm={12}/>
+                        <Field {...this.state} propKey="Character" xs={8} sm={6}/>
+                        <Field {...this.state} propKey="Player" xs={4} sm={6}/>
+                        <Field {...this.state} propKey="Race" sm={3}/>
+                        <Field {...this.state} propKey="Size" sm={1}/>
+                        <Field {...this.state} propKey="Gender" sm={1}/>
+                        <Field {...this.state} propKey="Height" sm={1}/>
+                        <Field {...this.state} propKey="Weight" sm={1}/>
+                        <Field {...this.state} propKey="Hair" sm={2}/>
+                        <Field {...this.state} propKey="Eyes" sm={1}/>
+                        <Field {...this.state} propKey="Skin" sm={1}/>
+                        <Field {...this.state} propKey="Age" sm={1}/>
+                        <Field {...this.state} propKey="Alignment" sm={2}/>
+                        <Field {...this.state} propKey="Deity" sm={3}/>
+                        <Field {...this.state} propKey="Homeland and occupation" sm={7}/>
+                        <Field {...this.state} propKey="Languages" sm={12}/>
                         </Row>
                         <Row>
                         <Col md={5}>
@@ -209,17 +209,22 @@
 
         <script type="text/babel">
             function Field(props) {
+                const statePropKey = ['info', props.propKey];
                 return (
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
-                <FormGroup controlId="{props.propKey}" bsSize="sm">
+                <FormGroup controlId={statePropKey.join('-')} bsSize="sm">
                 <ControlLabel>
                 <small>{props.propKey}</small>
                 </ControlLabel>
-                <FormControl type="text" name={props.propKey} />
+                <FormControl type="text"
+                    value={props.getState(statePropKey)}
+                    onChange={props.handleChange(statePropKey)}
+                />
                 </FormGroup>
                 </Col>
                 );
             }
+
             function StatRow(props) {
                 const ability=props.ability;
                 //console.log('row base for '+ability+':', props[ability]['base']);
