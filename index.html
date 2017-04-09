@@ -89,7 +89,10 @@
                 handleChange(propKey) {
                     //console.log('creating handleChange for '+propKey+':', propKey);
                     return (e) => {
-                        const newVal = parseFloat(e.target.value) || e.target.value;
+                        const evval = e.target.value;
+                        const newVal = parseFloat(evval)
+                            || (evval && evval.length>0 && evval)
+                            || undefined;
                         this.setState( (prevState, setProps) => {
                             console.log('setState', prevState, setProps, newVal);
                             let leaf = propKey.slice(0,-1).reduce(
