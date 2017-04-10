@@ -275,7 +275,7 @@
                 //console.debug(props.propKey, props.getState(props.propKey));
                 return (
                 <FormControl type="text"
-                    name={props.propKey.join('-')}
+                    id={props.propKey.join('-')}
                     value={props.getState(props.propKey)}
                     onChange={props.handleChange(props.propKey)}
                 />
@@ -402,25 +402,25 @@
                     </Table>
                 );
             }
+            function SaveTableRow(props) {
+                return (
+                    <tr>
+                        <th className="active">{props.save.toUpperCase()}</th>
+                        <th className="success text-center">{
+                            props.getClassTypeTotal(props.save)
+                            +props.getAbilityMod(props.ability)
+                            +props.getState([props.save,'enhance'],0)
+                            +props.getState([props.save,'misc'],0)
+                            +props.getState([props.save,'temp'],0) }</th>
+                        <td>{props.getClassTypeTotal(props.save)}</td>
+                        <td>{props.getAbilityMod(props.ability)}</td>
+                        <td><StatePropControl {...props} propKey={[props.save,'enhance']}/></td>
+                        <td><StatePropControl {...props} propKey={[props.save,'misc']}/></td>
+                        <td><StatePropControl {...props} propKey={[props.save,'temp']}/></td>
+                    </tr>
+                );
+            }
             function SaveTable(props) {
-                function SaveRow(props) {
-                    return (
-                        <tr>
-                            <th className="active">{props.save.toUpperCase()}</th>
-                            <th className="success text-center">{
-                                props.getClassTypeTotal(props.save)
-                                +props.getAbilityMod(props.ability)
-                                +props.getState([props.save,'enhance'],0)
-                                +props.getState([props.save,'misc'],0)
-                                +props.getState([props.save,'temp'],0) }</th>
-                            <td>{props.getClassTypeTotal(props.save)}</td>
-                            <td>{props.getAbilityMod(props.ability)}</td>
-                            <td><StatePropControl {...props} propKey={[props.save,'enhance']}/></td>
-                            <td><StatePropControl {...props} propKey={[props.save,'misc']}/></td>
-                            <td><StatePropControl {...props} propKey={[props.save,'temp']}/></td>
-                        </tr>
-                    );
-                }
                 return (
                     <Table condensed>
                     <thead>
@@ -437,9 +437,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <SaveRow {...props} save="fort" ability="CON"/>
-                        <SaveRow {...props} save="ref" ability="DEX"/>
-                        <SaveRow {...props} save="will" ability="WIS"/>
+                        <SaveTableRow {...props} save="fort" ability="CON"/>
+                        <SaveTableRow {...props} save="ref" ability="DEX"/>
+                        <SaveTableRow {...props} save="will" ability="WIS"/>
                     </tbody>
                     </Table>
                 );
