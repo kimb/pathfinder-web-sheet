@@ -212,7 +212,7 @@
                         </Col>
                         </Row>
                         <Row>
-                        <Col sm={7}>
+                        <Col md={7}>
                         <Table condensed>
                         <thead>
                             <tr>
@@ -242,7 +242,7 @@
                                     +this.getState(['ac','dodge'],0)
                                     +this.getState(['ac','natural'],0)
                                     +this.getState(['ac','deflect'],0)
-                                    +this.getState(['ac','misc'],0)
+                                    +this.getState(['ac','ac-misc'],0)
                                     +this.getState(['ac','temp'],0)}
                                 </th>
                                 <td className="hidden-xs"><small>10+</small></td>
@@ -262,7 +262,7 @@
                                     propKey={['ac','deflect']} />
                                 </td>
                                 <td><StatePropControl {...this.state}
-                                    propKey={['ac','misc']} />
+                                    propKey={['ac','ac-misc']} />
                                 </td>
                                 <td><StatePropControl {...this.state}
                                     propKey={['ac','temp']} />
@@ -275,7 +275,7 @@
                                     +this.getState(['ac','size'],0)
                                     +this.getState(['ac','dodge'],0)
                                     +this.getState(['ac','deflect'],0)
-                                    +this.getState(['ac','misc'],0)
+                                    +this.getState(['ac','touch-misc'],0)
                                     +this.getState(['ac','temp'],0)}
                                 </th>
                                 <td className="hidden-xs"><small>10+</small></td>
@@ -286,7 +286,9 @@
                                 <td>{this.getState(['ac','dodge'],'')}</td>
                                 <td>-</td>
                                 <td>{this.getState(['ac','deflect'],'')}</td>
-                                <td>{this.getState(['ac','misc'],'')}</td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['ac','touch-misc']} />
+                                </td>
                                 <td>{this.getState(['ac','temp'],'')}</td>
                             </tr>
                             <tr>
@@ -298,7 +300,7 @@
                                     +this.getState(['ac','size'],0)
                                     +this.getState(['ac','natural'],0)
                                     +this.getState(['ac','deflect'],0)
-                                    +this.getState(['ac','misc'],0)
+                                    +this.getState(['ac','ff-misc'],0)
                                     +this.getState(['ac','temp'],0)}
                                 </th>
                                 <td className="hidden-xs"><small>10+</small></td>
@@ -309,7 +311,9 @@
                                 <td>-</td>
                                 <td>{this.getState(['ac','natural'],'')}</td>
                                 <td>{this.getState(['ac','deflect'],'')}</td>
-                                <td>{this.getState(['ac','misc'],'')}</td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['ac','ff-misc']} />
+                                </td>
                                 <td>{this.getState(['ac','temp'],'')}</td>
                             </tr>
                         </tbody>
