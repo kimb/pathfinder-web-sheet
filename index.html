@@ -407,12 +407,12 @@
                     return (
                         <tr>
                             <th className="active">{props.save.toUpperCase()}</th>
-                            <th className="success"><small>{
+                            <th className="success text-center">{
                                 props.getClassTypeTotal(props.save)
                                 +props.getAbilityMod(props.ability)
                                 +props.getState([props.save,'enhance'],0)
                                 +props.getState([props.save,'misc'],0)
-                                +props.getState([props.save,'temp'],0) }</small></th>
+                                +props.getState([props.save,'temp'],0) }</th>
                             <td>{props.getClassTypeTotal(props.save)}</td>
                             <td>{props.getAbilityMod(props.ability)}</td>
                             <td><StatePropControl {...props} propKey={[props.save,'enhance']}/></td>
