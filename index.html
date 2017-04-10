@@ -207,7 +207,7 @@
                                 <tr>
                                     <th>totals</th>
                                     <th></th>
-                                    <th>{this.getClassTypeTotal('hp')}</th>
+                                    <th className="success">{this.getClassTypeTotal('hp')}</th>
                                     <th>{this.getClassTypeTotal('bab')}</th>
                                     <th>{this.getClassTypeTotal('skill')}</th>
                                     <th>{this.getClassTypeTotal('fort')}</th>
@@ -326,72 +326,12 @@
                             </tr>
                         </tbody>
                         </Table>
-                        <Table condensed>
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th className="armor-name">
-                                    <small>Armor name & description</small>
-                                </th>
-                                <th><small>AC Bonus</small></th>
-                                <th><small>Max Dex</small></th>
-                                <th><small>Check penalty</small></th>
-                                <th><small>Spell fail</small></th>
-                                <th><small>Type</small></th>
-                                <th><small>Weight</small></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th className="active"><small>Armor</small></th>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['armor','desc']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['armor','ac']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['armor','max-dex']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['armor','skill-penalty']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['armor','spell-fail']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['armor','type']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['armor','weight']} />
-                                </td>
-                            </tr>
-                            <tr>
-                                <th className="active"><small>Shield</small></th>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['shield','desc']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['shield','ac']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['shield','max-dex']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['shield','skill-penalty']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['shield','spell-fail']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['shield','type']} />
-                                </td>
-                                <td><StatePropControl {...this.state}
-                                    propKey={['shield','weight']} />
-                                </td>
-                            </tr>
-                        </tbody>
-                        </Table>
+                        <Row>
+                            <Col md={8}>
+                                <SaveTable {...this.state}/>
+                            </Col>
+                        </Row>
+                        <ArmorTable {...this.state}/>
                         </Col>
                         </Row>
                     </Form>
@@ -429,7 +369,7 @@
                 return (
                 <tr>
                     <th className="active">{ability}</th>
-                    <td className="success text-center">{props.getAbilityTotal(ability)}</td>
+                    <td className="text-center">{props.getAbilityTotal(ability)}</td>
                     <th className="success text-center">{props.getAbilityMod(ability)}</th>
                     {valueRows}
                 </tr>
@@ -455,6 +395,90 @@
                 <tr>
                     {valueRows}
                 </tr>
+                );
+            }
+            function SaveTable(props) {
+                function SaveRow(props) {
+                    return (
+                        <tr>
+                            <th className="active">{props.save.toUpperCase()}</th>
+                            <th className="success"><small>{
+                                props.getClassTypeTotal(props.save)
+                                +props.getAbilityMod(props.ability)
+                                +props.getState([props.save,'enhance'],0)
+                                +props.getState([props.save,'misc'],0)
+                                +props.getState([props.save,'temp'],0) }</small></th>
+                            <td>{props.getClassTypeTotal(props.save)}</td>
+                            <td>{props.getAbilityMod(props.ability)}</td>
+                            <td><StatePropControl {...props} propKey={[props.save,'enhance']}/></td>
+                            <td><StatePropControl {...props} propKey={[props.save,'misc']}/></td>
+                            <td><StatePropControl {...props} propKey={[props.save,'temp']}/></td>
+                        </tr>
+                    );
+                }
+                return (
+                    <Table condensed>
+                    <thead>
+                        <tr>
+                            <th className="save-name">
+                                <small>Saving throw</small>
+                            </th>
+                            <th><small>Total</small></th>
+                            <th><small>Class base</small></th>
+                            <th><small>Ability</small></th>
+                            <th><small>Enhance</small></th>
+                            <th><small>Misc</small></th>
+                            <th><small>Temp</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <SaveRow {...props} save="fort" ability="CON"/>
+                        <SaveRow {...props} save="ref" ability="DEX"/>
+                        <SaveRow {...props} save="will" ability="WIS"/>
+                    </tbody>
+                    </Table>
+                );
+            }
+            function ArmorTable(props) {
+                const armorKeys = ['desc','ac','max-dex','skill-penalty',
+                    'spell-fail','type','weight'];
+                const armorControls = armorKeys.map( (key) =>
+                    <td><StatePropControl {...props}
+                        propKey={['armor',key]} />
+                    </td>
+                );
+                const shieldControls = armorKeys.map( (key) =>
+                    <td><StatePropControl {...props}
+                        propKey={['shield',key]} />
+                    </td>
+                );
+                return (
+                    <Table condensed>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th className="armor-name">
+                                <small>Armor name & description</small>
+                            </th>
+                            <th><small>AC Bonus</small></th>
+                            <th><small>Max Dex</small></th>
+                            <th><small>Check penalty</small></th>
+                            <th><small>Spell fail</small></th>
+                            <th><small>Type</small></th>
+                            <th><small>Weight</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th className="active"><small>Armor</small></th>
+                            {armorControls}
+                        </tr>
+                        <tr>
+                            <th className="active"><small>Shield</small></th>
+                            {shieldControls}
+                        </tr>
+                    </tbody>
+                    </Table>
                 );
             }
         </script>
