@@ -14,6 +14,7 @@
             .form-group { margin-bottom: 0px; }
             .form-control { padding: 6px 6px; }
             .class-name { width: 20%; }
+            .armor-name { width: 40%; }
             .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
                 vertical-align: inherit;
             }
@@ -71,6 +72,7 @@
                     this.state.getClassTypeTotal = this.getClassTypeTotal.bind(this);
                     this.state.getAbilityTotal = this.getAbilityTotal.bind(this);
                     this.state.getAbilityMod = this.getAbilityMod.bind(this);
+                    this.state.getArmorLimitedDex = this.getArmorLimitedDex.bind(this);
                 }
                 componentDidUpdate(prevProps, prevState) {
                     history.pushState('','','?state='+JSON.stringify(this.state));
@@ -129,6 +131,12 @@
                 }
                 getAbilityMod(ability) {
                     return Math.round((this.getAbilityTotal(ability)-11)/2);
+                }
+                getArmorLimitedDex() {
+                    return Math.min(
+                        this.getAbilityMod('DEX'),
+                        this.getState(['armor','max-dex'], Infinity),
+                        this.getState(['shield','max-dex'], Infinity));
                 }
                 render() {
                     return (
@@ -237,7 +245,7 @@
                                     {10
                                     +this.getState(['armor','ac'],0)
                                     +this.getState(['shield','ac'],0)
-                                    +this.getAbilityMod('DEX')
+                                    +this.getArmorLimitedDex()
                                     +this.getState(['ac','size'],0)
                                     +this.getState(['ac','dodge'],0)
                                     +this.getState(['ac','natural'],0)
@@ -248,7 +256,7 @@
                                 <td className="hidden-xs"><small>10+</small></td>
                                 <td>{this.getState(['armor','ac'],'')}</td>
                                 <td>{this.getState(['shield','ac'],'')}</td>
-                                <td>{this.getAbilityMod('DEX')}</td>
+                                <td>{this.getArmorLimitedDex()}</td>
                                 <td><StatePropControl {...this.state}
                                     propKey={['ac','size']} />
                                 </td>
@@ -271,7 +279,7 @@
                             <tr>
                                 <th className="active">Touch</th>
                                 <th className="success text-center">
-                                    {10+this.getAbilityMod('DEX')
+                                    {10+this.getArmorLimitedDex()
                                     +this.getState(['ac','size'],0)
                                     +this.getState(['ac','dodge'],0)
                                     +this.getState(['ac','deflect'],0)
@@ -281,7 +289,7 @@
                                 <td className="hidden-xs"><small>10+</small></td>
                                 <td>-</td>
                                 <td>-</td>
-                                <td>{this.getAbilityMod('DEX')}</td>
+                                <td>{this.getArmorLimitedDex()}</td>
                                 <td>{this.getState(['ac','size'],'')}</td>
                                 <td>{this.getState(['ac','dodge'],'')}</td>
                                 <td>-</td>
@@ -315,6 +323,72 @@
                                     propKey={['ac','ff-misc']} />
                                 </td>
                                 <td>{this.getState(['ac','temp'],'')}</td>
+                            </tr>
+                        </tbody>
+                        </Table>
+                        <Table condensed>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th className="armor-name">
+                                    <small>Armor name & description</small>
+                                </th>
+                                <th><small>AC Bonus</small></th>
+                                <th><small>Max Dex</small></th>
+                                <th><small>Check penalty</small></th>
+                                <th><small>Spell fail</small></th>
+                                <th><small>Type</small></th>
+                                <th><small>Weight</small></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th className="active"><small>Armor</small></th>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['armor','desc']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['armor','ac']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['armor','max-dex']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['armor','skill-penalty']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['armor','spell-fail']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['armor','type']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['armor','weight']} />
+                                </td>
+                            </tr>
+                            <tr>
+                                <th className="active"><small>Shield</small></th>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['shield','desc']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['shield','ac']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['shield','max-dex']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['shield','skill-penalty']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['shield','spell-fail']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['shield','type']} />
+                                </td>
+                                <td><StatePropControl {...this.state}
+                                    propKey={['shield','weight']} />
+                                </td>
                             </tr>
                         </tbody>
                         </Table>
