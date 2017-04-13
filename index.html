@@ -239,7 +239,7 @@
 
         <script type="text/babel">
             function Field(props) {
-                const statePropKey = ['info', props.propKey];
+                const statePropKey = ['info', props.propKey.toLowerCase()];
                 return (
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
                 <FormGroup controlId={statePropKey.join('-')} bsSize="sm">
@@ -320,7 +320,7 @@
                                 +props.getState(['armor','ac'],0)
                                 +props.getState(['shield','ac'],0)
                                 +props.getArmorLimitedDex()
-                                +props.getState(['ac','size'],0)
+                                +props.getState(['info','size'],0)
                                 +props.getState(['ac','dodge'],0)
                                 +props.getState(['ac','natural'],0)
                                 +props.getState(['ac','deflect'],0)
@@ -331,9 +331,7 @@
                             <td>{props.getState(['armor','ac'],'')}</td>
                             <td>{props.getState(['shield','ac'],'')}</td>
                             <td>{props.getArmorLimitedDex()}</td>
-                            <td><StatePropControl {...props}
-                                propKey={['ac','size']} />
-                            </td>
+                            <td>{props.getState(['info','size'],'')}</td>
                             <td><StatePropControl {...props}
                                 propKey={['ac','dodge']} />
                             </td>
@@ -354,7 +352,7 @@
                             <th className="active">Touch</th>
                             <th className="success text-center">
                                 {10+props.getArmorLimitedDex()
-                                +props.getState(['ac','size'],0)
+                                +props.getState(['info','size'],0)
                                 +props.getState(['ac','dodge'],0)
                                 +props.getState(['ac','deflect'],0)
                                 +props.getState(['ac','touch-misc'],0)
@@ -364,7 +362,7 @@
                             <td>-</td>
                             <td>-</td>
                             <td>{props.getArmorLimitedDex()}</td>
-                            <td>{props.getState(['ac','size'],'')}</td>
+                            <td>{props.getState(['info','size'],'')}</td>
                             <td>{props.getState(['ac','dodge'],'')}</td>
                             <td>-</td>
                             <td>{props.getState(['ac','deflect'],'')}</td>
@@ -379,7 +377,7 @@
                                 {10
                                 +props.getState(['armor','ac'],0)
                                 +props.getState(['shield','ac'],0)
-                                +props.getState(['ac','size'],0)
+                                +props.getState(['info','size'],0)
                                 +props.getState(['ac','natural'],0)
                                 +props.getState(['ac','deflect'],0)
                                 +props.getState(['ac','ff-misc'],0)
@@ -389,7 +387,7 @@
                             <td>{props.getState(['armor','ac'],'')}</td>
                             <td>{props.getState(['shield','ac'],'')}</td>
                             <td>-</td>
-                            <td>{props.getState(['ac','size'],'')}</td>
+                            <td>{props.getState(['info','size'],'')}</td>
                             <td>-</td>
                             <td>{props.getState(['ac','natural'],'')}</td>
                             <td>{props.getState(['ac','deflect'],'')}</td>
