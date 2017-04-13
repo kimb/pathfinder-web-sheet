@@ -315,6 +315,14 @@
                     </FormGroup>
                 );
             }
+            function NoPrintAbbr(props) {
+                return (
+                    <span>
+                        <abbr className="hidden-print" title={props.title}>{props.children}</abbr>
+                        <span className="visible-print-block">{props.children}</span>
+                    </span>
+                );
+            }
             function ClassRow(props) {
                 const rowName = props.name;
                 const valueRows = CLASS_TYPES.map( (type) =>
@@ -532,8 +540,8 @@
                             }</th>
                             <td className="hidden-xs"></td>
                             <td>{props.getClassTypeTotal('bab')}</td>
-                            <td><abbr title="STR for small and larger, DEX for tiny and smaller. Use the misc modifier to adjust for the Agile Maneuvers feat.">{cmbAbilityMod}</abbr></td>
-                            <td><abbr title="*special* size modifier">{-sizeMod}</abbr></td>
+                            <td><NoPrintAbbr title="STR for small and larger, DEX for tiny and smaller. Use the misc modifier to adjust for the Agile Maneuvers feat.">{cmbAbilityMod}</NoPrintAbbr></td>
+                            <td><NoPrintAbbr title="*special* size modifier">{-sizeMod}</NoPrintAbbr></td>
                             <td><StatePropControl {...props} propKey={['cmd','misc']}/></td>
                             <td><StatePropControl {...props} propKey={['cmd','temp']}/></td>
                         </tr>
@@ -551,14 +559,14 @@
                             }</th>
                             <td className="hidden-xs"><small>10+</small></td>
                             <td>{props.getClassTypeTotal('bab')}</td>
-                            <td><abbr title="STR+DEX+dodge+deflect">
+                            <td><NoPrintAbbr title="STR+DEX+dodge+deflect">
                                     {
                                     strMod + dexMod
                                     + props.getState(['ac','dodge'],0)
                                     + props.getState(['ac','deflect'],0)
-                                    }</abbr></td>
-                            <td><abbr title="*special* size modifier">{-sizeMod}</abbr></td>
-                            <td><abbr title="Add here any insight, luck, morale, profane, and sacred bonuses to AC"><StatePropControl {...props} propKey={['cmd','misc']}/></abbr></td>
+                                    }</NoPrintAbbr></td>
+                            <td><NoPrintAbbr title="*special* size modifier">{-sizeMod}</NoPrintAbbr></td>
+                            <td><NoPrintAbbr title="Add here any insight, luck, morale, profane, and sacred bonuses to AC"><StatePropControl {...props} propKey={['cmd','misc']}/></NoPrintAbbr></td>
                             <td><StatePropControl {...props} propKey={['cmd','temp']}/></td>
                         </tr>
                     </tbody>
