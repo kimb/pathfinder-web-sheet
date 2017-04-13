@@ -166,7 +166,7 @@
                         <Row>
                         <Col md={5}>
                         <Row>
-                            <Col xs={9}>
+                            <Col xs={7} sm={9}>
                             <Table condensed>
                                 <thead>
                                     <tr>
@@ -174,7 +174,7 @@
                                         <th><small>total</small></th>
                                         <th><small>mod</small></th>
                                         <th><small>base</small></th>
-                                        <th><small>enhance</small></th>
+                                        <th><small>enh<span className="hidden-xs">ance</span></small></th>
                                         <th><small>misc</small></th>
                                         <th><small>temp</small></th>
                                     </tr>
@@ -189,7 +189,7 @@
                                 </tbody>
                             </Table>
                             </Col>
-                            <Col xs={3} className="note-col">
+                            <Col xs={5} sm={3} className="note-col">
                                 <NoteArea {...this.state} noteKey="ability" />
                             </Col>
                         </Row>
@@ -234,18 +234,18 @@
                         <Col md={7}>
                         <ACTable {...this.state}/>
                         <Row>
-                            <Col xs={9}>
+                            <Col xs={8}>
                                 <SaveTable {...this.state}/>
                             </Col>
-                            <Col xs={3} className="note-col">
+                            <Col xs={4} className="note-col">
                                 <NoteArea {...this.state} noteKey="save" />
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={9}>
+                            <Col xs={8}>
                                 <AttackTable {...this.state}/>
                             </Col>
-                            <Col xs={3} className="note-col">
+                            <Col xs={4} className="note-col">
                                 <NoteArea {...this.state} noteKey="attack" />
                             </Col>
                         </Row>
