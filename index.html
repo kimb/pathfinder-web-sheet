@@ -166,7 +166,7 @@
                         <Row>
                         <Col md={5}>
                         <Row>
-                            <Col xs={7} sm={9}>
+                            <Col xs={8} sm={9}>
                             <Table condensed>
                                 <thead>
                                     <tr>
@@ -189,7 +189,7 @@
                                 </tbody>
                             </Table>
                             </Col>
-                            <Col xs={5} sm={3} className="note-col">
+                            <Col xs={4} sm={3} className="note-col">
                                 <NoteArea {...this.state} noteKey="ability" />
                             </Col>
                         </Row>
@@ -304,7 +304,6 @@
                 );
             }
             function NoteArea(props) {
-                // <NoteArea {...this.state} noteKey="ability" />
                 const noteKey = props.noteKey;
                 return (
                     <FormGroup controlId={noteKey+"-note"}>
