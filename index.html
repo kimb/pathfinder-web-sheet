@@ -170,13 +170,13 @@
                             <Table condensed>
                                 <thead>
                                     <tr>
-                                        <th><small>ability</small></th>
-                                        <th><small>total</small></th>
-                                        <th><small>mod</small></th>
-                                        <th><small>base</small></th>
-                                        <th><small>enh<span className="hidden-xs">ance</span></small></th>
-                                        <th><small>misc</small></th>
-                                        <th><small>temp</small></th>
+                                        <th><small>Ability</small></th>
+                                        <th><small>Total</small></th>
+                                        <th><small>Mod</small></th>
+                                        <th><small>Base</small></th>
+                                        <th><small>Enh<span className="hidden-xs">ance</span></small></th>
+                                        <th><small>Misc</small></th>
+                                        <th><small>Temp</small></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -198,15 +198,15 @@
                         <Table condensed>
                             <thead>
                                 <tr>
-                                    <th className="class-name"><small>classname</small></th>
+                                    <th className="class-name"><small>Classname</small></th>
                                     <th><small>HD</small></th>
                                     <th><small>HP</small></th>
                                     <th><small>BAB</small></th>
-                                    <th><small>skill</small></th>
+                                    <th><small>Skill</small></th>
                                     <th><small>FORT</small></th>
                                     <th><small>REF</small></th>
                                     <th><small>WILL</small></th>
-                                    <th><small>levels</small></th>
+                                    <th><small>Levels</small></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -216,7 +216,7 @@
                                 <ClassRow {...this.state} name="class4" />
                                 <ClassRow {...this.state} name="class5" />
                                 <tr>
-                                    <th>base totals</th>
+                                    <th>Base totals</th>
                                     <th></th>
                                     <th className="success">{this.getClassTypeTotal('hp')}</th>
                                     <th>{this.getClassTypeTotal('bab')}</th>
@@ -468,9 +468,9 @@
                                 <small>Saving throw</small>
                             </th>
                             <th><small>Total</small></th>
-                            <th><small>Class base</small></th>
-                            <th><small>Ability</small></th>
-                            <th><small>Enhance</small></th>
+                            <th><small><span className="hidden-xs">Class </span>base</small></th>
+                            <th><small>Abil<span className="hidden-xs">ity</span></small></th>
+                            <th><small>Enh<span className="hidden-xs">ance</span></small></th>
                             <th><small>Misc</small></th>
                             <th><small>Temp</small></th>
                         </tr>
@@ -519,7 +519,7 @@
                             <th><small>Total</small></th>
                             <th className="hidden-xs"></th>
                             <th><small>BAB</small></th>
-                            <th><small>Ability</small></th>
+                            <th><small>Abil<span className="hidden-xs">ity</span></small></th>
                             <th><small>Size</small></th>
                             <th><small>Misc</small></th>
                             <th><small>Temp</small></th>
