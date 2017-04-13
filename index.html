@@ -225,6 +225,7 @@
                         <Row>
                             <Col md={8}>
                                 <SaveTable {...this.state}/>
+                                <AttackTable {...this.state}/>
                             </Col>
                         </Row>
                         <ArmorTable {...this.state}/>
@@ -438,6 +439,95 @@
                         <SaveTableRow {...props} save="fort" ability="CON"/>
                         <SaveTableRow {...props} save="ref" ability="DEX"/>
                         <SaveTableRow {...props} save="will" ability="WIS"/>
+                    </tbody>
+                    </Table>
+                );
+            }
+            function AttackTable(props) {
+                const strMod = props.getAbilityMod('STR');
+                const dexMod = props.getAbilityMod('DEX');
+                const sizeMod = props.getState(['info','size'],0);
+                const cmbAbilityMod = sizeMod < 2 ? strMod : dexMod;
+                const attackRows = [
+                        {name: 'melee', ability: strMod, size: sizeMod}
+                        ,{name: 'ranged', ability: dexMod, size: sizeMod}
+                    ].map( attack =>
+                        <tr>
+                            <th className="active">{attack['name'].toUpperCase()}</th>
+                            <th className="success text-center">
+                                { props.getClassTypeTotal('bab')
+                                + attack['ability']
+                                + attack['size']
+                                + props.getState([attack['name'],'misc'],0)
+                                + props.getState([attack['name'],'temp'],0)
+                            }</th>
+                            <td></td>
+                            <td>{props.getClassTypeTotal('bab')}</td>
+                            <td>{attack['ability']}</td>
+                            <td>{attack['size']}</td>
+                            <td><StatePropControl {...props} propKey={[attack['name'],'misc']}/></td>
+                            <td><StatePropControl {...props} propKey={[attack['name'],'temp']}/></td>
+                        </tr>
+                    );
+                return (
+                    <Table condensed>
+                    <thead>
+                        <tr>
+                            <th className="attack-name">
+                                <small>Attack</small>
+                            </th>
+                            <th><small>Total</small></th>
+                            <th className="hidden-xs"></th>
+                            <th><small>BAB</small></th>
+                            <th><small>Ability</small></th>
+                            <th><small>Size</small></th>
+                            <th><small>Misc</small></th>
+                            <th><small>Temp</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {attackRows}
+                        <tr>
+                            <th className="active">CMB</th>
+                            <th className="success text-center">
+                                {
+                                props.getClassTypeTotal('bab')
+                                + cmbAbilityMod
+                                - sizeMod
+                                + props.getState(['cmb','misc'],0)
+                                + props.getState(['cmb','temp'],0)
+                            }</th>
+                            <td className="hidden-xs"></td>
+                            <td>{props.getClassTypeTotal('bab')}</td>
+                            <td><abbr title="STR for small and larger, DEX for tiny and smaller. Use the misc modifier to adjust for the Agile Maneuvers feat.">{cmbAbilityMod}</abbr></td>
+                            <td><abbr title="*special* size modifier">{-sizeMod}</abbr></td>
+                            <td><StatePropControl {...props} propKey={['cmd','misc']}/></td>
+                            <td><StatePropControl {...props} propKey={['cmd','temp']}/></td>
+                        </tr>
+                        <tr>
+                            <th className="active">CMD</th>
+                            <th className="success text-center">
+                                { 10
+                                + props.getClassTypeTotal('bab')
+                                + strMod + dexMod
+                                + props.getState(['ac','dodge'],0)
+                                + props.getState(['ac','deflect'],0)
+                                - sizeMod
+                                + props.getState(['cmd','misc'],0)
+                                + props.getState(['cmd','temp'],0)
+                            }</th>
+                            <td className="hidden-xs"><small>10+</small></td>
+                            <td>{props.getClassTypeTotal('bab')}</td>
+                            <td><abbr title="STR+DEX+dodge+deflect">
+                                    {
+                                    strMod + dexMod
+                                    + props.getState(['ac','dodge'],0)
+                                    + props.getState(['ac','deflect'],0)
+                                    }</abbr></td>
+                            <td><abbr title="*special* size modifier">{-sizeMod}</abbr></td>
+                            <td><abbr title="Add here any insight, luck, morale, profane, and sacred bonuses to AC"><StatePropControl {...props} propKey={['cmd','misc']}/></abbr></td>
+                            <td><StatePropControl {...props} propKey={['cmd','temp']}/></td>
+                        </tr>
                     </tbody>
                     </Table>
                 );
