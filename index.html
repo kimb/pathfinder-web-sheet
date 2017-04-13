@@ -15,6 +15,8 @@
             .form-control { padding: 6px 6px; }
             .class-name { width: 20%; }
             .armor-name { width: 40%; }
+            .note-col { padding: 10px 0; }
+            #ability-note { height: 287px; }
             .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
                 vertical-align: inherit;
             }
@@ -161,27 +163,39 @@
                         </Row>
                         <Row>
                         <Col md={5}>
-                        <Table condensed>
-                            <thead>
-                                <tr>
-                                    <th><small>ability</small></th>
-                                    <th><small>total</small></th>
-                                    <th><small>mod</small></th>
-                                    <th><small>base</small></th>
-                                    <th><small>enhance</small></th>
-                                    <th><small>misc</small></th>
-                                    <th><small>temp</small></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <StatRow {...this.state} ability="STR" />
-                                <StatRow {...this.state} ability="DEX" />
-                                <StatRow {...this.state} ability="CON" />
-                                <StatRow {...this.state} ability="INT" />
-                                <StatRow {...this.state} ability="WIS" />
-                                <StatRow {...this.state} ability="CHA" />
-                            </tbody>
-                        </Table>
+                        <Row>
+                            <Col xs={9}>
+                            <Table condensed>
+                                <thead>
+                                    <tr>
+                                        <th><small>ability</small></th>
+                                        <th><small>total</small></th>
+                                        <th><small>mod</small></th>
+                                        <th><small>base</small></th>
+                                        <th><small>enhance</small></th>
+                                        <th><small>misc</small></th>
+                                        <th><small>temp</small></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <StatRow {...this.state} ability="STR" />
+                                    <StatRow {...this.state} ability="DEX" />
+                                    <StatRow {...this.state} ability="CON" />
+                                    <StatRow {...this.state} ability="INT" />
+                                    <StatRow {...this.state} ability="WIS" />
+                                    <StatRow {...this.state} ability="CHA" />
+                                </tbody>
+                            </Table>
+                            </Col>
+                            <Col xs={3} className="note-col">
+                                <FormGroup controlId="ability-note">
+                                <FormControl componentClass="textarea"
+                                value={this.state.getState(['note','ability'])}
+                                onChange={this.state.handleChange(['note,ability'])}
+                                placeholder="Ability notes" />
+                                </FormGroup>
+                            </Col>
+                        </Row>
                         </Col>
                         <Col md={7}>
                         <Table condensed>
