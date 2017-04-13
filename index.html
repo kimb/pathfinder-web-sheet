@@ -16,7 +16,9 @@
             .class-name { width: 20%; }
             .armor-name { width: 40%; }
             .note-col { padding: 10px 0; }
-            #ability-note { height: 287px; }
+            #ability-note { height: 286px; }
+            #save-note { height: 171px; }
+            #attack-note { height: 196px; }
             .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
                 vertical-align: inherit;
             }
@@ -188,12 +190,7 @@
                             </Table>
                             </Col>
                             <Col xs={3} className="note-col">
-                                <FormGroup controlId="ability-note">
-                                <FormControl componentClass="textarea"
-                                value={this.state.getState(['note','ability'])}
-                                onChange={this.state.handleChange(['note','ability'])}
-                                placeholder="Ability notes" />
-                                </FormGroup>
+                                <NoteArea {...this.state} noteKey="ability" />
                             </Col>
                         </Row>
                         </Col>
@@ -237,9 +234,19 @@
                         <Col md={7}>
                         <ACTable {...this.state}/>
                         <Row>
-                            <Col md={8}>
+                            <Col xs={9}>
                                 <SaveTable {...this.state}/>
+                            </Col>
+                            <Col xs={3} className="note-col">
+                                <NoteArea {...this.state} noteKey="save" />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col xs={9}>
                                 <AttackTable {...this.state}/>
+                            </Col>
+                            <Col xs={3} className="note-col">
+                                <NoteArea {...this.state} noteKey="attack" />
                             </Col>
                         </Row>
                         <ArmorTable {...this.state}/>
@@ -294,6 +301,18 @@
                     value={props.getState(props.propKey)}
                     onChange={props.handleChange(props.propKey)}
                 />
+                );
+            }
+            function NoteArea(props) {
+                // <NoteArea {...this.state} noteKey="ability" />
+                const noteKey = props.noteKey;
+                return (
+                    <FormGroup controlId={noteKey+"-note"}>
+                        <FormControl componentClass="textarea"
+                        value={props.getState(['note',noteKey])}
+                        onChange={props.handleChange(['note',noteKey])}
+                        placeholder={noteKey+" notes"} />
+                    </FormGroup>
                 );
             }
             function ClassRow(props) {
