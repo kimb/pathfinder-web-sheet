@@ -149,8 +149,8 @@
                         <Row>
                         <Field {...this.state} propKey="Character" xs={8} sm={6}/>
                         <Field {...this.state} propKey="Player" xs={4} sm={6}/>
-                        <Field {...this.state} propKey="Race" sm={3}/>
-                        <Field {...this.state} propKey="Size" sm={1}/>
+                        <Field {...this.state} propKey="Race" sm={2}/>
+                        <SizeField {...this.state} propKey="Size" sm={2}/>
                         <Field {...this.state} propKey="Gender" sm={1}/>
                         <Field {...this.state} propKey="Height" sm={1}/>
                         <Field {...this.state} propKey="Weight" sm={1}/>
@@ -272,6 +272,28 @@
                     value={props.getState(statePropKey)}
                     onChange={props.handleChange(statePropKey)}
                 />
+                </FormGroup>
+                </Col>
+                );
+            }
+            function SizeField(props) {
+                const sizeValues = [8,4,2,1,0,-1,-2,-4,-8];
+                const sizeOptions = ['Fine','Diminutive','Tiny','Small','Medium'
+                    ,'Large','Huge','Gargantuan','Colossal'].map( (sizeName,index) =>
+                    <option value={sizeValues[index]}>
+                        {sizeName+': '+sizeValues[index]}</option> );
+                const statePropKey = ['info', props.propKey.toLowerCase()];
+                return (
+                <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
+                <FormGroup controlId={statePropKey.join('-')} bsSize="sm">
+                <ControlLabel>
+                <small>{props.propKey}</small>
+                </ControlLabel>
+                <FormControl componentClass="select"
+                    value={props.getState(statePropKey)}
+                    onChange={props.handleChange(statePropKey)}>
+                        {sizeOptions}
+                </FormControl>
                 </FormGroup>
                 </Col>
                 );
