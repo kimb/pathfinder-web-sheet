@@ -67,7 +67,7 @@
             class App extends React.Component {
                 constructor(props) {
                     super(props);
-                    this.state = {};
+                    this.state = {info:{size:0}};
                     STATS.map( (stat) => {
                         this.state[stat] = { 'base': 10 };
                     });
