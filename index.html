@@ -15,12 +15,20 @@
             .form-control { padding: 6px 6px; }
             .class-name { width: 20%; }
             .armor-name { width: 40%; }
+            .skill-name { width: 33%; }
             .note-col { padding: 10px 5px 0; }
             #ability-note { height: 286px; }
             #save-note { height: 171px; }
             #attack-note { height: 196px; }
             .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-                vertical-align: inherit;
+                vertical-align: middle;
+            }
+            .skill-table input {
+                font-size: 100%; /*inherit small*/
+                height: 22px;
+            }
+            .skill-table input[type=checkbox] {
+                margin-top: 0;
             }
             @media print {
                 body { zoom: 50%; }
@@ -58,7 +66,7 @@
         </style>
 
         <script type="text/babel">
-            const { Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button} = ReactBootstrap
+            const { Glyphicon, Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button} = ReactBootstrap
             const STATS = ['STR','DEX','CON', 'INT','WIS','CHA'];
             const STAT_TYPES = ['base','enhance','misc','temp'];
             const CLASSES = ['class1','class2','class3','class4','class5'];
@@ -259,6 +267,9 @@
                             </Col>
                         </Row>
                         <ArmorTable {...this.state}/>
+                        </Col>
+                        <Col md={5}>
+                            <SkillTable {...this.state}/>
                         </Col>
                         </Row>
                     </Form>
@@ -641,6 +652,59 @@
                             <th className="active"><small>Shield</small></th>
                             {shieldControls}
                         </tr>
+                    </tbody>
+                    </Table>
+                );
+            }
+            function CheckboxField(props) {
+                const key = ['skill',props.skill.toLowerCase(),'is-class'];
+                return (
+                    <Checkbox inline
+                        id={key.join('-')}
+                        value={props.getState(key)}
+                        onChange={props.handleChange(key)}>
+                        {props.children}
+                    </Checkbox>
+                );
+            }
+            function SkillTable(props) {
+                const abilities = ['DEX', 'INT', 'CHA', 'STR', 'INT', 'CHA', 'DEX', 'CHA', 'DEX', 'DEX', 'CHA', 'WIS', 'CHA', 'INT', 'INT', 'INT', 'INT', 'INT', 'INT', 'INT', 'WIS', 'CHA', 'WIS', 'DEX', 'WIS', 'DEX', 'INT', 'DEX', 'WIS', 'STR', 'CHA', ''];
+                const names=['Acrobatic', 'Appraise', 'Bluff', 'Climb', 'Craft:', 'Diplomacy', 'Disable Device', 'Disguise', 'Escape Artist', 'Fly', 'Handle Animal', 'Heal', 'Intimidate', 'Kn:', 'Kn:', 'Kn:', 'Kn:', 'Kn:', 'Kn:', 'Linguistics', 'Perception', 'Perform:', 'Prof:', 'Ride', 'Sense Motive', 'Sleight of Hand', 'Spellcraft', 'Stealth', 'Survival', 'Swim', 'Use Magic Device', 'Prof:'];
+                const skillRows = names.map( (name, i) => {
+                    const ranks = props.getState(['skill',name,'ranks']);
+
+                        return <tr>
+                            <td><CheckboxField {...props} skill={name}><small>{name}</small>·</CheckboxField></td>
+                            <td><small>DEX</small></td>
+                            <th className="success"><small>{
+                                    888
+                                    }</small></th>
+                            <td><small><StatePropControl {...props} propKey={['skill',name,'ranks']}/></small></td>
+                            <td><small>{props.getAbilityMod(abilities[i])}</small></td>
+                            <td><small>{ ranks>0 ? 3 : 0}</small></td>
+                            <td><small><StatePropControl {...props} propKey={['skill',name,'misc']}/></small></td>
+                            <td><small><StatePropControl {...props} propKey={['skill',name,'temp']}/></small></td>
+                        </tr>
+                        }
+                );
+                return (
+                    <Table striped condensed className="skill-table">
+                    <thead>
+                        <tr>
+                            <th className="skill-name">
+                                <small>Skill</small>
+                            </th>
+                            <th><small></small></th>
+                            <th><small>Total</small></th>
+                            <th><small>Ranks</small></th>
+                            <th><small>Abil</small></th>
+                            <th><small>Trai</small></th>
+                            <th><small>Misc</small></th>
+                            <th><small>Temp</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {skillRows}
                     </tbody>
                     </Table>
                 );
