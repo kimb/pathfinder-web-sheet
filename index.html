@@ -157,8 +157,8 @@
                     <Grid fluid>
                     <Form>
                         <Row>
-                        <Field {...this.state} propKey="Character" xs={7} sm={6}/>
-                        <Field {...this.state} propKey="Player" xs={3} sm={5}/>
+                        <InfoField {...this.state} propKey="Character" xs={7} sm={6}/>
+                        <InfoField {...this.state} propKey="Player" xs={3} sm={5}/>
                         <Col xs={2} sm={1}>
                             <div><small>Minify<span className="hidden-xs"> URL</span></small></div>
                             <Button
@@ -166,19 +166,19 @@
                                 href="javascript:window.open('http://www.dy.fi/?c=redir_add&bml=1&url='+encodeURIComponent(location.href), '_blank')">
                                 dy.fi</Button>
                         </Col>
-                        <Field {...this.state} propKey="Race" sm={2}/>
+                        <InfoField {...this.state} propKey="Race" sm={2}/>
                         <SizeField {...this.state} propKey="Size" sm={2}/>
-                        <Field {...this.state} propKey="Gender" sm={1}/>
-                        <Field {...this.state} propKey="Height" sm={1}/>
-                        <Field {...this.state} propKey="Weight" sm={1}/>
-                        <Field {...this.state} propKey="Hair" sm={2}/>
-                        <Field {...this.state} propKey="Eyes" sm={1}/>
-                        <Field {...this.state} propKey="Skin" sm={1}/>
-                        <Field {...this.state} propKey="Age" sm={1}/>
-                        <Field {...this.state} propKey="Alignment" sm={2}/>
-                        <Field {...this.state} propKey="Deity" sm={3}/>
-                        <Field {...this.state} propKey="Homeland and occupation" sm={7}/>
-                        <Field {...this.state} propKey="Languages" sm={12}/>
+                        <InfoField {...this.state} propKey="Gender" sm={1}/>
+                        <InfoField {...this.state} propKey="Height" sm={1}/>
+                        <InfoField {...this.state} propKey="Weight" sm={1}/>
+                        <InfoField {...this.state} propKey="Hair" sm={2}/>
+                        <InfoField {...this.state} propKey="Eyes" sm={1}/>
+                        <InfoField {...this.state} propKey="Skin" sm={1}/>
+                        <InfoField {...this.state} propKey="Age" sm={1}/>
+                        <InfoField {...this.state} propKey="Alignment" sm={2}/>
+                        <InfoField {...this.state} propKey="Deity" sm={3}/>
+                        <InfoField {...this.state} propKey="Homeland and occupation" sm={7}/>
+                        <InfoField {...this.state} propKey="Languages" sm={12}/>
                         </Row>
                         <Row>
                         <Col md={5}>
@@ -280,7 +280,7 @@
         </script>
 
         <script type="text/babel">
-            function Field(props) {
+            function InfoField(props) {
                 const statePropKey = ['info', props.propKey.toLowerCase()];
                 return (
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
