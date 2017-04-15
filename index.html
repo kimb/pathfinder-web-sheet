@@ -322,20 +322,19 @@
             function StatRow(props) {
                 const ability=props.ability;
                 //console.log('row base for '+ability+':', props[ability]['base']);
-                const valueRows = STAT_TYPES.map( (type) =>
-                    <td><StatePropControl {...props}
-                        propKey={[ability,type]} />
-                    </td> );
+                const abilityFields = STAT_TYPES.map( (type) =>
+                    <td><TextField {...props} propKey={[ability,type]} /></td>
+                );
                 return (
                 <tr>
                     <th className="active">{ability}</th>
                     <td className="text-center">{props.getAbilityTotal(ability)}</td>
                     <th className="success text-center">{props.getAbilityMod(ability)}</th>
-                    {valueRows}
+                    {abilityFields}
                 </tr>
                 );
             }
-            function StatePropControl(props) {
+            function TextField(props) {
                 //console.debug(props.propKey, props.getState(props.propKey));
                 return (
                 <FormControl type="text"
@@ -366,13 +365,12 @@
             }
             function ClassRow(props) {
                 const rowName = props.name;
-                const valueRows = CLASS_TYPES.map( (type) =>
-                    <td><StatePropControl {...props}
-                        propKey={[rowName,type]} />
-                    </td> );
+                const classFields = CLASS_TYPES.map( (type) =>
+                    <td><TextField {...props} propKey={[rowName,type]} /></td>
+                );
                 return (
                 <tr>
-                    {valueRows}
+                    {classFields}
                 </tr>
                 );
             }
@@ -415,21 +413,11 @@
                             <td>{props.getState(['shield','ac'],'')}</td>
                             <td>{props.getArmorLimitedDex()}</td>
                             <td>{props.getState(['info','size'],'')}</td>
-                            <td><StatePropControl {...props}
-                                propKey={['ac','dodge']} />
-                            </td>
-                            <td><StatePropControl {...props}
-                                propKey={['ac','natural']} />
-                            </td>
-                            <td><StatePropControl {...props}
-                                propKey={['ac','deflect']} />
-                            </td>
-                            <td><StatePropControl {...props}
-                                propKey={['ac','ac-misc']} />
-                            </td>
-                            <td><StatePropControl {...props}
-                                propKey={['ac','temp']} />
-                            </td>
+                            <td><TextField {...props} propKey={['ac','dodge']} /></td>
+                            <td><TextField {...props} propKey={['ac','natural']} /></td>
+                            <td><TextField {...props} propKey={['ac','deflect']} /></td>
+                            <td><TextField {...props} propKey={['ac','ac-misc']} /></td>
+                            <td><TextField {...props} propKey={['ac','temp']} /></td>
                         </tr>
                         <tr>
                             <th className="active">Touch</th>
@@ -449,9 +437,7 @@
                             <td>{props.getState(['ac','dodge'],'')}</td>
                             <td>-</td>
                             <td>{props.getState(['ac','deflect'],'')}</td>
-                            <td><StatePropControl {...props}
-                                propKey={['ac','touch-misc']} />
-                            </td>
+                            <td><TextField {...props} propKey={['ac','touch-misc']} /></td>
                             <td>{props.getState(['ac','temp'],'')}</td>
                         </tr>
                         <tr>
@@ -474,9 +460,7 @@
                             <td>-</td>
                             <td>{props.getState(['ac','natural'],'')}</td>
                             <td>{props.getState(['ac','deflect'],'')}</td>
-                            <td><StatePropControl {...props}
-                                propKey={['ac','ff-misc']} />
-                            </td>
+                            <td><TextField {...props} propKey={['ac','ff-misc']} /></td>
                             <td>{props.getState(['ac','temp'],'')}</td>
                         </tr>
                     </tbody>
@@ -495,9 +479,9 @@
                             +props.getState([props.save,'temp'],0) }</th>
                         <td>{props.getClassTypeTotal(props.save)}</td>
                         <td>{props.getAbilityMod(props.ability)}</td>
-                        <td><StatePropControl {...props} propKey={[props.save,'enhance']}/></td>
-                        <td><StatePropControl {...props} propKey={[props.save,'misc']}/></td>
-                        <td><StatePropControl {...props} propKey={[props.save,'temp']}/></td>
+                        <td><TextField {...props} propKey={[props.save,'enhance']}/></td>
+                        <td><TextField {...props} propKey={[props.save,'misc']}/></td>
+                        <td><TextField {...props} propKey={[props.save,'temp']}/></td>
                     </tr>
                 );
             }
@@ -547,8 +531,8 @@
                             <td>{props.getClassTypeTotal('bab')}</td>
                             <td>{attack['ability']}</td>
                             <td>{attack['size']}</td>
-                            <td><StatePropControl {...props} propKey={[attack['name'],'misc']}/></td>
-                            <td><StatePropControl {...props} propKey={[attack['name'],'temp']}/></td>
+                            <td><TextField {...props} propKey={[attack['name'],'misc']}/></td>
+                            <td><TextField {...props} propKey={[attack['name'],'temp']}/></td>
                         </tr>
                     );
                 return (
@@ -583,8 +567,8 @@
                             <td>{props.getClassTypeTotal('bab')}</td>
                             <td><NoPrintAbbr title="STR for small and larger, DEX for tiny and smaller. Use the misc modifier to adjust for the Agile Maneuvers feat.">{cmbAbilityMod}</NoPrintAbbr></td>
                             <td><NoPrintAbbr title="*special* size modifier">{-sizeMod}</NoPrintAbbr></td>
-                            <td><StatePropControl {...props} propKey={['cmd','misc']}/></td>
-                            <td><StatePropControl {...props} propKey={['cmd','temp']}/></td>
+                            <td><TextField {...props} propKey={['cmd','misc']}/></td>
+                            <td><TextField {...props} propKey={['cmd','temp']}/></td>
                         </tr>
                         <tr>
                             <th className="active">CMD</th>
@@ -607,8 +591,8 @@
                                     + props.getState(['ac','deflect'],0)
                                     }</NoPrintAbbr></td>
                             <td><NoPrintAbbr title="*special* size modifier">{-sizeMod}</NoPrintAbbr></td>
-                            <td><NoPrintAbbr title="Add here any insight, luck, morale, profane, and sacred bonuses to AC"><StatePropControl {...props} propKey={['cmd','misc']}/></NoPrintAbbr></td>
-                            <td><StatePropControl {...props} propKey={['cmd','temp']}/></td>
+                            <td><NoPrintAbbr title="Add here any insight, luck, morale, profane, and sacred bonuses to AC"><TextField {...props} propKey={['cmd','misc']}/></NoPrintAbbr></td>
+                            <td><TextField {...props} propKey={['cmd','temp']}/></td>
                         </tr>
                     </tbody>
                     </Table>
@@ -618,14 +602,10 @@
                 const armorKeys = ['desc','ac','max-dex','skill-penalty',
                     'spell-fail','type','weight'];
                 const armorControls = armorKeys.map( (key) =>
-                    <td><StatePropControl {...props}
-                        propKey={['armor',key]} />
-                    </td>
+                    <td><TextField {...props} propKey={['armor',key]} /></td>
                 );
                 const shieldControls = armorKeys.map( (key) =>
-                    <td><StatePropControl {...props}
-                        propKey={['shield',key]} />
-                    </td>
+                    <td><TextField {...props} propKey={['shield',key]} /></td>
                 );
                 return (
                     <Table condensed>
@@ -679,11 +659,11 @@
                             <th className="success"><small>{
                                     888
                                     }</small></th>
-                            <td><small><StatePropControl {...props} propKey={['skill',name,'ranks']}/></small></td>
+                            <td><small><TextField {...props} propKey={['skill',name,'ranks']}/></small></td>
                             <td><small>{props.getAbilityMod(abilities[i])}</small></td>
                             <td><small>{ ranks>0 ? 3 : 0}</small></td>
-                            <td><small><StatePropControl {...props} propKey={['skill',name,'misc']}/></small></td>
-                            <td><small><StatePropControl {...props} propKey={['skill',name,'temp']}/></small></td>
+                            <td><small><TextField {...props} propKey={['skill',name,'misc']}/></small></td>
+                            <td><small><TextField {...props} propKey={['skill',name,'temp']}/></small></td>
                         </tr>
                         }
                 );
