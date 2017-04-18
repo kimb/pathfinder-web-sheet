@@ -15,7 +15,7 @@
             .form-control { padding: 6px 6px; }
             .class-name { width: 20%; }
             .armor-name { width: 40%; }
-            .skill-name { width: 33%; }
+            .skill-name { width: 40%; }
             .note-col { padding: 10px 5px 0; }
             #ability-note { height: 286px; }
             #save-note { height: 171px; }
@@ -29,6 +29,10 @@
             }
             .skill-table input[type=checkbox] {
                 margin-top: 0;
+            }
+            .checkbox-inline input[type=text] {
+                display: inline;
+                width: 70%;
             }
             @media print {
                 body { zoom: 50%; }
@@ -647,25 +651,40 @@
                     </Checkbox>
                 );
             }
+            function SkillRow(props) {
+                const {propKey,name, ability, i} = props;
+                const acPenaltySkills = ['Acrobatic','Climb','Disable Device','Fly','Sleight of Hand','Stealth','Swim'];
+                const categorySkills = ['Craft','Kn','Perf','Prof'];
+                let usedCategoryIndex = {};
+                const dispName = acPenaltySkills.indexOf(name) > -1 ? name + '*'
+                    : ( categorySkills.indexOf(name) > -1 ? name+': ' : name );
+                const categoryField = categorySkills.indexOf(name) > -1
+                        ? <TextField {...props} propKey={propKey.concat('categ')}/>
+                        : "";
+                const ranks = props.getState(propKey.concat('ranks'));
+                return (<tr>
+                    <td className="skill-name">
+                        <CheckboxField {...props} skill={name}>
+                        <small>{dispName}{categoryField}</small></CheckboxField></td>
+                    <td><small>{ability}</small></td>
+                    <th className="success"><small>{
+                            888
+                            }</small></th>
+                    <td><small><TextField {...props} propKey={propKey.concat('ranks')}/></small></td>
+                    <td><small>{props.getAbilityMod(ability)}</small></td>
+                    <td><small>{ranks>0 ? 3 : 0}</small></td>
+                    <td><small><TextField {...props} propKey={propKey.concat('misc')}/></small></td>
+                    <td><small><TextField {...props} propKey={propKey.concat('temp')}/></small></td>
+                </tr>);
+            }
             function SkillTable(props) {
                 const abilities = ['DEX', 'INT', 'CHA', 'STR', 'INT', 'CHA', 'DEX', 'CHA', 'DEX', 'DEX', 'CHA', 'WIS', 'CHA', 'INT', 'INT', 'INT', 'INT', 'INT', 'INT', 'INT', 'WIS', 'CHA', 'WIS', 'DEX', 'WIS', 'DEX', 'INT', 'DEX', 'WIS', 'STR', 'CHA', ''];
-                const names=['Acrobatic', 'Appraise', 'Bluff', 'Climb', 'Craft:', 'Diplomacy', 'Disable Device', 'Disguise', 'Escape Artist', 'Fly', 'Handle Animal', 'Heal', 'Intimidate', 'Kn:', 'Kn:', 'Kn:', 'Kn:', 'Kn:', 'Kn:', 'Linguistics', 'Perception', 'Perform:', 'Prof:', 'Ride', 'Sense Motive', 'Sleight of Hand', 'Spellcraft', 'Stealth', 'Survival', 'Swim', 'Use Magic Device', 'Prof:'];
+                const names = ['Acrobatic', 'Appraise', 'Bluff', 'Climb', 'Craft', 'Diplomacy', 'Disable Device', 'Disguise', 'Escape Artist', 'Fly', 'Handle Animal', 'Heal', 'Intimidate', 'Kn', 'Linguistics', 'Perception', 'Perf', 'Prof', 'Ride', 'Sense Motive', 'Sleight of Hand', 'Spellcraft', 'Stealth', 'Survival', 'Swim', 'Use Magic Device' ];
                 const skillRows = names.map( (name, i) => {
-                    const ranks = props.getState(['skill',name,'ranks']);
-
-                        return <tr>
-                            <td><CheckboxField {...props} skill={name}><small>{name}</small>·</CheckboxField></td>
-                            <td><small>DEX</small></td>
-                            <th className="success"><small>{
-                                    888
-                                    }</small></th>
-                            <td><small><TextField {...props} propKey={['skill',name,'ranks']}/></small></td>
-                            <td><small>{props.getAbilityMod(abilities[i])}</small></td>
-                            <td><small>{ ranks>0 ? 3 : 0}</small></td>
-                            <td><small><TextField {...props} propKey={['skill',name,'misc']}/></small></td>
-                            <td><small><TextField {...props} propKey={['skill',name,'temp']}/></small></td>
-                        </tr>
-                        }
+                const propKey = i > -1 ? ['skill',name,i] : ['skill',name];
+                return <SkillRow {...props} name={name} propKey={propKey} i={0}
+                            ability={abilities[i]}/>
+                    }
                 );
                 return (
                     <Table striped condensed className="skill-table">
