@@ -143,6 +143,7 @@
                         ( sum+parseFloat('0'+this.getState([classN,type]))), 0)
                 }
                 getAbilityTotal(ability) {
+                    if (STATS.indexOf(ability) == -1) return NaN;
                     return STAT_TYPES.reduce(
                         (sum,type) =>
                             sum + parseInt(this.getState([ability,type])||0), 0);
