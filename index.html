@@ -114,12 +114,14 @@
                 handleChange(propKey) {
                     //console.log('creating handleChange for '+propKey+':', propKey);
                     return (e) => {
-                        const evval = e.target.value;
+                        const evval = e.target.type === 'checkbox' ? e.target.checked
+                            : e.target.value;
                         const newVal = !isNaN(parseFloat(evval)) ? parseFloat(evval) :
                             (evval && evval.length>0 && evval)
+                            || (typeof(evval)==='boolean' && evval)
                             || undefined;
+                        // console.log('handleChange event', propKey, newVal, evval, e.target);
                         this.setState( (prevState, setProps) => {
-                            console.log('setState', prevState, setProps, newVal);
                             let leaf = propKey.slice(0,-1).reduce(
                                 ( childState, key ) => {
                                     if( childState[key] === undefined ) {
@@ -127,6 +129,9 @@
                                     }
                                     return childState[key];
                             }, prevState );
+                            const oldVal = leaf[propKey[propKey.length-1]];
+                            console.log('setState', prevState, setProps, propKey, newVal,
+                                'of oldVal:',oldVal);
                             leaf[propKey[propKey.length-1]] = newVal;
                             return prevState;
                         } );
@@ -644,12 +649,13 @@
             function CheckboxField(props) {
                 const key = ['skill',props.skill.toLowerCase(),'is-class'];
                 return (
-                    <Checkbox inline
-                        id={key.join('-')}
-                        value={props.getState(key)}
-                        onChange={props.handleChange(key)}>
-                        {props.children}
-                    </Checkbox>
+                    <FormGroup controlId={key.join('-')}>
+                        <Checkbox inline
+                            checked={props.getState(key)}
+                            onChange={props.handleChange(key)}>
+                            {props.children}
+                        </Checkbox>
+                    </FormGroup>
                 );
             }
             function SkillRow(props) {
