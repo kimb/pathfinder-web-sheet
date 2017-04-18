@@ -647,52 +647,73 @@
                 );
             }
             function CheckboxField(props) {
-                const key = ['skill',props.skill.toLowerCase(),'is-class'];
+                const {propKey} = props;
                 return (
-                    <FormGroup controlId={key.join('-')}>
+                    <FormGroup controlId={propKey.join('-')}>
                         <Checkbox inline
-                            checked={props.getState(key)}
-                            onChange={props.handleChange(key)}>
+                            checked={props.getState(propKey)}
+                            onChange={props.handleChange(propKey)}>
                             {props.children}
                         </Checkbox>
                     </FormGroup>
                 );
             }
             function SkillRow(props) {
-                const {propKey,name, ability, i} = props;
-                const acPenaltySkills = ['Acrobatic','Climb','Disable Device','Fly','Sleight of Hand','Stealth','Swim'];
-                const categorySkills = ['Craft','Kn','Perf','Prof'];
-                let usedCategoryIndex = {};
-                const dispName = acPenaltySkills.indexOf(name) > -1 ? name + '*'
-                    : ( categorySkills.indexOf(name) > -1 ? name+': ' : name );
-                const categoryField = categorySkills.indexOf(name) > -1
+                const {propKey,name,ability,hasCategory} = props;
+                const AC_PENALTY_ABILITIES = ['STR','DEX'];
+                const hasAcPenalty = AC_PENALTY_ABILITIES.indexOf(ability) > -1;
+                const dispName = name + (hasAcPenalty ? '*': '') + (hasCategory ? ': ': '');
+                const categoryField = hasCategory
                         ? <TextField {...props} propKey={propKey.concat('categ')}/>
                         : "";
                 const ranks = props.getState(propKey.concat('ranks'));
+                const isClass = props.getState(propKey.concat('is-class'));
                 return (<tr>
                     <td className="skill-name">
-                        <CheckboxField {...props} skill={name}>
+                        <CheckboxField {...props} propKey={propKey.concat('is-class')}>
                         <small>{dispName}{categoryField}</small></CheckboxField></td>
                     <td><small>{ability}</small></td>
                     <th className="success"><small>{
-                            888
+                            props.getState(propKey.concat('ranks'),0)
+                            + props.getAbilityMod(ability)
+                            + (ranks>0 && isClass ? 3 : 0)
+                            + props.getState(propKey.concat('misc'),0)
+                            + props.getState(propKey.concat('temp'),0)
+                            - (hasAcPenalty ? props.getState(['armor','skill-penalty'],0)
+                                + props.getState(['shield','skill-penalty'],0) : 0 )
                             }</small></th>
                     <td><small><TextField {...props} propKey={propKey.concat('ranks')}/></small></td>
                     <td><small>{props.getAbilityMod(ability)}</small></td>
-                    <td><small>{ranks>0 ? 3 : 0}</small></td>
+                    <td><small>{ranks>0 && isClass ? 3 : 0}</small></td>
                     <td><small><TextField {...props} propKey={propKey.concat('misc')}/></small></td>
                     <td><small><TextField {...props} propKey={propKey.concat('temp')}/></small></td>
                 </tr>);
             }
             function SkillTable(props) {
                 const abilities = ['DEX', 'INT', 'CHA', 'STR', 'INT', 'CHA', 'DEX', 'CHA', 'DEX', 'DEX', 'CHA', 'WIS', 'CHA', 'INT', 'INT', 'INT', 'INT', 'INT', 'INT', 'INT', 'WIS', 'CHA', 'WIS', 'DEX', 'WIS', 'DEX', 'INT', 'DEX', 'WIS', 'STR', 'CHA', ''];
-                const names = ['Acrobatic', 'Appraise', 'Bluff', 'Climb', 'Craft', 'Diplomacy', 'Disable Device', 'Disguise', 'Escape Artist', 'Fly', 'Handle Animal', 'Heal', 'Intimidate', 'Kn', 'Linguistics', 'Perception', 'Perf', 'Prof', 'Ride', 'Sense Motive', 'Sleight of Hand', 'Spellcraft', 'Stealth', 'Survival', 'Swim', 'Use Magic Device' ];
-                const skillRows = names.map( (name, i) => {
-                const propKey = i > -1 ? ['skill',name,i] : ['skill',name];
-                return <SkillRow {...props} name={name} propKey={propKey} i={0}
-                            ability={abilities[i]}/>
+                const SKILL_NAMES = ['Acrobatic', 'Appraise', 'Bluff', 'Climb', 'Craft', 'Diplomacy', 'Disable Device', 'Disguise', 'Escape Artist', 'Fly', 'Handle Animal', 'Heal', 'Intimidate', 'Kn', 'Linguistics', 'Perception', 'Perf', 'Prof', 'Ride', 'Sense Motive', 'Sleight of Hand', 'Spellcraft', 'Stealth', 'Survival', 'Swim', 'Use Magic Device' ];
+                const CATEGORY_SKILLS = ['Craft','Kn','Perf','Prof'];
+                const skillRows = SKILL_NAMES.reduce( (rows, name, i) => {
+                    const hasCategory = CATEGORY_SKILLS.indexOf(name) > -1;
+                    if (!hasCategory) {
+                        rows=rows.concat(<SkillRow {...props} name={name}
+                            propKey={['skill',name.toLowerCase()]}
+                            ability={abilities[i]} hasCategory={hasCategory}/>);
+                        return rows;
                     }
-                );
+                    for( let categoryIndex = 0; categoryIndex < 10; categoryIndex++ ) {
+                        const propKey = ['skill',name.toLowerCase(),categoryIndex];
+                        const prevKey = ['skill',name.toLowerCase(),categoryIndex-1];
+                        if( categoryIndex>0
+                        && Object.getOwnPropertyNames(props.getState(prevKey,{})).length == 0
+                        && Object.getOwnPropertyNames(props.getState(propKey,{})).length == 0 ) {
+                            continue;
+                        }
+                        rows=rows.concat(<SkillRow {...props} name={name} propKey={propKey}
+                            ability={abilities[i]} hasCategory={hasCategory}/>);
+                    }
+                    return rows;
+                }, []);
                 return (
                     <Table striped condensed className="skill-table">
                     <thead>
