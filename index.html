@@ -15,13 +15,19 @@
             .form-control { padding: 6px 6px; }
             .class-name { width: 20%; }
             .armor-name { width: 40%; }
-            .skill-name { width: 40%; }
+            .table .skill-name {
+                width: 40%;
+                text-align: left;
+            }
             .note-col { padding: 10px 5px 0; }
             #ability-note { height: 286px; }
             #save-note { height: 171px; }
             #attack-note { height: 196px; }
             .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
                 vertical-align: middle;
+            }
+            .table>tbody>tr>td, .table>tfoot>tr>td {
+                text-align: center;
             }
             .skill-table input {
                 font-size: 100%; /*inherit small*/
@@ -244,14 +250,14 @@
                                 <ClassRow {...this.state} name="class5" />
                                 <tr>
                                     <th>Base totals</th>
-                                    <th></th>
-                                    <th className="success">{this.getClassTypeTotal('hp')}</th>
-                                    <th>{this.getClassTypeTotal('bab')}</th>
-                                    <th>{this.getClassTypeTotal('skill')}</th>
-                                    <th>{this.getClassTypeTotal('fort')}</th>
-                                    <th>{this.getClassTypeTotal('ref')}</th>
-                                    <th>{this.getClassTypeTotal('will')}</th>
-                                    <th>{this.getClassTypeTotal('levels')}</th>
+                                    <td></td>
+                                    <td>{this.getClassTypeTotal('hp')}</td>
+                                    <td>{this.getClassTypeTotal('bab')}</td>
+                                    <td>{this.getClassTypeTotal('skill')}</td>
+                                    <td>{this.getClassTypeTotal('fort')}</td>
+                                    <td>{this.getClassTypeTotal('ref')}</td>
+                                    <td>{this.getClassTypeTotal('will')}</td>
+                                    <td>{this.getClassTypeTotal('levels')}</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -673,7 +679,7 @@
                         <CheckboxField {...props} propKey={propKey.concat('is-class')}>
                         <small>{dispName}{categoryField}</small></CheckboxField></td>
                     <td><small>{ability}</small></td>
-                    <th className="success"><small>{
+                    <th className="success text-center"><small>{
                             props.getState(propKey.concat('ranks'),0)
                             + props.getAbilityMod(ability)
                             + (ranks>0 && isClass ? 3 : 0)
