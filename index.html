@@ -19,6 +19,9 @@
                 width: 40%;
                 text-align: left;
             }
+            .table .skill-ability {
+                width: 12%;
+            }
             .note-col { padding: 10px 5px 0; }
             #ability-note { height: 286px; }
             #save-note { height: 171px; }
@@ -29,9 +32,17 @@
             .table>tbody>tr>td, .table>tfoot>tr>td {
                 text-align: center;
             }
-            .skill-table input {
+            .skill-table input, .skill-table select {
                 font-size: 100%; /*inherit small*/
                 height: 22px;
+            }
+            .skill-ability select {
+                padding: 0;
+                -moz-appearance: none;
+                -webkit-appearance:none;
+            }
+            .skill-ability select::-ms-expand {
+                display: none;
             }
             .skill-table input[type=checkbox] {
                 margin-top: 0;
@@ -664,21 +675,59 @@
                     </FormGroup>
                 );
             }
+            function SelectField(props) {
+                const {propKey, options} = props;
+                const currVal = props.getState(propKey);
+                const emptyOption = options.indexOf(currVal) > -1 ? "" : <option />
+                const optionList = options.map( (option,index) =>
+                    <option value={option}>{option}</option> );
+                return (
+                    <FormGroup controlId={propKey.join('-')}>
+                        <FormControl componentClass="select"
+                            placeholder={props.getState(propKey)}
+                            value={props.getState(propKey)}
+                            onChange={props.handleChange(propKey)}>
+                        {emptyOption}
+                        {optionList}
+                        </FormControl>
+                    </FormGroup>
+                );
+            }
+            const AC_PENALTY_ABILITIES = ['STR','DEX'];
+            function CustomSkillRow(props) {
+                const {propKey} = props;
+                const abilityKey = propKey.concat('ability');
+                const ability = props.getState(abilityKey);
+                const hasAcPenalty = AC_PENALTY_ABILITIES.indexOf(ability) > -1;
+                const nameField = <span>
+                    <TextField {...props} propKey={propKey.concat('categ')} />
+                    {hasAcPenalty ? "*" : ""}
+                    </span>;
+                const abilityField = <SelectField {...props} propKey={abilityKey} options={STATS} />;
+                return (<SkillRowBase {...props} nameField={nameField} ability={ability}
+                    abilityField={abilityField} hasAcPenalty={hasAcPenalty} />);
+            }
             function SkillRow(props) {
                 const {propKey,name,ability,hasCategory} = props;
-                const AC_PENALTY_ABILITIES = ['STR','DEX'];
                 const hasAcPenalty = AC_PENALTY_ABILITIES.indexOf(ability) > -1;
                 const dispName = name + (hasAcPenalty ? '*': '') + (hasCategory ? ': ': '');
                 const categoryField = hasCategory
                         ? <TextField {...props} propKey={propKey.concat('categ')}/>
                         : "";
+                const nameField = <span>{dispName}{categoryField}</span>;
+                return (<SkillRowBase {...props} nameField={nameField} ability={ability}
+                    abilityField={ability} hasAcPenalty={hasAcPenalty} />);
+            }
+
+            function SkillRowBase(props) {
+                const {propKey,nameField,ability,abilityField,hasAcPenalty} = props;
                 const ranks = props.getState(propKey.concat('ranks'));
                 const isClass = props.getState(propKey.concat('is-class'));
                 return (<tr>
                     <td className="skill-name">
                         <CheckboxField {...props} propKey={propKey.concat('is-class')}>
-                        <small>{dispName}{categoryField}</small></CheckboxField></td>
-                    <td><small>{ability}</small></td>
+                        <small>{nameField}</small></CheckboxField></td>
+                    <td className="skill-ability"><small>{abilityField}</small></td>
                     <th className="success text-center"><small>{
                             props.getState(propKey.concat('ranks'),0)
                             + props.getAbilityMod(ability)
@@ -720,6 +769,19 @@
                     }
                     return rows;
                 }, []);
+                let customSkillRows = [];
+                for( let categoryIndex = 0; categoryIndex < 10; categoryIndex++ ) {
+                    const propKey = ['skill','custom'+categoryIndex];
+                    const prevKey = ['skill','custom'+(categoryIndex-1)];
+                    console.log( props.getState(propKey) );
+                    if( categoryIndex>0
+                    && Object.getOwnPropertyNames(props.getState(prevKey,{})).length == 0
+                    && Object.getOwnPropertyNames(props.getState(propKey,{})).length == 0 ) {
+                        continue;
+                    }
+                    customSkillRows=customSkillRows.concat(
+                        <CustomSkillRow {...props} propKey={propKey} />);
+                }
                 return (
                     <Table striped condensed className="skill-table">
                     <thead>
@@ -738,6 +800,7 @@
                     </thead>
                     <tbody>
                         {skillRows}
+                        {customSkillRows}
                     </tbody>
                     </Table>
                 );
