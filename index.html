@@ -150,6 +150,9 @@
                             console.log('setState', prevState, setProps, propKey, newVal,
                                 'of oldVal:',oldVal);
                             leaf[propKey[propKey.length-1]] = newVal;
+                            if (newVal === undefined) {
+                                delete leaf[propKey[propKey.length-1]];
+                            }
                             return prevState;
                         } );
                     };
@@ -773,7 +776,6 @@
                 for( let categoryIndex = 0; categoryIndex < 10; categoryIndex++ ) {
                     const propKey = ['skill','custom'+categoryIndex];
                     const prevKey = ['skill','custom'+(categoryIndex-1)];
-                    console.log( props.getState(propKey) );
                     if( categoryIndex>0
                             && Object.keys(props.getState(prevKey,{})).length == 0
                             && Object.keys(props.getState(propKey,{})).length == 0 ) {
