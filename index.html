@@ -760,8 +760,8 @@
                         const propKey = ['skill',name.toLowerCase(),categoryIndex];
                         const prevKey = ['skill',name.toLowerCase(),categoryIndex-1];
                         if( categoryIndex>0
-                        && Object.getOwnPropertyNames(props.getState(prevKey,{})).length == 0
-                        && Object.getOwnPropertyNames(props.getState(propKey,{})).length == 0 ) {
+                                && Object.keys(props.getState(prevKey,{})).length == 0
+                                && Object.keys(props.getState(propKey,{})).length == 0 ) {
                             continue;
                         }
                         rows=rows.concat(<SkillRow {...props} name={name} propKey={propKey}
@@ -775,8 +775,8 @@
                     const prevKey = ['skill','custom'+(categoryIndex-1)];
                     console.log( props.getState(propKey) );
                     if( categoryIndex>0
-                    && Object.getOwnPropertyNames(props.getState(prevKey,{})).length == 0
-                    && Object.getOwnPropertyNames(props.getState(propKey,{})).length == 0 ) {
+                            && Object.keys(props.getState(prevKey,{})).length == 0
+                            && Object.keys(props.getState(propKey,{})).length == 0 ) {
                         continue;
                     }
                     customSkillRows=customSkillRows.concat(
