@@ -22,8 +22,8 @@
             .table .skill-ability {
                 width: 12%;
             }
-            .table .hp-hp {
-                min-width: 100px;
+            .table .hp-temporary {
+                min-width: 110px;
             }
             .note-col { padding: 10px 5px 0; }
             #ability-note { height: 286px; }
@@ -426,11 +426,15 @@
                     <Table condensed>
                     <thead>
                         <tr>
-                            <th className="active hp-hp"><small>HP (con*lvl+cls)</small></th>
+                            <th className="active"><small>HP (con*lvl+cls)</small></th>
                             <td className="text-center">{totalHP}</td>
                         </tr>
                     </thead>
                     <tbody>
+                        <tr>
+                            <th className="active hp-temporary">Temporary HP</th>
+                            <td><TextField {...props} propKey={['hp','temp']} /></td>
+                        </tr>
                         <tr>
                             <th className="active">Subdual dam</th>
                             <td><TextField {...props} propKey={['hp','subdual']} /></td>
@@ -443,6 +447,7 @@
                             <th className="active">Current HP</th>
                             <td className="success">{
                                 totalHP
+                                + props.getState(['hp','temp'], 0)
                                 - props.getState(['hp','subdual'], 0)
                                 - props.getState(['hp','lethal'], 0)
                                 }</td>
@@ -453,6 +458,7 @@
             }
             function InitTable(props) {
                 const initTotal = props.getAbilityMod('DEX')
+                    + props.getState(['info','init','enh'],0)
                     + props.getState(['info','init','misc'],0)
                     + props.getState(['info','init','temp'],0);
                 return (
@@ -462,6 +468,7 @@
                             <th></th>
                             <th><small>Total</small></th>
                             <th><small>Base</small></th>
+                            <th><small>Enhance</small></th>
                             <th><small>Misc</small></th>
                             <th><small>Temp</small></th>
                         </tr>
@@ -471,6 +478,7 @@
                             <th className="active">Init</th>
                             <td className="success">{initTotal}</td>
                             <td>{props.getAbilityMod('DEX')}</td>
+                            <td><TextField {...props} propKey={['info','init','enh']} /></td>
                             <td><TextField {...props} propKey={['info','init','misc']} /></td>
                             <td><TextField {...props} propKey={['info','init','temp']} /></td>
                         </tr>
