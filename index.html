@@ -15,6 +15,9 @@
             .form-control { padding: 6px 6px; }
             .class-name { width: 20%; }
             .armor-name { width: 40%; }
+            .table .ability-base {
+                width: 15%;
+            }
             .table .skill-name {
                 width: 40%;
                 text-align: left;
@@ -32,7 +35,10 @@
             .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
                 vertical-align: middle;
             }
-            .table>tbody>tr>td, .table>tfoot>tr>td {
+            .table>thead>tr>td,
+            .table>tbody>tr>th.success,
+            .table>tbody>tr>td,
+            .table>tfoot>tr>td {
                 text-align: center;
             }
             .skill-table input, .skill-table select {
@@ -221,27 +227,7 @@
                         <Col md={5}>
                         <Row>
                             <Col xs={8} sm={9}>
-                            <Table condensed>
-                                <thead>
-                                    <tr>
-                                        <th><small>Ability</small></th>
-                                        <th><small>Total</small></th>
-                                        <th><small>Mod</small></th>
-                                        <th><small>Base</small></th>
-                                        <th><small>Enh<span className="hidden-xs">ance</span></small></th>
-                                        <th><small>Misc</small></th>
-                                        <th><small>Temp</small></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <StatRow {...this.state} ability="STR" />
-                                    <StatRow {...this.state} ability="DEX" />
-                                    <StatRow {...this.state} ability="CON" />
-                                    <StatRow {...this.state} ability="INT" />
-                                    <StatRow {...this.state} ability="WIS" />
-                                    <StatRow {...this.state} ability="CHA" />
-                                </tbody>
-                            </Table>
+                                <AbilityTable {...this.state} />
                             </Col>
                             <Col xs={4} sm={3} className="note-col">
                                 <NoteArea {...this.state} noteKey="ability" />
@@ -374,12 +360,39 @@
                 return (
                 <tr>
                     <th className="active">{ability}</th>
-                    <td className="text-center">{props.getAbilityTotal(ability)}</td>
-                    <th className="success text-center">{props.getAbilityMod(ability)}</th>
+                    <td>{props.getAbilityTotal(ability)}</td>
+                    <th className="success">{props.getAbilityMod(ability)}</th>
                     {abilityFields}
                 </tr>
                 );
             }
+
+            function AbilityTable(props) {
+                return (
+                <Table condensed>
+                    <thead>
+                        <tr>
+                            <th><small>Ability</small></th>
+                            <th><small>Total</small></th>
+                            <th><small>Mod</small></th>
+                            <th className="ability-base"><small>Base</small></th>
+                            <th><small>Enh<span className="hidden-xs hidden-md">ance</span></small></th>
+                            <th><small>Misc</small></th>
+                            <th><small>Temp</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <StatRow {...props} ability="STR" />
+                        <StatRow {...props} ability="DEX" />
+                        <StatRow {...props} ability="CON" />
+                        <StatRow {...props} ability="INT" />
+                        <StatRow {...props} ability="WIS" />
+                        <StatRow {...props} ability="CHA" />
+                    </tbody>
+                </Table>
+                );
+            }
+
             function TextField(props) {
                 //console.debug(props.propKey, props.getState(props.propKey));
                 return (
