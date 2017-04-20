@@ -748,15 +748,23 @@
                 </tr>);
             }
             function SkillTable(props) {
-                const abilities = ['DEX', 'INT', 'CHA', 'STR', 'INT', 'CHA', 'DEX', 'CHA', 'DEX', 'DEX', 'CHA', 'WIS', 'CHA', 'INT', 'INT', 'WIS', 'CHA', 'WIS', 'DEX', 'WIS', 'DEX', 'INT', 'DEX', 'WIS', 'STR', 'CHA', ''];
-                const SKILL_NAMES = ['Acrobatic', 'Appraise', 'Bluff', 'Climb', 'Craft', 'Diplomacy', 'Disable Device', 'Disguise', 'Escape Artist', 'Fly', 'Handle Animal', 'Heal', 'Intimidate', 'Kn', 'Linguistics', 'Perception', 'Perf', 'Prof', 'Ride', 'Sense Motive', 'Sleight of Hand', 'Spellcraft', 'Stealth', 'Survival', 'Swim', 'Use Magic Device' ];
+                const SKILL_ABILITIES = ['DEX', 'INT', 'CHA', 'STR', 'INT', 'CHA',
+                    'DEX', 'CHA', 'DEX', 'DEX', 'CHA', 'WIS', 'CHA', 'INT', 'INT',
+                    'WIS', 'CHA', 'WIS', 'DEX', 'WIS', 'DEX', 'INT', 'DEX', 'WIS',
+                    'STR', 'CHA', ''];
+                const SKILL_NAMES = ['Acrobatic', 'Appraise', 'Bluff', 'Climb',
+                    'Craft', 'Diplomacy', 'Disable Device', 'Disguise', 'Escape
+                    Artist', 'Fly', 'Handle Animal', 'Heal', 'Intimidate', 'Kn',
+                    'Linguistics', 'Perception', 'Perf', 'Prof', 'Ride', 'Sense
+                    Motive', 'Sleight of Hand', 'Spellcraft', 'Stealth',
+                    'Survival', 'Swim', 'Use Magic Device' ];
                 const CATEGORY_SKILLS = ['Craft','Kn','Perf','Prof'];
                 const skillRows = SKILL_NAMES.reduce( (rows, name, i) => {
                     const hasCategory = CATEGORY_SKILLS.indexOf(name) > -1;
                     if (!hasCategory) {
                         rows=rows.concat(<SkillRow {...props} name={name}
                             propKey={['skill',name.toLowerCase()]}
-                            ability={abilities[i]} hasCategory={hasCategory}/>);
+                            ability={SKILL_ABILITIES[i]} hasCategory={hasCategory}/>);
                         return rows;
                     }
                     for( let categoryIndex = 0; categoryIndex < 10; categoryIndex++ ) {
@@ -768,7 +776,7 @@
                             continue;
                         }
                         rows=rows.concat(<SkillRow {...props} name={name} propKey={propKey}
-                            ability={abilities[i]} hasCategory={hasCategory}/>);
+                            ability={SKILL_ABILITIES[i]} hasCategory={hasCategory}/>);
                     }
                     return rows;
                 }, []);
