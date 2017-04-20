@@ -798,8 +798,8 @@
                         return rows;
                     }
                     for( let categoryIndex = 0; categoryIndex < 10; categoryIndex++ ) {
-                        const propKey = ['skill',name.toLowerCase(),categoryIndex];
-                        const prevKey = ['skill',name.toLowerCase(),categoryIndex-1];
+                        const propKey = ['skill',name.toLowerCase()+categoryIndex];
+                        const prevKey = ['skill',name.toLowerCase()+(categoryIndex-1)];
                         if( categoryIndex>0
                                 && Object.keys(props.getState(prevKey,{})).length == 0
                                 && Object.keys(props.getState(propKey,{})).length == 0 ) {
@@ -822,14 +822,20 @@
                     customSkillRows=customSkillRows.concat(
                         <CustomSkillRow {...props} propKey={propKey} />);
                 }
+                const totalSkillRanks = props.getClassTypeTotal('skill');
+                const assignedSkillRanks = props.skill &&
+                    Object.keys(props.skill).reduce( (sum, skill) =>
+                        ( sum+parseFloat('0'+props.getState(['skill',skill,'ranks']))), 0);
+                const unassignedSkillRanks = totalSkillRanks - assignedSkillRanks;
+                const unassignedLabel = unassignedSkillRanks ?
+                    " (unused ranks "+unassignedSkillRanks+")" : "";
                 return (
                     <Table striped condensed className="skill-table">
                     <thead>
                         <tr>
-                            <th className="skill-name">
-                                <small>Skill</small>
+                            <th className="skill-name" colSpan={2}>
+                                <small>Skill{unassignedLabel}</small>
                             </th>
-                            <th><small></small></th>
                             <th><small>Total</small></th>
                             <th><small>Ranks</small></th>
                             <th><small>Abil</small></th>
