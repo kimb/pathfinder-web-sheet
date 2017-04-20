@@ -409,12 +409,14 @@
                 );
             }
             function HPTable(props) {
+                const totalHP = props.getAbilityMod('CON')*props.getClassTypeTotal('levels')
+                                +props.getClassTypeTotal('hp');
                 return (
                     <Table condensed>
                     <thead>
                         <tr>
-                            <th><small>HP</small></th>
-                            <td className="text-center">{props.getClassTypeTotal('hp')}</td>
+                            <th className="active"><small>HP (con*lvl+cls)</small></th>
+                            <td className="text-center">{totalHP}</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -428,9 +430,10 @@
                         </tr>
                         <tr>
                             <th className="active">Current HP</th>
-                            <td>{props.getClassTypeTotal('hp')
-                                -props.getState(['hp','subdual'], 0)
-                                -props.getState(['hp','lethal'], 0)
+                            <td className="success">{
+                                totalHP
+                                - props.getState(['hp','subdual'], 0)
+                                - props.getState(['hp','lethal'], 0)
                                 }</td>
                         </tr>
                     </tbody>
