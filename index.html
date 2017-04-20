@@ -279,6 +279,7 @@
                         </Row>
                         <Row>
                         <Col md={7}>
+                        <HPTable {...this.state}/>
                         <ACTable {...this.state}/>
                         <Row>
                             <Col xs={8}>
@@ -402,6 +403,35 @@
                 <tr>
                     {classFields}
                 </tr>
+                );
+            }
+            function HPTable(props) {
+                return (
+                    <Table condensed>
+                    <thead>
+                        <tr>
+                            <th><small>HP</small></th>
+                            <td className="text-center">{props.getClassTypeTotal('hp')}</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th className="active">Subdual dam</th>
+                            <td><TextField {...props} propKey={['hp','subdual']} /></td>
+                        </tr>
+                        <tr>
+                            <th className="active">Lethal dam</th>
+                            <td><TextField {...props} propKey={['hp','lethal']} /></td>
+                        </tr>
+                        <tr>
+                            <th className="active">Current HP</th>
+                            <td>{props.getClassTypeTotal('hp')
+                                -props.getState(['hp','subdual'], 0)
+                                -props.getState(['hp','lethal'], 0)
+                                }</td>
+                        </tr>
+                    </tbody>
+                    </Table>
                 );
             }
             function ACTable(props) {
