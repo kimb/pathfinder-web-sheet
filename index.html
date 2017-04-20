@@ -441,7 +441,7 @@
                     <thead>
                         <tr>
                             <th className="active"><small>HP (con*lvl+cls)</small></th>
-                            <td className="text-center">{totalHP}</td>
+                            <td>{totalHP}</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -490,7 +490,7 @@
                     <tbody>
                         <tr>
                             <th className="active">Init</th>
-                            <td className="success">{initTotal}</td>
+                            <th className="success">{initTotal}</th>
                             <td>{props.getAbilityMod('DEX')}</td>
                             <td><TextField {...props} propKey={['info','init','enh']} /></td>
                             <td><TextField {...props} propKey={['info','init','misc']} /></td>
@@ -543,7 +543,7 @@
                     <tbody>
                         <tr>
                             <th className="active">AC</th>
-                            <th className="success text-center">
+                            <th className="success">
                                 {10
                                 +props.getState(['armor','ac'],0)
                                 +props.getState(['shield','ac'],0)
@@ -568,7 +568,7 @@
                         </tr>
                         <tr>
                             <th className="active">Touch</th>
-                            <th className="success text-center">
+                            <th className="success">
                                 {10+props.getArmorLimitedDex()
                                 +props.getState(['info','size'],0)
                                 +props.getState(['ac','dodge'],0)
@@ -589,7 +589,7 @@
                         </tr>
                         <tr>
                             <th className="active">Flat-foot</th>
-                            <th className="success text-center">
+                            <th className="success">
                                 {10
                                 +props.getState(['armor','ac'],0)
                                 +props.getState(['shield','ac'],0)
@@ -618,7 +618,7 @@
                 return (
                     <tr>
                         <th className="active">{props.save.toUpperCase()}</th>
-                        <th className="success text-center">{
+                        <th className="success">{
                             props.getClassTypeTotal(props.save)
                             +props.getAbilityMod(props.ability)
                             +props.getState([props.save,'enhance'],0)
@@ -667,7 +667,7 @@
                     ].map( attack =>
                         <tr>
                             <th className="active">{attack['name'].toUpperCase()}</th>
-                            <th className="success text-center">
+                            <th className="success">
                                 { props.getClassTypeTotal('bab')
                                 + attack['ability']
                                 + attack['size']
@@ -702,7 +702,7 @@
                         {attackRows}
                         <tr>
                             <th className="active">CMB</th>
-                            <th className="success text-center">
+                            <th className="success">
                                 {
                                 props.getClassTypeTotal('bab')
                                 + cmbAbilityMod
@@ -719,7 +719,7 @@
                         </tr>
                         <tr>
                             <th className="active">CMD</th>
-                            <th className="success text-center">
+                            <th className="success">
                                 { 10
                                 + props.getClassTypeTotal('bab')
                                 + strMod + dexMod
@@ -848,7 +848,7 @@
                         <CheckboxField {...props} propKey={propKey.concat('is-class')}>
                         <small>{nameField}</small></CheckboxField></td>
                     <td className="skill-ability"><small>{abilityField}</small></td>
-                    <th className="success text-center"><small>{
+                    <th className="success"><small>{
                             props.getState(propKey.concat('ranks'),0)
                             + props.getAbilityMod(ability)
                             + (ranks>0 && isClass ? 3 : 0)
