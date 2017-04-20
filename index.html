@@ -813,12 +813,13 @@
                     </FormGroup>
                 );
             }
-            const AC_PENALTY_ABILITIES = ['STR','DEX'];
+
+            const SKILL_AC_PENALTY_ABILITIES = ['STR','DEX'];
             function CustomSkillRow(props) {
                 const {propKey} = props;
                 const abilityKey = propKey.concat('ability');
                 const ability = props.getState(abilityKey);
-                const hasAcPenalty = AC_PENALTY_ABILITIES.indexOf(ability) > -1;
+                const hasAcPenalty = SKILL_AC_PENALTY_ABILITIES.indexOf(ability) > -1;
                 const nameField = <span>
                     <TextField {...props} propKey={propKey.concat('categ')} />
                     {hasAcPenalty ? "*" : ""}
@@ -829,7 +830,7 @@
             }
             function SkillRow(props) {
                 const {propKey,name,ability,hasCategory} = props;
-                const hasAcPenalty = AC_PENALTY_ABILITIES.indexOf(ability) > -1;
+                const hasAcPenalty = SKILL_AC_PENALTY_ABILITIES.indexOf(ability) > -1;
                 const dispName = name + (hasAcPenalty ? '*': '') + (hasCategory ? ': ': '');
                 const categoryField = hasCategory
                         ? <TextField {...props} propKey={propKey.concat('categ')}/>
@@ -840,7 +841,7 @@
             }
 
             function SkillRowBase(props) {
-                const {propKey,nameField,ability,abilityField,hasAcPenalty} = props;
+                const {propKey,nameField,ability,abilityField,hasAcPenalty,isUntrainedUse} = props;
                 const ranks = props.getState(propKey.concat('ranks'));
                 const isClass = props.getState(propKey.concat('is-class'));
                 return (<tr>
@@ -849,6 +850,7 @@
                         <small>{nameField}</small></CheckboxField></td>
                     <td className="skill-ability"><small>{abilityField}</small></td>
                     <th className="success"><small>{
+                        isUntrainedUse || ranks !== undefined ?
                             props.getState(propKey.concat('ranks'),0)
                             + props.getAbilityMod(ability)
                             + (ranks>0 && isClass ? 3 : 0)
@@ -856,6 +858,7 @@
                             + props.getState(propKey.concat('temp'),0)
                             - (hasAcPenalty ? props.getState(['armor','skill-penalty'],0)
                                 + props.getState(['shield','skill-penalty'],0) : 0 )
+                        : ""
                             }</small></th>
                     <td><small><TextField {...props} propKey={propKey.concat('ranks')}/></small></td>
                     <td><small>{props.getAbilityMod(ability)}</small></td>
@@ -875,12 +878,19 @@
                     'Kn', 'Linguistics', 'Perception', 'Perf', 'Prof', 'Ride',
                     'Sense Motive', 'Sleight of Hand', 'Spellcraft', 'Stealth',
                     'Survival', 'Swim', 'Use Magic Device' ];
+                const SKILLS_UNTRAINED_USE = [
+                    'Skill' ,'Acrobatics' ,'Appraise' ,'Bluff' ,'Climb' ,'Craft'
+                    ,'Diplomacy' ,'Disguise' ,'Escape Artist' ,'Fly' ,'Heal'
+                    ,'Intimidate' ,'Perception' ,'Perf' ,'Ride' ,'Sense Motive'
+                    ,'Stealth' ,'Survival' ,'Swim' ];
                 const CATEGORY_SKILLS = ['Craft','Kn','Perf','Prof'];
                 const skillRows = SKILL_NAMES.reduce( (rows, name, i) => {
                     const hasCategory = CATEGORY_SKILLS.indexOf(name) > -1;
+                    const isUntrainedUse = SKILLS_UNTRAINED_USE.indexOf(name) > -1;
                     if (!hasCategory) {
                         rows=rows.concat(<SkillRow {...props} name={name}
                             propKey={['skill',name.toLowerCase()]}
+                            isUntrainedUse={isUntrainedUse}
                             ability={SKILL_ABILITIES[i]} hasCategory={hasCategory}/>);
                         return rows;
                     }
@@ -893,6 +903,7 @@
                             continue;
                         }
                         rows=rows.concat(<SkillRow {...props} name={name} propKey={propKey}
+                            isUntrainedUse={isUntrainedUse}
                             ability={SKILL_ABILITIES[i]} hasCategory={hasCategory}/>);
                     }
                     return rows;
