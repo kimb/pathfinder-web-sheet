@@ -271,6 +271,7 @@
                         </Row>
                         <Row>
                         <Col md={7}>
+                        <SpeedTable {...this.state}/>
                             <Row>
                             <Col xs={7}>
                                 <InitTable {...this.state}/>
@@ -515,6 +516,40 @@
                         <tr>
                             <th className="active">Resists</th>
                             <td colSpan="3"><TextField {...props} propKey={['info','resists']} /></td>
+                        </tr>
+                    </tbody>
+                    </Table>
+                );
+            }
+            function SpeedTable(props) {
+                return (
+                    <Table condensed>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th><small>Land</small></th>
+                            <th><small>w/&nbsp;armor</small></th>
+                            <th><small>Swim</small></th>
+                            <th><small>Climb</small></th>
+                            <th><small>Fly</small></th>
+                            <th><small>Fly&nbsp;manu.</small></th>
+                            <th><small>Burrow</small></th>
+                            <th><small>Misc</small></th>
+                            <th><small>Temp</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th className="active">Speed</th>
+                            <td><TextField {...props} propKey={['info','speed','land']} /></td>
+                            <td><TextField {...props} propKey={['info','speed','armored']} /></td>
+                            <td><TextField {...props} propKey={['info','speed','swim']} /></td>
+                            <td><TextField {...props} propKey={['info','speed','climb']} /></td>
+                            <td><TextField {...props} propKey={['info','speed','fly']} /></td>
+                            <td><TextField {...props} propKey={['info','speed','fly','manu']} /></td>
+                            <td><TextField {...props} propKey={['info','speed','burrow']} /></td>
+                            <td><TextField {...props} propKey={['info','speed','misc']} /></td>
+                            <td><TextField {...props} propKey={['info','speed','temp']} /></td>
                         </tr>
                     </tbody>
                     </Table>
