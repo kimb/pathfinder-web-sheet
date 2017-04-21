@@ -29,9 +29,9 @@
                 min-width: 110px;
             }
             .note-col { padding: 10px 5px 0; }
-            #ability-note { height: 286px; }
-            #save-note { height: 171px; }
-            #attack-note { height: 196px; }
+            #ability-note { min-height: 286px; }
+            #save-note { min-height: 171px; }
+            #attack-note { min-height: 196px; }
             .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
                 vertical-align: middle;
             }
@@ -61,6 +61,11 @@
             .checkbox-inline input[type=text] {
                 display: inline;
                 width: 70%;
+            }
+            textarea.autoresize {
+                display: block;
+                overflow: hidden;
+                resize: none;
             }
             @media print {
                 body { zoom: 50%; }
@@ -304,6 +309,22 @@
                             <SkillTable {...this.state}/>
                         </Col>
                         </Row>
+                        <Row>
+                            <Col sm={12} md={6} className="note-col">
+                                <NoteArea {...this.state} noteKey="feat" />
+                            </Col>
+                            <Col sm={12} md={6} className="note-col">
+                                <NoteArea {...this.state} noteKey="character" />
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col sm={12} md={6} className="note-col">
+                                <NoteArea {...this.state} noteKey="special" />
+                            </Col>
+                            <Col sm={12} md={6} className="note-col">
+                                <NoteArea {...this.state} noteKey="equipment" />
+                            </Col>
+                        </Row>
                     </Form>
                     </Grid>
                     );
@@ -408,6 +429,7 @@
                 return (
                     <FormGroup controlId={noteKey+"-note"}>
                         <FormControl componentClass="textarea"
+                        inputRef={autoresize} className="autoresize"
                         value={props.getState(['note',noteKey])}
                         onChange={props.handleChange(['note',noteKey])}
                         placeholder={noteKey+" notes"} />
@@ -982,6 +1004,20 @@
                     </tbody>
                     </Table>
                 );
+            }
+        </script>
+        <script type="text/javascript">
+            function autoresize(inputRef) {
+                autoresize_update({target: inputRef});
+                inputRef.addEventListener('input', autoresize_update, false);
+            }
+            function autoresize_update(e) {
+                var inputRef = e.target;
+                //console.log('autoresize_update',inputRef);
+                inputRef.style.height = 'auto';
+                inputRef.style.height = inputRef.scrollHeight+'px';
+                inputRef.scrollTop = inputRef.scrollHeight;
+                window.scrollTo(window.scrollLeft,(inputRef.scrollTop+inputRef.scrollHeight));
             }
         </script>
     </head>
