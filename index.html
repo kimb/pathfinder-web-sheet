@@ -15,6 +15,11 @@
             .form-control { padding: 6px 6px; }
             .class-name { width: 20%; }
             .armor-name { width: 40%; }
+            .weapon-name { width: 25%%; }
+            .weapon-bonus, .weapon-critical, .weapon-range { width: 7em; }
+            .weapon-damage { width: 8em; }
+            .weapon-type { width: 3em; }
+            .weapon-weight { width: 4em; }
             .table .ability-base {
                 width: 15%;
             }
@@ -310,6 +315,9 @@
                         </Col>
                         <Col md={5}>
                             <SkillTable {...this.state}/>
+                        </Col>
+                        <Col xs={12}>
+                            <WeaponTable {...this.state}/>
                         </Col>
                         </Row>
                         <Row>
@@ -838,6 +846,40 @@
                             <th className="active"><small>Shield</small></th>
                             {shieldControls}
                         </tr>
+                    </tbody>
+                    </Table>
+                );
+            }
+            function WeaponTable(props) {
+                const weaponKeys = ['desc','bonus','dmg','crit',
+                    'range','type','weight','note'];
+                let weaponRows = [];
+                for( var i = 0; i<20; i++) {
+                    if ( i>0 && isEmpty( props.getState(['weapon'+(i-1)])) ) break;
+                    const cells = weaponKeys.map( (key) =>
+                        <td><TextField {...props} propKey={['weapon'+i,key]} /></td>
+                    );
+                    const row = <tr>{cells}</tr>;
+                    weaponRows = weaponRows.concat(row);
+                }
+                return (
+                    <Table condensed>
+                    <thead>
+                        <tr>
+                            <th className="weapon-name">
+                                <small>Weapon name & description</small>
+                            </th>
+                            <th className="weapon-bonus"><small>Attack bonus</small></th>
+                            <th className="weapon-damage"><small>Damage</small></th>
+                            <th className="weapon-critical"><small>Critical</small></th>
+                            <th className="weapon-range"><small>Range</small></th>
+                            <th className="weapon-type"><small>Type</small></th>
+                            <th className="weapon-weight"><small>Weight</small></th>
+                            <th><small>Notes & ammo</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {weaponRows}
                     </tbody>
                     </Table>
                 );
