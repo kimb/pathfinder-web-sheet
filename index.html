@@ -954,8 +954,8 @@
                         const propKey = ['skill',name.toLowerCase()+categoryIndex];
                         const prevKey = ['skill',name.toLowerCase()+(categoryIndex-1)];
                         if( categoryIndex>0
-                                && Object.keys(props.getState(prevKey,{})).length == 0
-                                && Object.keys(props.getState(propKey,{})).length == 0 ) {
+                                && isEmpty(props.getState(prevKey,{}))
+                                && isEmpty(props.getState(propKey,{})) ) {
                             continue;
                         }
                         rows=rows.concat(<SkillRow {...props} name={name} propKey={propKey}
@@ -969,8 +969,8 @@
                     const propKey = ['skill','custom'+categoryIndex];
                     const prevKey = ['skill','custom'+(categoryIndex-1)];
                     if( categoryIndex>0
-                            && Object.keys(props.getState(prevKey,{})).length == 0
-                            && Object.keys(props.getState(propKey,{})).length == 0 ) {
+                            && isEmpty(props.getState(prevKey,{}))
+                            && isEmpty(props.getState(propKey,{})) ) {
                         continue;
                     }
                     customSkillRows=customSkillRows.concat(
@@ -1007,6 +1007,10 @@
             }
         </script>
         <script type="text/javascript">
+            function isEmpty(object) {
+                return object == null ||
+                    typeof(object) === 'object' && Object.keys(object).length == 0;
+            }
             function autoresize(inputRef) {
                 autoresize_update({target: inputRef});
                 inputRef.addEventListener('input', autoresize_update, false);
