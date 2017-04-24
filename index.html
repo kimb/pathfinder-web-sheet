@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=0.75">
         <title>Pathfinder web character sheet</title>
+        <!--script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" integrity="sha256-obZACiHd7gkOk9iIL/pimWMTJ4W/pBsKu+oZnSeBIek=" crossorigin="anonymous"></script>-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.8/react-bootstrap.min.js"></script>
@@ -134,10 +135,31 @@
                     this.state.getArmorLimitedDex = this.getArmorLimitedDex.bind(this);
                 }
                 componentDidUpdate(prevProps, prevState) {
-                    history.pushState('','','?state='
-                        +encodeURIComponent(JSON.stringify(this.state))
-                            .replace(/\%20/g, '+'));
+                    let result = {};
+                    function recurse (cur, prop) {
+                        if( typeof(cur) == 'function' ) {
+                            // console.debug( 'componentDidUpdate: function', prop);
+                        } else if (Object(cur) !== cur) {
+                            result[prop] = cur;
+                        } else {
+                            var isEmpty = true;
+                            for (var p in cur) {
+                                isEmpty = false;
+                                recurse(cur[p], prop ? prop+"."+p : p);
+                            }
+                            if (isEmpty && prop)
+                                result[prop] = {};
+                        }
+                    }
+                    recurse(this.state, "");
+                    var qp = "";
+                    for (var k in result) {
+                        qp += "&" + k + "=" + encodeURIComponent( result[k] );
+                    }
+                    history.pushState('', '', '?' + qp.slice(1).replace( /\%20/g, '+' ));
+                    // history.pushState('', '', '?state=' + encodeURIComponent( JSON.stringify( this.state )).replace( /\%20/g, '+' ));
                 }
+
                 componentWillMount() {
                     function getQueryParams(qs) {
                         qs = qs.split('+').join(' ');
@@ -148,14 +170,46 @@
                         }
                         return params;
                     }
-                    let stateParam = getQueryParams(window.location.search).state;
-                    if ( !stateParam ) return;
-                    let s = JSON.parse( stateParam );
-                    console.info( 'componentWillMount: restoring state:', s );
-                    this.setState( s );
+                    const queryParams = getQueryParams(window.location.search);
+                    if ( queryParams.state ) {
+                        // depracated old state format
+                        let s = JSON.parse( queryParams.state );
+                        console.info( 'componentWillMount: restoring state:', s );
+                        this.setState( s );
+                        setTimeout( () => this.componentDidUpdate( null, null ), 0);
+                    } else {
+                        for( var k in queryParams ) {
+                            this.setObjKeyVal( this.state, k.split('.'), queryParams[k] );
+                        }
+                        this.setState( this.state );
+                        console.info( 'componentWillMount: restored state:', this.state );
+                    }
+                }
+                setObjKeyVal( prevState, propKey, newVal ) {
+                    newVal = (newVal == parseFloat(newVal)) ? parseFloat(newVal) : newVal;
+                    let leaf = propKey.slice(0,-1).reduce(
+                        ( childState, key ) => {
+                            if( childState[key] === undefined ) {
+                                return childState[key] = {};
+                            }
+                            return childState[key];
+                    }, prevState );
+                    const oldVal = leaf[propKey[propKey.length-1]];
+                    leaf[propKey[propKey.length-1]] = newVal;
+                    if (newVal === undefined) {
+                        delete leaf[propKey[propKey.length-1]];
+                    }
+                    return oldVal;
+                }
+                setStateByKey( propKey, newVal ) {
+                    this.setState( (prevState, setProps) => {
+                        const oldVal = this.setObjKeyVal( prevState, propKey, newVal );
+                        console.log('setState', prevState, setProps, propKey, newVal,
+                            'of oldVal:',oldVal);
+                        return prevState;
+                    } );
                 }
                 handleChange(propKey) {
-                    //console.log('creating handleChange for '+propKey+':', propKey);
                     return (e) => {
                         const evval = e.target.type === 'checkbox' ? e.target.checked
                             : e.target.value;
@@ -165,23 +219,7 @@
                             !isNaN(Number(evval)) ? Number(evval) :
                             evval;
                         // console.log('handleChange event', propKey, newVal, evval, e.target);
-                        this.setState( (prevState, setProps) => {
-                            let leaf = propKey.slice(0,-1).reduce(
-                                ( childState, key ) => {
-                                    if( childState[key] === undefined ) {
-                                        return childState[key] = {};
-                                    }
-                                    return childState[key];
-                            }, prevState );
-                            const oldVal = leaf[propKey[propKey.length-1]];
-                            console.log('setState', prevState, setProps, propKey, newVal,
-                                'of oldVal:',oldVal);
-                            leaf[propKey[propKey.length-1]] = newVal;
-                            if (newVal === undefined) {
-                                delete leaf[propKey[propKey.length-1]];
-                            }
-                            return prevState;
-                        } );
+                        this.setStateByKey( propKey, newVal );
                     };
                 }
                 getState(propKey, defaultTo) {
@@ -1073,7 +1111,7 @@
         </script>
     </head>
     <body>
-        <div id="root"></div>
+        <div id="root">Loading/failed to load?</div>
         <script type="text/babel">
             ReactDOM.render( <App />, document.getElementById('root'));
         </script>
