@@ -8,6 +8,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.8/react-bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/recompose/0.23.1/Recompose.min.js" integrity="sha256-XDhSiYRiccAHw3isP5XYFAFZXetrB0/7K1WtlhlfoyM=" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
@@ -114,7 +115,8 @@
         </style>
 
         <script type="text/babel">
-            const { Glyphicon, Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button} = ReactBootstrap
+            const { Glyphicon, Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button} = ReactBootstrap;
+            const { pure, compose, onlyUpdateForKeys  } = Recompose;
             const STATS = ['STR','DEX','CON', 'INT','WIS','CHA'];
             const STAT_TYPES = ['base','enhance','misc','temp'];
             const CLASSES = ['class1','class2','class3','class4','class5'];
@@ -123,9 +125,9 @@
             class App extends React.Component {
                 constructor(props) {
                     super(props);
-                    this.state = {info:{size:0}, prevChangeWasToKey: ''};
+                    this.state = {stat:{}, info:{size:0}, prevChangeWasToKey: ''};
                     STATS.map( (stat) => {
-                        this.state[stat] = { 'base': 10 };
+                        this.state.stat[stat] = { 'base': 10 };
                     });
                     this.prevHistoryPushWasWithKey;
                     this.isLoading = false;
@@ -177,11 +179,15 @@
                 }
 
                 componentWillMount() {
+                    function convertKey(k) {
+                        if( STATS.indexOf( k.split('.')[0] )>-1 ) return 'stat.'+k;
+                        return k;
+                    }
                     function getQueryParams(qs) {
                         qs = qs.split('+').join(' ');
                         var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
                         while (tokens = re.exec(qs)) {
-                            params[decodeURIComponent(tokens[1])] =
+                            params[ convertKey( decodeURIComponent(tokens[1]) ) ] =
                                 decodeURIComponent(tokens[2]);
                         }
                         return params;
@@ -276,7 +282,7 @@
                     if (STATS.indexOf(ability) == -1) return NaN;
                     return STAT_TYPES.reduce(
                         (sum,type) =>
-                            sum + parseInt(this.getState([ability,type])||0), 0);
+                            sum + parseInt(this.getState(['stat',ability,type])||0), 0);
                 }
                 getAbilityMod(ability) {
                     return Math.round((this.getAbilityTotal(ability)-11)/2);
@@ -371,7 +377,7 @@
                         <ArmorTable {...this.fn}/>
                         </Col>
                         <Col md={5}>
-                            <SkillTable {...this.fn}/>
+                            <SkillTable {...this.fn} {...this.state} />
                         </Col>
                         <Col xs={12}>
                             <WeaponTable {...this.fn}/>
@@ -471,9 +477,9 @@
 
             function StatRow(props) {
                 const ability=props.ability;
-                //console.log('row base for '+ability+':', props.getState([ability,'base']);
+                //console.log('row base for '+ability+':', props.getState(['stat',ability,'base']);
                 const abilityFields = STAT_TYPES.map( (type) =>
-                    <td><TextField {...props} propKey={[ability,type]} /></td>
+                    <td><TextField {...props} propKey={['stat',ability,type]} /></td>
                 );
                 return (
                 <tr>
@@ -1054,7 +1060,10 @@
                     <td><small><TextField {...props} propKey={[...propKey,'temp']}/></small></td>
                 </tr>);
             }
-            function SkillTable(props) {
+            const SkillTable = compose(
+                onlyUpdateForKeys(['skill', 'stat', ...CLASSES]),
+                pure
+            )(props => {
                 const SKILL_ABILITIES = ['DEX', 'INT', 'CHA', 'STR', 'INT', 'CHA',
                     'DEX', 'CHA', 'DEX', 'DEX', 'CHA', 'WIS', 'CHA', 'INT', 'INT',
                     'WIS', 'CHA', 'WIS', 'DEX', 'WIS', 'DEX', 'INT', 'DEX', 'WIS',
@@ -1135,7 +1144,7 @@
                     </tbody>
                     </Table>
                 );
-            }
+            });
         </script>
         <script type="text/javascript">
             function isEmpty(object) {
