@@ -129,7 +129,7 @@
             class App extends React.Component {
                 constructor(props) {
                     super(props);
-                    this.state = {stat:{ size:0 }, prevChangeWasToKey: ''};
+                    this.state = {stat:{ size:0 }, note:{}, prevChangeWasToKey: ''};
                     STATS.map( (stat) => {
                         this.state.stat[stat] = { 'base': 10 };
                     });
@@ -310,7 +310,7 @@
                                 <AbilityTable {...this.fn} {...this.state} />
                             </Col>
                             <Col xs={4} sm={3} className="note-col">
-                                <NoteArea {...this.fn} noteKey="ability" />
+                                <NoteArea {...this.fn} noteKey="ability" val={this.state.note.ability} />
                             </Col>
                         </Row>
                         </Col>
@@ -368,7 +368,7 @@
                                 <SaveTable {...this.fn}/>
                             </Col>
                             <Col xs={4} className="note-col">
-                                <NoteArea {...this.fn} noteKey="save" />
+                                <NoteArea {...this.fn} noteKey="save" val={this.state.note.save} />
                             </Col>
                         </Row>
                         <Row>
@@ -376,7 +376,7 @@
                                 <AttackTable {...this.fn}/>
                             </Col>
                             <Col xs={4} className="note-col">
-                                <NoteArea {...this.fn} noteKey="attack" />
+                                <NoteArea {...this.fn} noteKey="attack" val={this.state.note.attack} />
                             </Col>
                         </Row>
                         <ArmorTable {...this.fn}/>
@@ -390,18 +390,18 @@
                         </Row>
                         <Row>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.fn} noteKey="feat" />
+                                <NoteArea {...this.fn} noteKey="feat" val={this.state.note.feat} />
                             </Col>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.fn} noteKey="character" />
+                                <NoteArea {...this.fn} noteKey="character" val={this.state.note.character} />
                             </Col>
                         </Row>
                         <Row>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.fn} noteKey="special" />
+                                <NoteArea {...this.fn} noteKey="special" val={this.state.note.special} />
                             </Col>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.fn} noteKey="equipment" />
+                                <NoteArea {...this.fn} noteKey="equipment" val={this.state.note.equipment} />
                             </Col>
                         </Row>
                     </Form>
@@ -536,7 +536,8 @@
                 />
                 );
             }
-            function NoteArea(props) {
+
+            const NoteArea = pure(props => {
                 const noteKey = props.noteKey;
                 return (
                     <FormGroup controlId={noteKey+"-note"}>
@@ -547,7 +548,8 @@
                         placeholder={noteKey+" notes"} />
                     </FormGroup>
                 );
-            }
+            });
+
             function NoPrintAbbr(props) {
                 return (
                     <span>
