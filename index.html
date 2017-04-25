@@ -123,10 +123,12 @@
             class App extends React.Component {
                 constructor(props) {
                     super(props);
-                    this.state = {info:{size:0}};
+                    this.state = {info:{size:0}, prevChangeWasToKey: ''};
                     STATS.map( (stat) => {
                         this.state[stat] = { 'base': 10 };
                     });
+                    this.prevHistoryPushWasWithKey;
+                    this.isLoading = false;
                     this.fn = {};
                     this.fn.handleChange =  this.handleChange.bind(this);
                     this.fn.getState = this.getState.bind(this);
@@ -157,7 +159,20 @@
                     for (var k in result) {
                         qp += "&" + k + "=" + encodeURIComponent( result[k] );
                     }
-                    history.pushState('', '', '?' + qp.slice(1).replace( /\%20/g, '+' ));
+                    const title = this.getState(['info','character'])
+                        + '(lvl' + this.getClassTypeTotal('levels') + '): '
+                        + this.state.prevChangeWasToKey;
+                    if( !this.isLoading ) { // push no state while loading
+                        if ( ''+this.prevHistoryPushWasWithKey == ''+this.state.prevChangeWasToKey ) {
+                            console.debug('history.replaceState', title);
+                            history.replaceState(this.state , title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
+                        } else {
+                            console.debug('history.pushState', title);
+                            history.pushState(this.state, title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
+                            this.prevHistoryPushWasWithKey = this.state.prevChangeWasToKey;
+                        }
+                    }
+                    document.title = title;
                     // history.pushState('', '', '?state=' + encodeURIComponent( JSON.stringify( this.state )).replace( /\%20/g, '+' ));
                 }
 
@@ -176,38 +191,64 @@
                         // depracated old state format
                         let s = JSON.parse( queryParams.state );
                         console.info( 'componentWillMount: restoring state:', s );
+                        this.isLoading = false;
                         this.setState( s );
-                        setTimeout( () => this.componentDidUpdate( null, null ), 0);
                     } else {
-                        for( var k in queryParams ) {
-                            this.setObjKeyVal( this.state, k.split('.'), queryParams[k] );
-                        }
-                        this.setState( this.state );
-                        console.info( 'componentWillMount: restored state:', this.state );
+                        this.isLoading = true;
+                        this.setState( (ps, pp) => {
+                            for( var k in queryParams ) {
+                                    this.setStateByKey( k.split('.'), queryParams[k] );
+                            }
+                            console.info( 'componentWillMount: restored state:', this.state );
+                        });
                     }
+                    setTimeout( () => {
+                        console.debug('loading complete');
+                        this.state.prevChangeWasToKey = ["url loaded"];
+                        this.componentDidUpdate( null, null );
+                        this.isLoading = false;
+                    }, 1000);
                 }
-                setObjKeyVal( prevState, propKey, newVal ) {
+
+                restoreState(event) {
+                    console.log( 'popstate: restoring state', event.state );
+                    this.isLoading = true;
+                    this.setState( event.state );
+                    this.isLoading = false;
+                    this.forceUpdate();
+                    console.debug('state restored:', this.state );
+                }
+
+                componentDidMount() {
+                    window.onpopstate = event => this.restoreState(event);
+                }
+
+                withPropKeyValue( prevState, propKey, newVal ) {
                     newVal = (newVal == parseFloat(newVal)) ? parseFloat(newVal) : newVal;
+                    const newState = {};
+                    let newLeaf = newState;
                     let leaf = propKey.slice(0,-1).reduce(
                         ( childState, key ) => {
                             if( childState[key] === undefined ) {
-                                return childState[key] = {};
+                                return newLeaf = newLeaf[key] = {};
                             }
+                            newLeaf = newLeaf[key] = {...childState[key]};
                             return childState[key];
-                    }, prevState );
+                        }, prevState );
                     const oldVal = leaf[propKey[propKey.length-1]];
-                    leaf[propKey[propKey.length-1]] = newVal;
+                    newLeaf[propKey[propKey.length-1]] = newVal;
                     if (newVal === undefined) {
-                        delete leaf[propKey[propKey.length-1]];
+                        delete newLeaf[propKey[propKey.length-1]];
                     }
-                    return oldVal;
+                    //console.debug('with', propKey, newLeaf, newState, 'was', oldVal);
+                    return newState;
                 }
                 setStateByKey( propKey, newVal ) {
                     this.setState( (prevState, setProps) => {
-                        const oldVal = this.setObjKeyVal( prevState, propKey, newVal );
-                        console.log('setState', prevState, setProps, propKey, newVal,
-                            'of oldVal:',oldVal);
-                        return prevState;
+                        const newState = this.withPropKeyValue( prevState, propKey, newVal );
+                        newState.prevChangeWasToKey = propKey;
+                        //console.log('setState', newState, propKey, newVal, 'of', prevState, setProps);
+                        return newState;
                     } );
                 }
                 handleChange(propKey) {
