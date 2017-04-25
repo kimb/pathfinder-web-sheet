@@ -182,6 +182,7 @@
                     function convertKey(k) {
                         if( STATS.indexOf( k.split('.')[0] )>-1 ) return 'stat.'+k;
                         if( k == 'info.size' ) return 'size';
+                        if( k.indexOf('info.init') == 0 ) return k.replace('info.init', 'init');
                         return k;
                     }
                     function getQueryParams(qs) {
@@ -599,11 +600,15 @@
                     </Table>
                 );
             }
-            function InitTable(props) {
+
+            const InitTable = compose(
+                onlyUpdateForKeys('init'),
+                pure
+            )(props => {
                 const initTotal = props.getAbilityMod('DEX')
-                    + props.getState(['info','init','enh'],0)
-                    + props.getState(['info','init','misc'],0)
-                    + props.getState(['info','init','temp'],0);
+                    + props.getState(['init','enh'],0)
+                    + props.getState(['init','misc'],0)
+                    + props.getState(['init','temp'],0);
                 return (
                     <Table condensed>
                     <thead>
@@ -621,18 +626,16 @@
                             <th className="active">Init</th>
                             <th className="success">{initTotal}</th>
                             <td>{props.getAbilityMod('DEX')}</td>
-                            <td><TextField {...props} propKey={['info','init','enh']} /></td>
-                            <td><TextField {...props} propKey={['info','init','misc']} /></td>
-                            <td><TextField {...props} propKey={['info','init','temp']} /></td>
+                            <td><TextField {...props} propKey={['init','enh']} /></td>
+                            <td><TextField {...props} propKey={['init','misc']} /></td>
+                            <td><TextField {...props} propKey={['init','temp']} /></td>
                         </tr>
                     </tbody>
                     </Table>
                 );
-            }
+            });
+
             function ResistanceTable(props) {
-                const initTotal = props.getAbilityMod('DEX')
-                    + props.getState(['info','init','misc'],0)
-                    + props.getState(['info','init','temp'],0);
                 return (
                     <Table condensed>
                     <tbody>
