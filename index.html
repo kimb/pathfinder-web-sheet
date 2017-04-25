@@ -220,9 +220,8 @@
                 restoreState(event) {
                     console.log( 'popstate: restoring state', event.state );
                     this.isLoading = true;
-                    this.setState( event.state );
+                    this.setState( event.state, () => this.isLoading = false );
                     this.forceUpdate();
-                    this.isLoading = false;
                     console.debug('state restored:', this.state );
                 }
 
