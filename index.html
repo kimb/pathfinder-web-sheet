@@ -331,11 +331,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <ClassRow {...this.fn} name="class1" />
-                                <ClassRow {...this.fn} name="class2" />
-                                <ClassRow {...this.fn} name="class3" />
-                                <ClassRow {...this.fn} name="class4" />
-                                <ClassRow {...this.fn} name="class5" />
+                                <ClassRow {...this.fn} name="class1" val={this.state.class1} />
+                                <ClassRow {...this.fn} name="class2" val={this.state.class2} />
+                                <ClassRow {...this.fn} name="class3" val={this.state.class3} />
+                                <ClassRow {...this.fn} name="class4" val={this.state.class4} />
+                                <ClassRow {...this.fn} name="class5" val={this.state.class5} />
                                 <tr>
                                     <th>Base totals</th>
                                     <td></td>
@@ -562,7 +562,9 @@
                     </span>
                 );
             }
-            function ClassRow(props) {
+
+            const ClassRow = pure(ClassRowImpl);
+            function ClassRowImpl(props) {
                 const rowName = props.name;
                 const classFields = CLASS_TYPES.map( (type) =>
                     <td><TextField {...props} propKey={[rowName,type]} /></td>
@@ -573,6 +575,7 @@
                 </tr>
                 );
             }
+
             function HPTable(props) {
                 const totalHP = props.getAbilityMod('CON')*props.getClassTypeTotal('levels')
                                 +props.getClassTypeTotal('hp');
