@@ -224,10 +224,8 @@
                     };
                 }
                 getState(propKey, defaultTo) {
-                    let value = this.state;
-                    propKey.map((key) => { value!==undefined ? value=value[key] : 0 });
-                    if( value === undefined ) return defaultTo;
-                    return value;
+                    return propKey.reduce((tree, key) =>
+                        typeof tree == 'object' && key in tree ? tree[key] : defaultTo, this.state );
                 }
                 getClassTypeTotal(type) {
                     return CLASSES.reduce( (sum, classN) =>
@@ -907,7 +905,7 @@
                         <td><TextField {...props} propKey={['weapon'+i,key]} /></td>
                     );
                     const row = <tr>{cells}</tr>;
-                    weaponRows = weaponRows.concat(row);
+                    weaponRows = [...weaponRows,row];
                 }
                 return (
                     <Table condensed>
@@ -965,11 +963,11 @@
             const SKILL_AC_PENALTY_ABILITIES = ['STR','DEX'];
             function CustomSkillRow(props) {
                 const {propKey} = props;
-                const abilityKey = propKey.concat('ability');
+                const abilityKey = [...propKey,'ability'];
                 const ability = props.getState(abilityKey);
                 const hasAcPenalty = SKILL_AC_PENALTY_ABILITIES.indexOf(ability) > -1;
                 const nameField = <span>
-                    <TextField {...props} propKey={propKey.concat('categ')} />
+                    <TextField {...props} propKey={[...propKey,'categ']} />
                     {hasAcPenalty ? "*" : ""}
                     </span>;
                 const abilityField = <SelectField {...props} propKey={abilityKey} options={STATS} />;
@@ -981,7 +979,7 @@
                 const hasAcPenalty = SKILL_AC_PENALTY_ABILITIES.indexOf(ability) > -1;
                 const dispName = name + (hasAcPenalty ? '*': '') + (hasCategory ? ': ': '');
                 const categoryField = hasCategory
-                        ? <TextField {...props} propKey={propKey.concat('categ')}/>
+                        ? <TextField {...props} propKey={[...propKey,'categ']}/>
                         : "";
                 const nameField = <span>{dispName}{categoryField}</span>;
                 return (<SkillRowBase {...props} nameField={nameField} ability={ability}
@@ -990,29 +988,29 @@
 
             function SkillRowBase(props) {
                 const {propKey,nameField,ability,abilityField,hasAcPenalty,isUntrainedUse} = props;
-                const ranks = props.getState(propKey.concat('ranks'));
-                const isClass = props.getState(propKey.concat('is-class'));
+                const ranks = props.getState([...propKey,'ranks']);
+                const isClass = props.getState([...propKey,'is-class']);
                 return (<tr>
                     <td className="skill-name">
-                        <CheckboxField {...props} propKey={propKey.concat('is-class')}>
+                        <CheckboxField {...props} propKey={[...propKey,'is-class']}>
                         <small>{nameField}</small></CheckboxField></td>
                     <td className="skill-ability"><small>{abilityField}</small></td>
                     <th className="success"><small>{
                         isUntrainedUse || ranks !== undefined ?
-                            props.getState(propKey.concat('ranks'),0)
+                            props.getState([...propKey,'ranks'],0)
                             + props.getAbilityMod(ability)
                             + (ranks>0 && isClass ? 3 : 0)
-                            + props.getState(propKey.concat('misc'),0)
-                            + props.getState(propKey.concat('temp'),0)
+                            + props.getState([...propKey,'misc'],0)
+                            + props.getState([...propKey,'temp'],0)
                             - (hasAcPenalty ? props.getState(['armor','skill-penalty'],0)
                                 + props.getState(['shield','skill-penalty'],0) : 0 )
                         : ""
                             }</small></th>
-                    <td><small><TextField {...props} propKey={propKey.concat('ranks')}/></small></td>
+                    <td><small><TextField {...props} propKey={[...propKey,'ranks']}/></small></td>
                     <td><small>{props.getAbilityMod(ability)}</small></td>
                     <td><small>{ranks>0 && isClass ? 3 : 0}</small></td>
-                    <td><small><TextField {...props} propKey={propKey.concat('misc')}/></small></td>
-                    <td><small><TextField {...props} propKey={propKey.concat('temp')}/></small></td>
+                    <td><small><TextField {...props} propKey={[...propKey,'misc']}/></small></td>
+                    <td><small><TextField {...props} propKey={[...propKey,'temp']}/></small></td>
                 </tr>);
             }
             function SkillTable(props) {
@@ -1118,7 +1116,7 @@
         </script>
     </head>
     <body>
-        <div id="root">Loading/failed to load?</div>
+        <div id="root">Failed to load? :(</div>
         <script type="text/babel">
             ReactDOM.render( <App />, document.getElementById('root'));
         </script>
