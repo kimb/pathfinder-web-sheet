@@ -317,39 +317,7 @@
                         </Row>
                         </Col>
                         <Col md={7}>
-                        <Table condensed>
-                            <thead>
-                                <tr>
-                                    <th className="class-name"><small>Classname</small></th>
-                                    <th><small>HD</small></th>
-                                    <th><small>HP</small></th>
-                                    <th><small>BAB</small></th>
-                                    <th><small>Skill</small></th>
-                                    <th><small>FORT</small></th>
-                                    <th><small>REF</small></th>
-                                    <th><small>WILL</small></th>
-                                    <th><small>Levels</small></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ClassRow {...this.fn} name="class1" val={this.state.class1} />
-                                <ClassRow {...this.fn} name="class2" val={this.state.class2} />
-                                <ClassRow {...this.fn} name="class3" val={this.state.class3} />
-                                <ClassRow {...this.fn} name="class4" val={this.state.class4} />
-                                <ClassRow {...this.fn} name="class5" val={this.state.class5} />
-                                <tr>
-                                    <th>Base totals</th>
-                                    <td></td>
-                                    <td>{this.getClassTypeTotal('hp')}</td>
-                                    <td>{this.getClassTypeTotal('bab')}</td>
-                                    <td>{this.getClassTypeTotal('skill')}</td>
-                                    <td>{this.getClassTypeTotal('fort')}</td>
-                                    <td>{this.getClassTypeTotal('ref')}</td>
-                                    <td>{this.getClassTypeTotal('will')}</td>
-                                    <td>{this.getClassTypeTotal('levels')}</td>
-                                </tr>
-                            </tbody>
-                        </Table>
+                        <ClassTable {...this.fn} {...this.state} />
                         </Col>
                         </Row>
                         <Row>
@@ -500,7 +468,6 @@
                 );
             }
 
-
             const AbilityTable = compose(
                 onlyUpdateForKeys(['stat']), pure)(AbilityTableImpl);
             function AbilityTableImpl(props) {
@@ -573,6 +540,46 @@
                 <tr>
                     {classFields}
                 </tr>
+                );
+            }
+
+            const ClassTable = compose(
+                onlyUpdateForKeys([...CLASSES]), pure)(ClassTableImpl);
+            function ClassTableImpl(props) {
+                return (
+                    <Table condensed>
+                        <thead>
+                            <tr>
+                                <th className="class-name"><small>Classname</small></th>
+                                <th><small>HD</small></th>
+                                <th><small>HP</small></th>
+                                <th><small>BAB</small></th>
+                                <th><small>Skill</small></th>
+                                <th><small>FORT</small></th>
+                                <th><small>REF</small></th>
+                                <th><small>WILL</small></th>
+                                <th><small>Levels</small></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <ClassRow {...props} name="class1" val={props.class1} />
+                            <ClassRow {...props} name="class2" val={props.class2} />
+                            <ClassRow {...props} name="class3" val={props.class3} />
+                            <ClassRow {...props} name="class4" val={props.class4} />
+                            <ClassRow {...props} name="class5" val={props.class5} />
+                            <tr>
+                                <th>Base totals</th>
+                                <td></td>
+                                <td>{props.getClassTypeTotal('hp')}</td>
+                                <td>{props.getClassTypeTotal('bab')}</td>
+                                <td>{props.getClassTypeTotal('skill')}</td>
+                                <td>{props.getClassTypeTotal('fort')}</td>
+                                <td>{props.getClassTypeTotal('ref')}</td>
+                                <td>{props.getClassTypeTotal('will')}</td>
+                                <td>{props.getClassTypeTotal('levels')}</td>
+                            </tr>
+                        </tbody>
+                    </Table>
                 );
             }
 
