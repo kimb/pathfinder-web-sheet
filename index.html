@@ -302,7 +302,7 @@
                     return (
                     <Grid fluid>
                     <Form>
-                        <InfoRow {...this.fn} />
+                        <InfoRow {...this.fn} {...this.state} />
                         <Row>
                         <Col md={5}>
                         <Row>
@@ -451,7 +451,10 @@
                 );
             }
 
-            function InfoRow(props) {
+            const InfoRow = compose(
+                onlyUpdateForKeys(['info','stat']),
+                pure
+            )(props => {
                 return (
                     <Row>
                     <InfoField {...props} propKey="Character" xs={7} sm={6}/>
@@ -478,7 +481,7 @@
                     <InfoField {...props} propKey="Languages" sm={12}/>
                     </Row>
                 );
-            }
+            });
 
             function StatRow(props) {
                 const ability=props.ability;
