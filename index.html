@@ -453,9 +453,8 @@
             }
 
             const InfoRow = compose(
-                onlyUpdateForKeys(['info','stat']),
-                pure
-            )(props => {
+                onlyUpdateForKeys(['info','stat']), pure)(InfoRowImpl);
+            function InfoRowImpl(props) {
                 return (
                     <Row>
                     <InfoField {...props} propKey="Character" xs={7} sm={6}/>
@@ -482,7 +481,7 @@
                     <InfoField {...props} propKey="Languages" sm={12}/>
                     </Row>
                 );
-            });
+            }
 
             function StatRow(props) {
                 const ability=props.ability;
@@ -502,9 +501,8 @@
 
 
             const AbilityTable = compose(
-                onlyUpdateForKeys(['stat']),
-                pure
-            )( props => {
+                onlyUpdateForKeys(['stat']), pure)(AbilityTableImpl);
+            function AbilityTableImpl(props) {
                 return (
                 <Table condensed>
                     <thead>
@@ -528,7 +526,7 @@
                     </tbody>
                 </Table>
                 );
-            });
+            }
 
             function TextField(props) {
                 //console.debug(props.propKey, props.getState(props.propKey));
@@ -541,7 +539,8 @@
                 );
             }
 
-            const NoteArea = pure(props => {
+            const NoteArea = pure(NoteAreaImpl);
+            function NoteAreaImpl(props) {
                 const noteKey = props.noteKey;
                 return (
                     <FormGroup controlId={noteKey+"-note"}>
@@ -552,7 +551,7 @@
                         placeholder={noteKey+" notes"} />
                     </FormGroup>
                 );
-            });
+            }
 
             function NoPrintAbbr(props) {
                 return (
@@ -615,9 +614,8 @@
             }
 
             const InitTable = compose(
-                onlyUpdateForKeys('init'),
-                pure
-            )(props => {
+                onlyUpdateForKeys('init'), pure)(InitTableImpl);
+            function InitTableImpl(props) {
                 const initTotal = props.getAbilityMod('DEX')
                     + props.getState(['init','enh'],0)
                     + props.getState(['init','misc'],0)
@@ -646,7 +644,7 @@
                     </tbody>
                     </Table>
                 );
-            });
+            }
 
             function ResistanceTable(props) {
                 return (
@@ -700,10 +698,10 @@
                     </Table>
                 );
             }
+
             const ACTable = compose(
-                onlyUpdateForKeys(['stat','armor','shield','ac']),
-                pure
-            )(props => {
+                onlyUpdateForKeys(['stat','armor','shield','ac']), pure)(ACTableImpl);
+            function ACTableImpl(props) {
                 return (
                     <Table condensed>
                     <thead>
@@ -795,7 +793,7 @@
                     </tbody>
                     </Table>
                 );
-            });
+            }
 
             function SaveTableRow(props) {
                 return (
@@ -975,9 +973,8 @@
             }
 
             const WeaponTable = compose(
-                onlyUpdateForKeys(WEAPONS),
-                pure
-            )(props => {
+                onlyUpdateForKeys(WEAPONS), pure)(WeaponTableImpl);
+            function WeaponTableImpl(props) {
                 const weaponKeys = ['desc','bonus','dmg','crit',
                     'range','type','weight','note'];
                 let weaponRows = [];
@@ -1010,7 +1007,7 @@
                     </tbody>
                     </Table>
                 );
-            });
+            }
 
             function CheckboxField(props) {
                 const {propKey} = props;
@@ -1097,9 +1094,8 @@
                 </tr>);
             }
             const SkillTable = compose(
-                onlyUpdateForKeys(['skill', 'stat', ...CLASSES]),
-                pure
-            )(props => {
+                onlyUpdateForKeys(['skill', 'stat', ...CLASSES]), pure)(SkillTableImpl);
+            function SkillTableImpl(props) {
                 const SKILL_ABILITIES = ['DEX', 'INT', 'CHA', 'STR', 'INT', 'CHA',
                     'DEX', 'CHA', 'DEX', 'DEX', 'CHA', 'WIS', 'CHA', 'INT', 'INT',
                     'WIS', 'CHA', 'WIS', 'DEX', 'WIS', 'DEX', 'INT', 'DEX', 'WIS',
@@ -1180,8 +1176,9 @@
                     </tbody>
                     </Table>
                 );
-            });
+            }
         </script>
+
         <script type="text/javascript">
             function isEmpty(object) {
                 return object == null ||
