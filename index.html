@@ -125,6 +125,7 @@
                 'weapon6','weapon7','weapon8','weapon9','weapon10',
                 'weapon11','weapon12','weapon13','weapon14','weapon15',
                 'weapon16','weapon17','weapon18','weapon19','weapon20'];
+            const SAVES = ['fort','ref','will'];
 
             class App extends React.Component {
                 constructor(props) {
@@ -365,7 +366,7 @@
                         <ACTable {...this.fn} {...this.state}/>
                         <Row>
                             <Col xs={8}>
-                                <SaveTable {...this.fn}/>
+                                <SaveTable {...this.fn} {...this.state}/>
                             </Col>
                             <Col xs={4} className="note-col">
                                 <NoteArea {...this.fn} noteKey="save" val={this.state.note.save} />
@@ -811,7 +812,10 @@
                     </tr>
                 );
             }
-            function SaveTable(props) {
+
+            const SaveTable = compose(
+                onlyUpdateForKeys([...SAVES,'stat']), pure)(SaveTableImpl);
+            function SaveTableImpl(props) {
                 return (
                     <Table condensed>
                     <thead>
