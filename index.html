@@ -125,7 +125,7 @@
             class App extends React.Component {
                 constructor(props) {
                     super(props);
-                    this.state = {stat:{}, info:{size:0}, prevChangeWasToKey: ''};
+                    this.state = {stat:{ size:0 }, prevChangeWasToKey: ''};
                     STATS.map( (stat) => {
                         this.state.stat[stat] = { 'base': 10 };
                     });
@@ -181,6 +181,7 @@
                 componentWillMount() {
                     function convertKey(k) {
                         if( STATS.indexOf( k.split('.')[0] )>-1 ) return 'stat.'+k;
+                        if( k == 'info.size' ) return 'size';
                         return k;
                     }
                     function getQueryParams(qs) {
@@ -302,7 +303,7 @@
                         <Col md={5}>
                         <Row>
                             <Col xs={8} sm={9}>
-                                <AbilityTable {...this.fn} />
+                                <AbilityTable {...this.fn} {...this.state} />
                             </Col>
                             <Col xs={4} sm={3} className="note-col">
                                 <NoteArea {...this.fn} noteKey="ability" />
@@ -357,7 +358,7 @@
                                 <HPTable {...this.fn}/>
                             </Col>
                         </Row>
-                        <ACTable {...this.fn}/>
+                        <ACTable {...this.fn} {...this.state}/>
                         <Row>
                             <Col xs={8}>
                                 <SaveTable {...this.fn}/>
@@ -429,12 +430,12 @@
                     ,'Large','Huge','Gargantuan','Colossal'].map( (sizeName,index) =>
                     <option value={sizeValues[index]}>
                         {sizeName+': '+sizeValues[index]}</option> );
-                const statePropKey = ['info', props.propKey.toLowerCase()];
+                const statePropKey = ['stat', 'size'];
                 return (
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
                 <FormGroup controlId={statePropKey.join('-')} bsSize="sm">
                 <ControlLabel>
-                <small>{props.propKey}</small>
+                <small>Size</small>
                 </ControlLabel>
                 <FormControl componentClass="select"
                     value={props.getState(statePropKey)}
@@ -459,7 +460,7 @@
                             dy.fi</Button>
                     </Col>
                     <InfoField {...props} propKey="Race" sm={2}/>
-                    <SizeField {...props} propKey="Size" sm={2}/>
+                    <SizeField {...props} sm={2}/>
                     <InfoField {...props} propKey="Gender" sm={1}/>
                     <InfoField {...props} propKey="Height" sm={1}/>
                     <InfoField {...props} propKey="Weight" sm={1}/>
@@ -491,7 +492,11 @@
                 );
             }
 
-            function AbilityTable(props) {
+
+            const AbilityTable = compose(
+                onlyUpdateForKeys(['stat']),
+                pure
+            )( props => {
                 return (
                 <Table condensed>
                     <thead>
@@ -515,7 +520,7 @@
                     </tbody>
                 </Table>
                 );
-            }
+            });
 
             function TextField(props) {
                 //console.debug(props.propKey, props.getState(props.propKey));
@@ -680,7 +685,10 @@
                     </Table>
                 );
             }
-            function ACTable(props) {
+            const ACTable = compose(
+                onlyUpdateForKeys(['stat','armor','shield','ac']),
+                pure
+            )(props => {
                 return (
                     <Table condensed>
                     <thead>
@@ -707,7 +715,7 @@
                                 +props.getState(['armor','ac'],0)
                                 +props.getState(['shield','ac'],0)
                                 +props.getArmorLimitedDex()
-                                +props.getState(['info','size'],0)
+                                +props.getState(['stat','size'],0)
                                 +props.getState(['ac','dodge'],0)
                                 +props.getState(['ac','natural'],0)
                                 +props.getState(['ac','deflect'],0)
@@ -718,7 +726,7 @@
                             <td>{props.getState(['armor','ac'],'')}</td>
                             <td>{props.getState(['shield','ac'],'')}</td>
                             <td>{props.getArmorLimitedDex()}</td>
-                            <td>{props.getState(['info','size'],'')}</td>
+                            <td>{props.getState(['stat','size'],'')}</td>
                             <td><TextField {...props} propKey={['ac','dodge']} /></td>
                             <td><TextField {...props} propKey={['ac','natural']} /></td>
                             <td><TextField {...props} propKey={['ac','deflect']} /></td>
@@ -729,7 +737,7 @@
                             <th className="active">Touch</th>
                             <th className="success">
                                 {10+props.getArmorLimitedDex()
-                                +props.getState(['info','size'],0)
+                                +props.getState(['stat','size'],0)
                                 +props.getState(['ac','dodge'],0)
                                 +props.getState(['ac','deflect'],0)
                                 +props.getState(['ac','touch-misc'],0)
@@ -739,7 +747,7 @@
                             <td>-</td>
                             <td>-</td>
                             <td>{props.getArmorLimitedDex()}</td>
-                            <td>{props.getState(['info','size'],'')}</td>
+                            <td>{props.getState(['stat','size'],'')}</td>
                             <td>{props.getState(['ac','dodge'],'')}</td>
                             <td>-</td>
                             <td>{props.getState(['ac','deflect'],'')}</td>
@@ -752,7 +760,7 @@
                                 {10
                                 +props.getState(['armor','ac'],0)
                                 +props.getState(['shield','ac'],0)
-                                +props.getState(['info','size'],0)
+                                +props.getState(['stat','size'],0)
                                 +props.getState(['ac','natural'],0)
                                 +props.getState(['ac','deflect'],0)
                                 +props.getState(['ac','ff-misc'],0)
@@ -762,7 +770,7 @@
                             <td>{props.getState(['armor','ac'],'')}</td>
                             <td>{props.getState(['shield','ac'],'')}</td>
                             <td>-</td>
-                            <td>{props.getState(['info','size'],'')}</td>
+                            <td>{props.getState(['stat','size'],'')}</td>
                             <td>-</td>
                             <td>{props.getState(['ac','natural'],'')}</td>
                             <td>{props.getState(['ac','deflect'],'')}</td>
@@ -772,7 +780,8 @@
                     </tbody>
                     </Table>
                 );
-            }
+            });
+
             function SaveTableRow(props) {
                 return (
                     <tr>
@@ -818,7 +827,7 @@
             function AttackTable(props) {
                 const strMod = props.getAbilityMod('STR');
                 const dexMod = props.getAbilityMod('DEX');
-                const sizeMod = props.getState(['info','size'],0);
+                const sizeMod = props.getState(['stat','size'],0);
                 const cmbAbilityMod = sizeMod < 2 ? strMod : dexMod;
                 const attackRows = [
                         {name: 'melee', ability: strMod, size: sizeMod}
