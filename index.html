@@ -373,7 +373,7 @@
                         </Row>
                         <Row>
                             <Col xs={8}>
-                                <AttackTable {...this.fn}/>
+                                <AttackTable {...this.fn} {...this.state} />
                             </Col>
                             <Col xs={4} className="note-col">
                                 <NoteArea {...this.fn} noteKey="attack" val={this.state.note.attack} />
@@ -835,7 +835,10 @@
                     </Table>
                 );
             }
-            function AttackTable(props) {
+
+            const AttackTable = compose(
+                onlyUpdateForKeys([...CLASSES, 'stat']), pure)(AttackTableImpl);
+            function AttackTableImpl(props) {
                 const strMod = props.getAbilityMod('STR');
                 const dexMod = props.getAbilityMod('DEX');
                 const sizeMod = props.getState(['stat','size'],0);
@@ -924,6 +927,7 @@
                     </Table>
                 );
             }
+
             function ArmorTable(props) {
                 const armorKeys = ['desc','ac','max-dex','skill-penalty',
                     'spell-fail','type','weight'];
