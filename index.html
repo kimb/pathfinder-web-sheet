@@ -127,12 +127,13 @@
                     STATS.map( (stat) => {
                         this.state[stat] = { 'base': 10 };
                     });
-                    this.state.handleChange = this.handleChange.bind(this);
-                    this.state.getState = this.getState.bind(this);
-                    this.state.getClassTypeTotal = this.getClassTypeTotal.bind(this);
-                    this.state.getAbilityTotal = this.getAbilityTotal.bind(this);
-                    this.state.getAbilityMod = this.getAbilityMod.bind(this);
-                    this.state.getArmorLimitedDex = this.getArmorLimitedDex.bind(this);
+                    this.fn = {};
+                    this.fn.handleChange =  this.handleChange.bind(this);
+                    this.fn.getState = this.getState.bind(this);
+                    this.fn.getClassTypeTotal = this.getClassTypeTotal.bind(this);
+                    this.fn.getAbilityTotal = this.getAbilityTotal.bind(this);
+                    this.fn.getAbilityMod = this.getAbilityMod.bind(this);
+                    this.fn.getArmorLimitedDex = this.getArmorLimitedDex.bind(this);
                 }
                 componentDidUpdate(prevProps, prevState) {
                     let result = {};
@@ -251,38 +252,15 @@
                     return (
                     <Grid fluid>
                     <Form>
-                        <Row>
-                        <InfoField {...this.state} propKey="Character" xs={7} sm={6}/>
-                        <InfoField {...this.state} propKey="Player" xs={3} sm={5}/>
-                        <Col xs={2} sm={1}>
-                            <div><small>Minify<span className="hidden-xs"> URL</span></small></div>
-                            <Button
-                                bsStyle="info" target="_blank"
-                                href="javascript:window.open('http://www.dy.fi/?c=redir_add&bml=1&url='+encodeURIComponent(location.href), '_blank')">
-                                dy.fi</Button>
-                        </Col>
-                        <InfoField {...this.state} propKey="Race" sm={2}/>
-                        <SizeField {...this.state} propKey="Size" sm={2}/>
-                        <InfoField {...this.state} propKey="Gender" sm={1}/>
-                        <InfoField {...this.state} propKey="Height" sm={1}/>
-                        <InfoField {...this.state} propKey="Weight" sm={1}/>
-                        <InfoField {...this.state} propKey="Hair" sm={2}/>
-                        <InfoField {...this.state} propKey="Eyes" sm={1}/>
-                        <InfoField {...this.state} propKey="Skin" sm={1}/>
-                        <InfoField {...this.state} propKey="Age" sm={1}/>
-                        <InfoField {...this.state} propKey="Alignment" sm={2}/>
-                        <InfoField {...this.state} propKey="Deity" sm={3}/>
-                        <InfoField {...this.state} propKey="Homeland and occupation" sm={7}/>
-                        <InfoField {...this.state} propKey="Languages" sm={12}/>
-                        </Row>
+                        <InfoRow {...this.fn} />
                         <Row>
                         <Col md={5}>
                         <Row>
                             <Col xs={8} sm={9}>
-                                <AbilityTable {...this.state} />
+                                <AbilityTable {...this.fn} />
                             </Col>
                             <Col xs={4} sm={3} className="note-col">
-                                <NoteArea {...this.state} noteKey="ability" />
+                                <NoteArea {...this.fn} noteKey="ability" />
                             </Col>
                         </Row>
                         </Col>
@@ -302,11 +280,11 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <ClassRow {...this.state} name="class1" />
-                                <ClassRow {...this.state} name="class2" />
-                                <ClassRow {...this.state} name="class3" />
-                                <ClassRow {...this.state} name="class4" />
-                                <ClassRow {...this.state} name="class5" />
+                                <ClassRow {...this.fn} name="class1" />
+                                <ClassRow {...this.fn} name="class2" />
+                                <ClassRow {...this.fn} name="class3" />
+                                <ClassRow {...this.fn} name="class4" />
+                                <ClassRow {...this.fn} name="class5" />
                                 <tr>
                                     <th>Base totals</th>
                                     <td></td>
@@ -324,56 +302,56 @@
                         </Row>
                         <Row>
                         <Col md={7}>
-                        <SpeedTable {...this.state}/>
+                        <SpeedTable {...this.fn}/>
                             <Row>
                             <Col xs={7}>
-                                <InitTable {...this.state}/>
-                                <ResistanceTable {...this.state}/>
+                                <InitTable {...this.fn}/>
+                                <ResistanceTable {...this.fn}/>
                             </Col>
                             <Col xs={5}>
-                                <HPTable {...this.state}/>
+                                <HPTable {...this.fn}/>
                             </Col>
                         </Row>
-                        <ACTable {...this.state}/>
+                        <ACTable {...this.fn}/>
                         <Row>
                             <Col xs={8}>
-                                <SaveTable {...this.state}/>
+                                <SaveTable {...this.fn}/>
                             </Col>
                             <Col xs={4} className="note-col">
-                                <NoteArea {...this.state} noteKey="save" />
+                                <NoteArea {...this.fn} noteKey="save" />
                             </Col>
                         </Row>
                         <Row>
                             <Col xs={8}>
-                                <AttackTable {...this.state}/>
+                                <AttackTable {...this.fn}/>
                             </Col>
                             <Col xs={4} className="note-col">
-                                <NoteArea {...this.state} noteKey="attack" />
+                                <NoteArea {...this.fn} noteKey="attack" />
                             </Col>
                         </Row>
-                        <ArmorTable {...this.state}/>
+                        <ArmorTable {...this.fn}/>
                         </Col>
                         <Col md={5}>
-                            <SkillTable {...this.state}/>
+                            <SkillTable {...this.fn}/>
                         </Col>
                         <Col xs={12}>
-                            <WeaponTable {...this.state}/>
+                            <WeaponTable {...this.fn}/>
                         </Col>
                         </Row>
                         <Row>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.state} noteKey="feat" />
+                                <NoteArea {...this.fn} noteKey="feat" />
                             </Col>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.state} noteKey="character" />
+                                <NoteArea {...this.fn} noteKey="character" />
                             </Col>
                         </Row>
                         <Row>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.state} noteKey="special" />
+                                <NoteArea {...this.fn} noteKey="special" />
                             </Col>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.state} noteKey="equipment" />
+                                <NoteArea {...this.fn} noteKey="equipment" />
                             </Col>
                         </Row>
                     </Form>
@@ -423,9 +401,38 @@
                 );
             }
 
+            function InfoRow(props) {
+                return (
+                    <Row>
+                    <InfoField {...props} propKey="Character" xs={7} sm={6}/>
+                    <InfoField {...props} propKey="Player" xs={3} sm={5}/>
+                    <Col xs={2} sm={1}>
+                        <div><small>Minify<span className="hidden-xs"> URL</span></small></div>
+                        <Button
+                            bsStyle="info" target="_blank"
+                            href="javascript:window.open('http://www.dy.fi/?c=redir_add&bml=1&url='+encodeURIComponent(location.href), '_blank')">
+                            dy.fi</Button>
+                    </Col>
+                    <InfoField {...props} propKey="Race" sm={2}/>
+                    <SizeField {...props} propKey="Size" sm={2}/>
+                    <InfoField {...props} propKey="Gender" sm={1}/>
+                    <InfoField {...props} propKey="Height" sm={1}/>
+                    <InfoField {...props} propKey="Weight" sm={1}/>
+                    <InfoField {...props} propKey="Hair" sm={2}/>
+                    <InfoField {...props} propKey="Eyes" sm={1}/>
+                    <InfoField {...props} propKey="Skin" sm={1}/>
+                    <InfoField {...props} propKey="Age" sm={1}/>
+                    <InfoField {...props} propKey="Alignment" sm={2}/>
+                    <InfoField {...props} propKey="Deity" sm={3}/>
+                    <InfoField {...props} propKey="Homeland and occupation" sm={7}/>
+                    <InfoField {...props} propKey="Languages" sm={12}/>
+                    </Row>
+                );
+            }
+
             function StatRow(props) {
                 const ability=props.ability;
-                //console.log('row base for '+ability+':', props[ability]['base']);
+                //console.log('row base for '+ability+':', props.getState([ability,'base']);
                 const abilityFields = STAT_TYPES.map( (type) =>
                     <td><TextField {...props} propKey={[ability,type]} /></td>
                 );
