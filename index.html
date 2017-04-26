@@ -189,6 +189,7 @@
                         if( STATS.indexOf( k.split('.')[0] )>-1 ) return 'stat.'+k;
                         if( k == 'info.size' ) return 'size';
                         if( k.indexOf('info.init') == 0 ) return k.replace('info.init', 'init');
+                        if( k.indexOf('info.speed') == 0 ) return k.replace('info.speed', 'speed');
                         return k;
                     }
                     function getQueryParams(qs) {
@@ -322,14 +323,14 @@
                         </Row>
                         <Row>
                         <Col md={7}>
-                        <SpeedTable {...this.fn}/>
+                            <SpeedTable {...this.fn} {...this.state} />
                             <Row>
                             <Col xs={7}>
-                                <InitTable {...this.fn}/>
-                                <ResistanceTable {...this.fn}/>
+                                <InitTable {...this.fn} {...this.state}/>
+                                <ResistanceTable {...this.fn} {...this.state}/>
                             </Col>
                             <Col xs={5}>
-                                <HPTable {...this.fn}/>
+                                <HPTable {...this.fn} {...this.state}/>
                             </Col>
                         </Row>
                         <ACTable {...this.fn} {...this.state}/>
@@ -583,7 +584,9 @@
                 );
             }
 
-            function HPTable(props) {
+            const HPTable = compose(
+                onlyUpdateForKeys(['hp', 'stat', ...CLASSES]), pure)(HPTableImpl);
+            function HPTableImpl(props) {
                 const totalHP = props.getAbilityMod('CON')*props.getClassTypeTotal('levels')
                                 +props.getClassTypeTotal('hp');
                 return (
@@ -622,7 +625,7 @@
             }
 
             const InitTable = compose(
-                onlyUpdateForKeys('init'), pure)(InitTableImpl);
+                onlyUpdateForKeys(['init']), pure)(InitTableImpl);
             function InitTableImpl(props) {
                 const initTotal = props.getAbilityMod('DEX')
                     + props.getState(['init','enh'],0)
@@ -654,7 +657,9 @@
                 );
             }
 
-            function ResistanceTable(props) {
+            const ResistanceTable = compose(
+                onlyUpdateForKeys(['info']), pure)(ResistanceTableImpl);
+            function ResistanceTableImpl(props) {
                 return (
                     <Table condensed>
                     <tbody>
@@ -672,7 +677,10 @@
                     </Table>
                 );
             }
-            function SpeedTable(props) {
+
+            const SpeedTable = compose(
+                onlyUpdateForKeys(['speed']), pure)(SpeedTableImpl);
+            function SpeedTableImpl(props) {
                 return (
                     <Table condensed>
                     <thead>
@@ -692,15 +700,15 @@
                     <tbody>
                         <tr>
                             <th className="active">Speed</th>
-                            <td><TextField {...props} propKey={['info','speed','land']} /></td>
-                            <td><TextField {...props} propKey={['info','speed','armored']} /></td>
-                            <td><TextField {...props} propKey={['info','speed','swim']} /></td>
-                            <td><TextField {...props} propKey={['info','speed','climb']} /></td>
-                            <td><TextField {...props} propKey={['info','speed','fly']} /></td>
-                            <td><TextField {...props} propKey={['info','speed','fly','manu']} /></td>
-                            <td><TextField {...props} propKey={['info','speed','burrow']} /></td>
-                            <td><TextField {...props} propKey={['info','speed','misc']} /></td>
-                            <td><TextField {...props} propKey={['info','speed','temp']} /></td>
+                            <td><TextField {...props} propKey={['speed','land']} /></td>
+                            <td><TextField {...props} propKey={['speed','armored']} /></td>
+                            <td><TextField {...props} propKey={['speed','swim']} /></td>
+                            <td><TextField {...props} propKey={['speed','climb']} /></td>
+                            <td><TextField {...props} propKey={['speed','fly']} /></td>
+                            <td><TextField {...props} propKey={['speed','fly','manu']} /></td>
+                            <td><TextField {...props} propKey={['speed','burrow']} /></td>
+                            <td><TextField {...props} propKey={['speed','misc']} /></td>
+                            <td><TextField {...props} propKey={['speed','temp']} /></td>
                         </tr>
                     </tbody>
                     </Table>
