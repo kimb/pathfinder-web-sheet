@@ -214,15 +214,13 @@
                             for( var k in queryParams ) {
                                     this.setStateByKey( k.split('.'), queryParams[k] );
                             }
+                        }, function() {
                             console.info( 'componentWillMount: restored state:', this.state );
+                            this.state.prevChangeWasToKey = ["url loaded"];
+                            this.componentDidUpdate( null, null );
+                            this.isLoading = false;
                         });
                     }
-                    setTimeout( () => {
-                        console.debug('loading complete');
-                        this.state.prevChangeWasToKey = ["url loaded"];
-                        this.componentDidUpdate( null, null );
-                        this.isLoading = false;
-                    }, 1000);
                 }
 
                 restoreState(event) {
