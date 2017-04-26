@@ -216,23 +216,27 @@
                             }
                         }, function() {
                             console.info( 'componentWillMount: restored state:', this.state );
-                            this.state.prevChangeWasToKey = ["url loaded"];
+                            this.state.prevChangeWasToKey = [""];
                             this.componentDidUpdate( null, null );
                             this.isLoading = false;
                         });
                     }
                 }
 
-                restoreState(event) {
-                    console.log( 'popstate: restoring state', event.state );
+                popstateRestore(event) {
+                    console.log( 'popstate: restoring state', event.state, 'from', event );
                     this.isLoading = true;
-                    this.setState( event.state, () => this.isLoading = false );
-                    this.forceUpdate();
-                    console.debug('state restored:', this.state );
+                    this.setState( event.state, () => {
+                        console.debug('popstate: forcing update');
+                        this.forceUpdate( () => {
+                            this.isLoading = false;
+                            console.debug('popstate: restoring state complete:', this.state );
+                        });
+                    });
                 }
 
                 componentDidMount() {
-                    window.onpopstate = event => this.restoreState(event);
+                    window.onpopstate = event => this.popstateRestore(event);
                 }
 
                 withPropKeyValue( prevState, propKey, newVal ) {
@@ -390,7 +394,7 @@
                 <small>{props.propKey}</small>
                 </ControlLabel>
                 <FormControl type="text"
-                    value={props.getState(statePropKey)}
+                    value={props.getState(statePropKey,'')}
                     onChange={props.handleChange(statePropKey)}
                 />
                 </FormGroup>
@@ -500,7 +504,7 @@
                 return (
                 <FormControl type="text"
                     id={props.propKey.join('-')}
-                    value={props.getState(props.propKey)}
+                    value={props.getState(props.propKey, '')}
                     onChange={props.handleChange(props.propKey)}
                 />
                 );
@@ -513,7 +517,7 @@
                     <FormGroup controlId={noteKey+"-note"}>
                         <FormControl componentClass="textarea"
                         inputRef={autoresize} className="autoresize"
-                        value={props.getState(['note',noteKey])}
+                        value={props.getState(['note',noteKey],'')}
                         onChange={props.handleChange(['note',noteKey])}
                         placeholder={noteKey+" notes"} />
                     </FormGroup>
