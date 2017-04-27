@@ -1172,8 +1172,7 @@
                     Object.keys(props.skill).reduce( (sum, skill) =>
                         ( sum+parseFloat('0'+props.getState(['skill',skill,'ranks']))), 0);
                 const unassignedSkillRanks = totalSkillRanks - assignedSkillRanks;
-                const unassignedLabel = unassignedSkillRanks ?
-                    " (unused ranks "+unassignedSkillRanks+")" : "";
+                const unassignedLabel = " (unused ranks "+unassignedSkillRanks+")";
                 return (
                     <Table striped condensed className="skill-table">
                     <thead>
