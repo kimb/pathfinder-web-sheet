@@ -627,7 +627,7 @@
             }
 
             const InitTable = compose(
-                onlyUpdateForKeys(['init']), pure)(InitTableImpl);
+                onlyUpdateForKeys(['init', 'stat']), pure)(InitTableImpl);
             function InitTableImpl(props) {
                 const initTotal = props.getAbilityMod('DEX')
                     + props.getState(['init','enh'],0)
