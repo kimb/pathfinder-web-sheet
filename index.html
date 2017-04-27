@@ -1112,7 +1112,8 @@
                 </tr>);
             }
             const SkillTable = compose(
-                onlyUpdateForKeys(['skill', 'stat', ...CLASSES]), pure)(SkillTableImpl);
+                onlyUpdateForKeys(['skill', 'stat', 'armor', 'shield', ...CLASSES]),
+                pure)(SkillTableImpl);
             function SkillTableImpl(props) {
                 const SKILL_ABILITIES = ['DEX', 'INT', 'CHA', 'STR', 'INT', 'CHA',
                     'DEX', 'CHA', 'DEX', 'DEX', 'CHA', 'WIS', 'CHA', 'INT', 'INT',
