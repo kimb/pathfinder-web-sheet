@@ -39,7 +39,7 @@
                 min-width: 110px;
             }
             .note-col { padding: 10px 5px 0; }
-            #ability-note { min-height: 286px; }
+            #ability-note { min-height: 218px; }
             #save-note { min-height: 171px; }
             #attack-note { min-height: 196px; }
             .table>thead>tr>td, .table>thead>tr>th {
@@ -314,6 +314,7 @@
                             <Col xs={8} sm={9}>
                                 <AbilityTable {...this.fn} {...this.state} />
                             </Col>
+                            <SizeField className="note-col" {...this.fn} {...this.state} sm={3}/>
                             <Col xs={4} sm={3} className="note-col">
                                 <NoteArea {...this.fn} noteKey="ability" val={this.state.note.ability} />
                             </Col>
@@ -409,7 +410,7 @@
                         {sizeName+': '+sizeValues[index]}</option> );
                 const statePropKey = ['stat', 'size'];
                 return (
-                <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
+                <Col {...props} bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)}>
                 <FormGroup controlId={statePropKey.join('-')} bsSize="sm">
                 <ControlLabel>
                 <small>Size</small>
@@ -439,13 +440,12 @@
                             dy.fi</Button>
                     </Col>
                     <InfoField {...props} propKey="Race" sm={2}/>
-                    <SizeField {...props} sm={2}/>
                     <InfoField {...props} propKey="Gender" sm={1}/>
                     <InfoField {...props} propKey="Height" sm={1}/>
                     <InfoField {...props} propKey="Weight" sm={1}/>
                     <InfoField {...props} propKey="Hair" sm={2}/>
-                    <InfoField {...props} propKey="Eyes" sm={1}/>
-                    <InfoField {...props} propKey="Skin" sm={1}/>
+                    <InfoField {...props} propKey="Eyes" sm={2}/>
+                    <InfoField {...props} propKey="Skin" sm={2}/>
                     <InfoField {...props} propKey="Age" sm={1}/>
                     <InfoField {...props} propKey="Alignment" sm={2}/>
                     <InfoField {...props} propKey="Deity" sm={3}/>
