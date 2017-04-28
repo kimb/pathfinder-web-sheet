@@ -714,7 +714,7 @@
                             <td><TextField {...props} propKey={['speed','swim']} /></td>
                             <td><TextField {...props} propKey={['speed','climb']} /></td>
                             <td><TextField {...props} propKey={['speed','fly']} /></td>
-                            <td><TextField {...props} propKey={['speed','fly','manu']} /></td>
+                            <td><TextField {...props} propKey={['speed','fly-manu']} /></td>
                             <td><TextField {...props} propKey={['speed','burrow']} /></td>
                             <td><TextField {...props} propKey={['speed','misc']} /></td>
                             <td><TextField {...props} propKey={['speed','temp']} /></td>
@@ -840,7 +840,7 @@
             }
 
             const SaveTable = compose(
-                onlyUpdateForKeys([...SAVES,'stat']), pure)(SaveTableImpl);
+                onlyUpdateForKeys([...SAVES,'stat',...CLASSES]), pure)(SaveTableImpl);
             function SaveTableImpl(props) {
                 return (
                     <Table condensed>
