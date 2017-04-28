@@ -131,7 +131,8 @@
             class App extends React.Component {
                 constructor(props) {
                     super(props);
-                    this.state = {stat:{ size:0 }, note:{}, prevChangeWasToKey: ''};
+                    this.prevChangeWasToKey = '';
+                    this.state = {stat:{ size:0 }, note:{}};
                     STATS.map( (stat) => {
                         this.state.stat[stat] = { 'base': 10 };
                     });
@@ -169,15 +170,15 @@
                     }
                     const title = this.getState(['info','character'])
                         + '(lvl' + this.getClassTypeTotal('levels') + '): '
-                        + this.state.prevChangeWasToKey;
+                        + this.prevChangeWasToKey;
                     if( !this.isLoading ) { // push no state while loading
-                        if ( ''+this.prevHistoryPushWasWithKey == ''+this.state.prevChangeWasToKey ) {
+                        if ( ''+this.prevHistoryPushWasWithKey == ''+this.prevChangeWasToKey ) {
                             console.debug('history.replaceState', title);
                             history.replaceState(this.state , title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
                         } else {
                             console.debug('history.pushState', title);
                             history.pushState(this.state, title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
-                            this.prevHistoryPushWasWithKey = this.state.prevChangeWasToKey;
+                            this.prevHistoryPushWasWithKey = this.prevChangeWasToKey;
                         }
                     }
                     document.title = title;
@@ -220,7 +221,7 @@
                     }
                     function restoreReady() {
                         console.info( 'componentWillMount: restored state:', this.state );
-                        this.state.prevChangeWasToKey = [""];
+                        this.prevChangeWasToKey = [""];
                         this.componentDidUpdate( null, null );
                         autoresizeAll();
                         this.isLoading = false;
@@ -267,7 +268,7 @@
                 setStateByKey( propKey, newVal ) {
                     this.setState( (prevState, setProps) => {
                         const newState = this.withPropKeyValue( prevState, propKey, newVal );
-                        newState.prevChangeWasToKey = propKey;
+                        this.prevChangeWasToKey = propKey;
                         //console.log('setState', newState, propKey, newVal, 'of', prevState, setProps);
                         return newState;
                     } );
