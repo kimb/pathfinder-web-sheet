@@ -285,18 +285,21 @@
                     };
                 }
                 getState(propKey, defaultTo) {
+                    if( typeof defaultTo === 'number' ) {
+                        return Number( this.getState( propKey ) || defaultTo );
+                    }
                     return propKey.reduce((tree, key) =>
                         typeof tree == 'object' && key in tree ? tree[key] : defaultTo, this.state );
                 }
                 getClassTypeTotal(type) {
                     return CLASSES.reduce( (sum, classN) =>
-                        ( sum+parseFloat('0'+this.getState([classN,type]))), 0)
+                        ( sum+this.getState([classN,type],0)), 0)
                 }
                 getAbilityTotal(ability) {
                     if (STATS.indexOf(ability) == -1) return NaN;
                     return STAT_TYPES.reduce(
                         (sum,type) =>
-                            sum + parseInt(this.getState(['stat',ability,type])||0), 0);
+                            sum + this.getState(['stat',ability,type], 0), 0);
                 }
                 getAbilityMod(ability) {
                     return Math.round((this.getAbilityTotal(ability)-11)/2);
@@ -1175,7 +1178,7 @@
                 const totalSkillRanks = props.getClassTypeTotal('skill');
                 const assignedSkillRanks = props.skill &&
                     Object.keys(props.skill).reduce( (sum, skill) =>
-                        ( sum+parseFloat('0'+props.getState(['skill',skill,'ranks']))), 0);
+                        ( sum+props.getState(['skill',skill,'ranks'],0)), 0);
                 const unassignedSkillRanks = totalSkillRanks - assignedSkillRanks;
                 const unassignedLabel = " (unused ranks "+unassignedSkillRanks+")";
                 return (
