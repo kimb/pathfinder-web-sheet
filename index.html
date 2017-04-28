@@ -864,7 +864,8 @@
             }
 
             const AttackTable = compose(
-                onlyUpdateForKeys([...CLASSES, 'stat']), pure)(AttackTableImpl);
+                onlyUpdateForKeys([...CLASSES, 'stat','melee','ranged','cmb','cmd']),
+                pure )( AttackTableImpl );
             function AttackTableImpl(props) {
                 const strMod = props.getAbilityMod('STR');
                 const dexMod = props.getAbilityMod('DEX');
@@ -923,8 +924,8 @@
                             <td>{props.getClassTypeTotal('bab')}</td>
                             <td><NoPrintAbbr title="STR for small and larger, DEX for tiny and smaller. Use the misc modifier to adjust for the Agile Maneuvers feat.">{cmbAbilityMod}</NoPrintAbbr></td>
                             <td><NoPrintAbbr title="*special* size modifier">{-sizeMod}</NoPrintAbbr></td>
-                            <td><TextField {...props} propKey={['cmd','misc']}/></td>
-                            <td><TextField {...props} propKey={['cmd','temp']}/></td>
+                            <td><TextField {...props} propKey={['cmb','misc']}/></td>
+                            <td><TextField {...props} propKey={['cmb','temp']}/></td>
                         </tr>
                         <tr>
                             <th className="active">CMD</th>
