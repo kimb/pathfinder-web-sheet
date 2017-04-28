@@ -190,6 +190,7 @@
                         if( k == 'info.size' ) return 'size';
                         if( k.indexOf('info.init') == 0 ) return k.replace('info.init', 'init');
                         if( k.indexOf('info.speed') == 0 ) return k.replace('info.speed', 'speed');
+                        if( k.indexOf('acrobatic.') == 0 ) return k.replace('acrobatic.', 'acrobatics.');
                         return k;
                     }
                     function getQueryParams(qs) {
