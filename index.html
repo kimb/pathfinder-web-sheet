@@ -150,17 +150,16 @@
                     let result = {};
                     function recurse (cur, prop) {
                         if( typeof(cur) == 'function' ) {
-                            // console.debug( 'componentDidUpdate: function', prop);
+                            console.warn( 'componentDidUpdate: function at', prop);
                         } else if (Object(cur) !== cur) {
+                            console.debug( 'saving', prop, cur);
                             result[prop] = cur;
+                        } else if( Array.isArray( cur ) ) {
+                            console.warn( 'componentDidUpdate: skipping array at', prop );
                         } else {
-                            var isEmpty = true;
                             for (var p in cur) {
-                                isEmpty = false;
                                 recurse(cur[p], prop ? prop+"."+p : p);
                             }
-                            if (isEmpty && prop)
-                                result[prop] = {};
                         }
                     }
                     recurse(this.state, "");
@@ -246,7 +245,7 @@
                 }
 
                 withPropKeyValue( prevState, propKey, newVal ) {
-                    newVal = (newVal == parseFloat(newVal)) ? parseFloat(newVal) : newVal;
+                    newVal = (newVal == parseFloat(newVal).toString()) ? parseFloat(newVal) : newVal;
                     const newState = {};
                     let newLeaf = newState;
                     let leaf = propKey.slice(0,-1).reduce(
@@ -280,7 +279,6 @@
                         const newVal =
                             typeof(evval)==='boolean' ? evval || undefined :
                             evval.length==0 ? undefined :
-                            !isNaN(Number(evval)) ? Number(evval) :
                             evval;
                         // console.log('handleChange event', propKey, newVal, evval, e.target);
                         this.setStateByKey( propKey, newVal );
@@ -1224,6 +1222,12 @@
                 inputRef.style.height = inputRef.scrollHeight+'px';
                 //inputRef.scrollTop = inputRef.scrollHeight;
                 //window.scrollTo(window.scrollLeft,(inputRef.scrollTop+inputRef.scrollHeight));
+            }
+            // Polyfill
+            if (!Array.isArray) {
+                Array.isArray = function(arg) {
+                    return Object.prototype.toString.call(arg) === '[object Array]';
+                };
             }
         </script>
     </head>
