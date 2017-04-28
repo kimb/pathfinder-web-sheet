@@ -208,19 +208,21 @@
                         let s = JSON.parse( queryParams.state );
                         console.info( 'componentWillMount: restoring state:', s );
                         this.isLoading = false;
-                        this.setState( s );
+                        this.setState( s, restoreReady );
                     } else {
                         this.isLoading = true;
                         this.setState( (ps, pp) => {
                             for( var k in queryParams ) {
-                                    this.setStateByKey( k.split('.'), queryParams[k] );
+                                this.setStateByKey( k.split('.'), queryParams[k] );
                             }
-                        }, function() {
-                            console.info( 'componentWillMount: restored state:', this.state );
-                            this.state.prevChangeWasToKey = [""];
-                            this.componentDidUpdate( null, null );
-                            this.isLoading = false;
-                        });
+                        }, restoreReady );
+                    }
+                    function restoreReady() {
+                        console.info( 'componentWillMount: restored state:', this.state );
+                        this.state.prevChangeWasToKey = [""];
+                        this.componentDidUpdate( null, null );
+                        autoresizeAll();
+                        this.isLoading = false;
                     }
                 }
 
@@ -232,6 +234,7 @@
                         this.forceUpdate( () => {
                             this.isLoading = false;
                             console.debug('popstate: restoring state complete:', this.state );
+                            autoresizeAll();
                         });
                     });
                 }
@@ -517,7 +520,7 @@
                 return (
                     <FormGroup controlId={noteKey+"-note"}>
                         <FormControl componentClass="textarea"
-                        inputRef={autoresize} className="autoresize"
+                        inputRef={addAutoresize} className="autoresize"
                         value={props.getState(['note',noteKey],'')}
                         onChange={props.handleChange(['note',noteKey])}
                         placeholder={noteKey+" notes"} />
@@ -1203,13 +1206,18 @@
                 return object == null ||
                     typeof(object) === 'object' && Object.keys(object).length == 0;
             }
-            function autoresize(inputRef) {
-                autoresize_update({target: inputRef});
-                inputRef.addEventListener('input', autoresize_update, false);
+            var autoresizeFields = [];
+            function addAutoresize(inputRef) {
+                autoresizeFields.push( inputRef );
+                inputRef.addEventListener('input', function(e) { autoresize_update(e.target) }, false);
+                autoresize_update( inputRef );
             }
-            function autoresize_update(e) {
-                var inputRef = e.target;
-                //console.log('autoresize_update',inputRef);
+            function autoresizeAll() {
+                console.debug( 'autoresizeAll' );
+                autoresizeFields.forEach( autoresize_update );
+            }
+            function autoresize_update( inputRef ) {
+                // console.log('autoresize_update',inputRef, inputRef.scrollHeight);
                 inputRef.style.height = 'auto';
                 inputRef.style.height = inputRef.scrollHeight+'px';
                 //inputRef.scrollTop = inputRef.scrollHeight;
