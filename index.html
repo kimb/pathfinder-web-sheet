@@ -149,10 +149,12 @@
                 componentDidUpdate(prevProps, prevState) {
                     let result = {};
                     function recurse (cur, prop) {
-                        if( typeof(cur) == 'function' ) {
+                        if ( cur === undefined ) {
+                            console.debug('componentDidUpdate: skipping undefined at', prop);
+                        } else if( typeof(cur) == 'function' ) {
                             console.warn( 'componentDidUpdate: function at', prop);
                         } else if (Object(cur) !== cur) {
-                            console.debug( 'saving', prop, cur);
+                            console.debug( 'componentDidUpdate saving:', prop, cur);
                             result[prop] = cur;
                         } else if( Array.isArray( cur ) ) {
                             console.warn( 'componentDidUpdate: skipping array at', prop );
@@ -191,7 +193,7 @@
                         if( k.indexOf('info.init') == 0 ) return k.replace('info.init', 'init');
                         if( k.indexOf('info.speed') == 0 ) return k.replace('info.speed', 'speed');
                         if( k.indexOf('acrobatic.') > 0 ) return k.replace('acrobatic.', 'acrobatics.');
-                        if( k.indexOf('ref') == 0 ) return k.replace('ref', 'refl');
+                        if( /refl*\./.test(k) ) return k.replace(/refl*\./, 'refl.');
                         return k;
                     }
                     function getQueryParams(qs) {
