@@ -198,8 +198,11 @@
                         qs = qs.split('+').join(' ');
                         var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
                         while (tokens = re.exec(qs)) {
-                            params[ convertKey( decodeURIComponent(tokens[1]) ) ] =
-                                decodeURIComponent(tokens[2]);
+                            let key = decodeURIComponent(tokens[1]);
+                            let value = decodeURIComponent(tokens[2]);
+                            if( key.indexOf('prevChangeWasToKey')==0 ) continue;
+                            if( value == ({}).toString() ) continue;
+                            params[ convertKey( key ) ] = value;
                         }
                         return params;
                     }
