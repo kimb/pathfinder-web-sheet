@@ -154,7 +154,7 @@
                         } else if( typeof(cur) == 'function' ) {
                             console.warn( 'componentDidUpdate: function at', prop);
                         } else if (Object(cur) !== cur) {
-                            console.debug( 'componentDidUpdate saving:', prop, cur);
+                            console.debug( 'componentDidUpdate saving:', prop, cur, typeof cur);
                             result[prop] = cur;
                         } else if( Array.isArray( cur ) ) {
                             console.warn( 'componentDidUpdate: skipping array at', prop );
@@ -251,6 +251,7 @@
 
                 withPropKeyValue( prevState, propKey, newVal ) {
                     newVal = (newVal == parseFloat(newVal).toString()) ? parseFloat(newVal) : newVal;
+                    newVal = newVal === 'false' ? false : newVal;
                     const newState = {};
                     let newLeaf = newState;
                     let leaf = propKey.slice(0,-1).reduce(
@@ -263,22 +264,25 @@
                         }, prevState );
                     const oldVal = leaf[propKey[propKey.length-1]];
                     newLeaf[propKey[propKey.length-1]] = newVal;
-                    if (newVal === undefined) {
-                        delete newLeaf[propKey[propKey.length-1]];
-                    }
-                    //console.debug('with', propKey, newLeaf, newState, 'was', oldVal);
+                    //console.debug('with', propKey, newState, 'was', oldVal);
                     return newState;
                 }
                 setStateByKey( propKey, newVal ) {
                     this.setState( (prevState, setProps) => {
                         const newState = this.withPropKeyValue( prevState, propKey, newVal );
                         this.prevChangeWasToKey = propKey;
-                        //console.log('setState', newState, propKey, newVal, 'of', prevState, setProps);
+                        //console.log('setState', propKey, newVal, newState, 'of', prevState, setProps);
                         return newState;
                     } );
                 }
-                handleChange(propKey) {
+                handleChange( propKey, mutator ) {
                     return (e) => {
+                        if( mutator !== undefined ) {
+                            const oldVal = this.getState( propKey );
+                            const newVal = mutator( oldVal, e );
+                            // console.debug('handleChange mutator:', propKey, newVal, oldVal, mutator);
+                            return this.setStateByKey( propKey, newVal);
+                        }
                         const evval = e.target.type === 'checkbox' ? e.target.checked
                             : e.target.value;
                         const newVal =
@@ -293,8 +297,15 @@
                     if( typeof defaultTo === 'number' ) {
                         return Number( this.getState( propKey ) || defaultTo );
                     }
-                    return propKey.reduce((tree, key) =>
-                        typeof tree == 'object' && key in tree ? tree[key] : defaultTo, this.state );
+                    if( typeof defaultTo === 'boolean' ) {
+                        return this.getState( propKey, 'false' ).toString() === 'true';
+                    }
+                    if( !Array.isArray(propKey) ) {
+                        throw new Error('propKey must be an array: ' + propKey);
+                    }
+                    const stateVal = propKey.reduce((tree, key) =>
+                        typeof tree == 'object' && key in tree ? tree[key] : undefined, this.state );
+                    return stateVal !== undefined ? stateVal : defaultTo;
                 }
                 getClassTypeTotal(type) {
                     return CLASSES.reduce( (sum, classN) =>
