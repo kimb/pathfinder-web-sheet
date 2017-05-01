@@ -82,6 +82,12 @@
                 overflow: hidden;
                 resize: none;
             }
+            .navbar {
+                margin: 12px;
+            }
+            .navbar .checkbox, .navbar .radio {
+                margin: 0;
+            }
             @media print {
                 body { zoom: 50%; }
                 .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
@@ -118,7 +124,7 @@
         </style>
 
         <script type="text/babel">
-            const { Glyphicon, Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button} = ReactBootstrap;
+            const { Glyphicon, Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button, ButtonGroup, DropdownButton, MenuItem, Navbar, Nav, NavDropdown, Panel } = ReactBootstrap;
             const { pure, compose, onlyUpdateForKeys  } = Recompose;
             const STATS = ['STR','DEX','CON', 'INT','WIS','CHA'];
             const STAT_TYPES = ['base','enhance','misc','temp'];
@@ -330,8 +336,8 @@
                 }
                 render() {
                     return (
-                    <Grid fluid>
                     <Form>
+                    <Grid fluid>
                         <InfoRow {...this.fn} {...this.state} />
                         <Row>
                         <Col md={5}>
@@ -403,8 +409,8 @@
                                 <NoteArea {...this.fn} noteKey="equipment" val={this.state.note.equipment} />
                             </Col>
                         </Row>
-                    </Form>
                     </Grid>
+                    </Form>
                     );
                 }
             }
@@ -1235,6 +1241,39 @@
                     </Table>
                 );
             }
+
+            function AddfieldsNavbar(props) {
+                return (
+                    <Navbar fluid>
+                        <Nav>
+                            <NavDropdown dropup title="Add fields for...">
+                                <MenuItem>Rage</MenuItem>
+                                <MenuItem>Spells per day</MenuItem>
+                                <MenuItem>Spell list</MenuItem>
+                            </NavDropdown>
+                        </Nav>
+                        <Nav pullRight>
+                            <NavDropdown pullRight dropup title="Debug">
+                                <MenuItem onSelect={props.handleChange(['debug'],invert)}>
+                                    <Checkbox checked={props.getState(['debug'],false)}>
+                                        console debug
+                                    </Checkbox>
+                                </MenuItem>
+                                <MenuItem onSelect={props.handleChange(['react_perf'],invert)}>
+                                    <Checkbox checked={props.getState(['react_perf'],false)}>
+                                        react_perf
+                                    </Checkbox>
+                                </MenuItem>
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar>
+                );
+            }
+
+            function invert(v) {
+                return (!!v) ? undefined : true;
+            }
+
         </script>
 
         <script type="text/javascript">
