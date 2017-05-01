@@ -146,7 +146,11 @@
                     this.fn.getAbilityMod = this.getAbilityMod.bind(this);
                     this.fn.getArmorLimitedDex = this.getArmorLimitedDex.bind(this);
                 }
+
                 componentDidUpdate(prevProps, prevState) {
+                    if( this.isLoading ) { // push no state while loading
+                        return;
+                    }
                     let result = {};
                     function recurse (cur, prop) {
                         if ( cur === undefined ) {
@@ -172,18 +176,15 @@
                     const title = this.getState(['info','character'])
                         + '(lvl' + this.getClassTypeTotal('levels') + '): '
                         + this.prevChangeWasToKey;
-                    if( !this.isLoading ) { // push no state while loading
-                        if ( ''+this.prevHistoryPushWasWithKey == ''+this.prevChangeWasToKey ) {
-                            console.debug('history.replaceState', title);
-                            history.replaceState(this.state , title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
-                        } else {
-                            console.debug('history.pushState', title);
-                            history.pushState(this.state, title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
-                            this.prevHistoryPushWasWithKey = this.prevChangeWasToKey;
-                        }
+                    if ( ''+this.prevHistoryPushWasWithKey == ''+this.prevChangeWasToKey ) {
+                        console.debug('history.replaceState', title);
+                        history.replaceState(this.state , title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
+                    } else {
+                        console.debug('history.pushState', title);
+                        history.pushState(this.state, title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
+                        this.prevHistoryPushWasWithKey = this.prevChangeWasToKey;
                     }
                     document.title = title;
-                    // history.pushState('', '', '?state=' + encodeURIComponent( JSON.stringify( this.state )).replace( /\%20/g, '+' ));
                 }
 
                 componentWillMount() {
@@ -209,14 +210,13 @@
                         return params;
                     }
                     const queryParams = getQueryParams(window.location.search);
+                    this.isLoading = true;
                     if ( queryParams.state ) {
                         // depracated old state format
                         let s = JSON.parse( queryParams.state );
                         console.info( 'componentWillMount: restoring state:', s );
-                        this.isLoading = false;
                         this.setState( s, restoreReady );
                     } else {
-                        this.isLoading = true;
                         this.setState( (ps, pp) => {
                             for( var k in queryParams ) {
                                 this.setStateByKey( k.split('.'), queryParams[k] );
