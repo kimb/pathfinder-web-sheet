@@ -409,22 +409,36 @@
         </script>
 
         <script type="text/babel">
-            function InfoField(props) {
-                const statePropKey = ['info', props.propKey.toLowerCase()];
+            function ColText(props) {
                 return (
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
-                <FormGroup controlId={statePropKey.join('-')} bsSize="sm">
+                <FormGroup bsSize="sm">
+                    <ControlLabel>
+                        <small>{props.title}</small>
+                    </ControlLabel>
+                    {props.children}
+                </FormGroup>
+                </Col>
+                );
+            }
+
+            function ColTextField(props) {
+                const label = props.label || props.propKey[props.propKey.length-1];
+                return (
+                <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
+                <FormGroup controlId={props.propKey.join('-')} bsSize="sm">
                 <ControlLabel>
-                <small>{props.propKey}</small>
+                <small class="text-capitalize">{label}</small>
                 </ControlLabel>
                 <FormControl type="text"
-                    value={props.getState(statePropKey,'')}
-                    onChange={props.handleChange(statePropKey)}
+                    value={props.getState(props.propKey,'')}
+                    onChange={props.handleChange(props.propKey)}
                 />
                 </FormGroup>
                 </Col>
                 );
             }
+
             function SizeField(props) {
                 const sizeValues = [8,4,2,1,0,-1,-2,-4,-8];
                 const sizeOptions = ['Fine','Diminutive','Tiny','Small','Medium'
@@ -453,8 +467,8 @@
             function InfoRowImpl(props) {
                 return (
                     <Row>
-                    <InfoField {...props} propKey="Character" xs={7} sm={6}/>
-                    <InfoField {...props} propKey="Player" xs={3} sm={5}/>
+                    <ColTextField {...props} propKey={['info','Character']} xs={7} sm={6}/>
+                    <ColTextField {...props} propKey={['info','Player']} xs={3} sm={5}/>
                     <Col xs={2} sm={1}>
                         <div><small>Minify<span className="hidden-xs"> URL</span></small></div>
                         <Button
@@ -462,18 +476,18 @@
                             href="javascript:window.open('http://www.dy.fi/?c=redir_add&bml=1&url='+encodeURIComponent(location.href), '_blank')">
                             dy.fi</Button>
                     </Col>
-                    <InfoField {...props} propKey="Race" sm={2}/>
-                    <InfoField {...props} propKey="Gender" sm={1}/>
-                    <InfoField {...props} propKey="Height" sm={1}/>
-                    <InfoField {...props} propKey="Weight" sm={1}/>
-                    <InfoField {...props} propKey="Hair" sm={2}/>
-                    <InfoField {...props} propKey="Eyes" sm={2}/>
-                    <InfoField {...props} propKey="Skin" sm={2}/>
-                    <InfoField {...props} propKey="Age" sm={1}/>
-                    <InfoField {...props} propKey="Alignment" sm={2}/>
-                    <InfoField {...props} propKey="Deity" sm={3}/>
-                    <InfoField {...props} propKey="Homeland and occupation" sm={7}/>
-                    <InfoField {...props} propKey="Languages" sm={12}/>
+                    <ColTextField {...props} propKey={['info','Race']} sm={2}/>
+                    <ColTextField {...props} propKey={['info','Gender']} sm={1}/>
+                    <ColTextField {...props} propKey={['info','Height']} sm={1}/>
+                    <ColTextField {...props} propKey={['info','Weight']} sm={1}/>
+                    <ColTextField {...props} propKey={['info','Hair']} sm={2}/>
+                    <ColTextField {...props} propKey={['info','Eyes']} sm={2}/>
+                    <ColTextField {...props} propKey={['info','Skin']} sm={2}/>
+                    <ColTextField {...props} propKey={['info','Age']} sm={1}/>
+                    <ColTextField {...props} propKey={['info','Alignment']} sm={2}/>
+                    <ColTextField {...props} propKey={['info','Deity']} sm={3}/>
+                    <ColTextField {...props} propKey={['info','Homeland and occupation']} sm={7}/>
+                    <ColTextField {...props} propKey={['info','Languages']} sm={12}/>
                     </Row>
                 );
             }
