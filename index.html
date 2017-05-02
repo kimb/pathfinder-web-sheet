@@ -319,14 +319,16 @@
                     return CLASSES.reduce( (sum, classN) =>
                         ( sum+this.getState([classN,type],0)), 0)
                 }
-                getAbilityTotal(ability) {
+                getAbilityTotal(ability, skipTemp=false) {
                     if (STATS.indexOf(ability) == -1) return NaN;
-                    return STAT_TYPES.reduce(
+                    const rageBonus = this.getState(['rage','enable']) && !skipTemp ? getRageState(this.fn)[ability] || 0 : 0;
+                    return STAT_TYPES.filter(x=>!skipTemp||x!=='temp').reduce(
                         (sum,type) =>
-                            sum + this.getState(['stat',ability,type], 0), 0);
+                            sum + this.getState(['stat',ability,type], 0), 0)
+                        +rageBonus;
                 }
-                getAbilityMod(ability) {
-                    return Math.round((this.getAbilityTotal(ability)-11)/2);
+                getAbilityMod(ability, skipTemp) {
+                    return Math.round((this.getAbilityTotal(ability, skipTemp)-11)/2);
                 }
                 getArmorLimitedDex() {
                     return Math.min(
@@ -409,7 +411,9 @@
                                 <NoteArea {...this.fn} noteKey="equipment" val={this.state.note.equipment} />
                             </Col>
                         </Row>
+                        <RageRow {...this.fn} {...this.state} />
                     </Grid>
+                    <AddfieldsNavbar {...this.fn} {...this.state} />
                     </Form>
                     );
                 }
@@ -420,11 +424,13 @@
             function ColText(props) {
                 return (
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
-                <FormGroup bsSize="sm">
+                <FormGroup validationState={props.validationState} bsSize="sm">
                     <ControlLabel>
-                        <small>{props.title}</small>
+                        <small>{props.label}</small>
                     </ControlLabel>
-                    {props.children}
+                    <FormControl.Static>
+                        {props.children}
+                    </FormControl.Static>
                 </FormGroup>
                 </Col>
                 );
@@ -434,7 +440,8 @@
                 const label = props.label || props.propKey[props.propKey.length-1];
                 return (
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
-                <FormGroup controlId={props.propKey.join('-')} bsSize="sm">
+                <FormGroup validationState={props.validationState}
+                    controlId={props.propKey.join('-')} bsSize="sm">
                 <ControlLabel>
                 <small class="text-capitalize">{label}</small>
                 </ControlLabel>
@@ -503,9 +510,11 @@
             function StatRow(props) {
                 const ability=props.ability;
                 //console.log('row base for '+ability+':', props.getState(['stat',ability,'base']);
+                const raging = props.getState(['rage','enable'],false);
+                const rageBonus = raging ? getRageState(props)[ability] : 0;
                 const abilityFields = STAT_TYPES.map( (type) =>
                     <td><TextField {...props} propKey={['stat',ability,type]} /></td>
-                );
+                    ).concat( <td className={raging?"":"hidden"}>{rageBonus||""}</td>);
                 return (
                 <tr>
                     <th className="active">{ability}</th>
@@ -517,8 +526,9 @@
             }
 
             const AbilityTable = compose(
-                onlyUpdateForKeys(['stat']), pure)(AbilityTableImpl);
+                onlyUpdateForKeys(['stat','rage']), pure)(AbilityTableImpl);
             function AbilityTableImpl(props) {
+                const raging = props.getState(['rage','enable'],false);
                 return (
                 <Table condensed>
                     <thead>
@@ -530,6 +540,7 @@
                             <th><small>Enh<span className="hidden-xs hidden-md">ance</span></small></th>
                             <th><small>Misc</small></th>
                             <th><small>Temp</small></th>
+                            <th className={raging?"":"hidden"}><small>Rage</small></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -763,8 +774,10 @@
             }
 
             const ACTable = compose(
-                onlyUpdateForKeys(['stat','armor','shield','ac']), pure)(ACTableImpl);
+                onlyUpdateForKeys(['stat','armor','shield','ac','rage']), pure)(ACTableImpl);
             function ACTableImpl(props) {
+                const raging = props.getState(['rage','enable'],false);
+                const rageBonus = raging ? getRageState(props)['ac'] : 0;
                 return (
                     <Table condensed>
                     <thead>
@@ -781,6 +794,7 @@
                             <th><small>Deflect</small></th>
                             <th><small>Misc</small></th>
                             <th><small>Temp</small></th>
+                            <th className={raging?"":"hidden"}><small>Rage</small></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -796,7 +810,8 @@
                                 +props.getState(['ac','natural'],0)
                                 +props.getState(['ac','deflect'],0)
                                 +props.getState(['ac','ac-misc'],0)
-                                +props.getState(['ac','temp'],0)}
+                                +props.getState(['ac','temp'],0)
+                                +rageBonus}
                             </th>
                             <td className="hidden-xs"><small>10+</small></td>
                             <td>{props.getState(['armor','ac'],'')}</td>
@@ -808,6 +823,7 @@
                             <td><TextField {...props} propKey={['ac','deflect']} /></td>
                             <td><TextField {...props} propKey={['ac','ac-misc']} /></td>
                             <td><TextField {...props} propKey={['ac','temp']} /></td>
+                            <td className={raging?"":"hidden"}><small>{rageBonus}</small></td>
                         </tr>
                         <tr>
                             <th className="active">Touch</th>
@@ -817,7 +833,8 @@
                                 +props.getState(['ac','dodge'],0)
                                 +props.getState(['ac','deflect'],0)
                                 +props.getState(['ac','touch-misc'],0)
-                                +props.getState(['ac','temp'],0)}
+                                +props.getState(['ac','temp'],0)
+                                +rageBonus}
                             </th>
                             <td className="hidden-xs"><small>10+</small></td>
                             <td>-</td>
@@ -829,6 +846,7 @@
                             <td>{props.getState(['ac','deflect'],'')}</td>
                             <td><TextField {...props} propKey={['ac','touch-misc']} /></td>
                             <td>{props.getState(['ac','temp'],'')}</td>
+                            <td className={raging?"":"hidden"}><small>{rageBonus}</small></td>
                         </tr>
                         <tr>
                             <th className="active">Flat-foot</th>
@@ -840,7 +858,8 @@
                                 +props.getState(['ac','natural'],0)
                                 +props.getState(['ac','deflect'],0)
                                 +props.getState(['ac','ff-misc'],0)
-                                +props.getState(['ac','temp'],0)}
+                                +props.getState(['ac','temp'],0)
+                                +rageBonus}
                             </th>
                             <td className="hidden-xs"><small>10+</small></td>
                             <td>{props.getState(['armor','ac'],'')}</td>
@@ -852,6 +871,7 @@
                             <td>{props.getState(['ac','deflect'],'')}</td>
                             <td><TextField {...props} propKey={['ac','ff-misc']} /></td>
                             <td>{props.getState(['ac','temp'],'')}</td>
+                            <td className={raging?"":"hidden"}><small>{rageBonus}</small></td>
                         </tr>
                     </tbody>
                     </Table>
@@ -859,6 +879,8 @@
             }
 
             function SaveTableRow(props) {
+                const raging = props.getState(['rage','enable'],false);
+                const rageBonus = raging ? getRageState(props)[props.save] || 0 : 0;
                 return (
                     <tr>
                         <th className="active">{props.save.toUpperCase()}</th>
@@ -867,19 +889,22 @@
                             +props.getAbilityMod(props.ability)
                             +props.getState([props.save,'enhance'],0)
                             +props.getState([props.save,'misc'],0)
-                            +props.getState([props.save,'temp'],0) }</th>
+                            +props.getState([props.save,'temp'],0)
+                            +rageBonus }</th>
                         <td>{props.getClassTypeTotal(props.save)}</td>
                         <td>{props.getAbilityMod(props.ability)}</td>
                         <td><TextField {...props} propKey={[props.save,'enhance']}/></td>
                         <td><TextField {...props} propKey={[props.save,'misc']}/></td>
                         <td><TextField {...props} propKey={[props.save,'temp']}/></td>
+                        <td className={raging?"":"hidden"}><small>{rageBonus||""}</small></td>
                     </tr>
                 );
             }
 
             const SaveTable = compose(
-                onlyUpdateForKeys([...SAVES,'stat',...CLASSES]), pure)(SaveTableImpl);
+                onlyUpdateForKeys([...SAVES,'stat',...CLASSES,'rage']), pure)(SaveTableImpl);
             function SaveTableImpl(props) {
+                const raging = props.getState(['rage','enable'],false);
                 return (
                     <Table condensed>
                     <thead>
@@ -893,6 +918,7 @@
                             <th><small>Enh<span className="hidden-xs">ance</span></small></th>
                             <th><small>Misc</small></th>
                             <th><small>Temp</small></th>
+                            <th className={raging?"":"hidden"}><small>Rage</small></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1157,6 +1183,7 @@
                     <td><small><TextField {...props} propKey={[...propKey,'temp']}/></small></td>
                 </tr>);
             }
+
             const SkillTable = compose(
                 onlyUpdateForKeys(['skill', 'stat', 'armor', 'shield', ...CLASSES]),
                 pure)(SkillTableImpl);
@@ -1242,18 +1269,94 @@
                 );
             }
 
-            function AddfieldsNavbar(props) {
+            function getRageState(props) {
+                const rageLevel = props.getState(['rage','level'])
+                return rageLevel>19 ? {header:'Mighty Rage', STR: 8, CON: 8, will: 4, ac: -2} :
+                    rageLevel>10 ? {header:'Greater Rage', STR: 6, CON: 6, will: 3, ac: -2} :
+                    {header:'Rage', STR: 4, CON: 4, will: 2, ac: -2};
+            }
+
+            const RageRow = compose(
+                onlyUpdateForKeys(['rage', 'stat']),
+                pure)(RageRowImpl);
+            function RageRowImpl(props) {
+                if( !props.getState(['rage']) ) {
+                    return <span />;
+                }
+                const rageLevel = props.getState(['rage','level'])
+                const rageRounds = 2 + 2 * rageLevel
+                    + props.getAbilityMod('CON',true)
+                    + props.getState(['rage','rounds','misc'],0)
+                    - props.getState(['rage','rounds','used'],0)
+                const rageState = getRageState(props);
+                const headerCheckbox =
+                    <CheckboxField {...props} propKey={['rage','enable']}>
+                        {rageState.header}
+                    </CheckboxField>;
+                const validationRageEnabled = props.getState(['rage','enable'],false) ? "success" : "";
+                console.debug( 'validationRageEnabled', validationRageEnabled, props.getState(['rage','enable'],false) );
+                return (
+                    <Panel header={headerCheckbox}>
+                        <Row>
+                        <Col sm={8}>
+                            <Row>
+                                <ColTextField {...props} label="Class levels" propKey={['rage','level']} xs={3} />
+                                <ColTextField {...props} label="Misc rounds" propKey={['rage','rounds','misc']} xs={3} />
+                                <ColTextField {...props} label="Used rounds" propKey={['rage','rounds','used']} xs={3} />
+                                <ColText label="Rounds of rage left" validationState="success" xs={3} >{rageRounds}</ColText>
+                            </Row>
+                            <Row>
+                            <ColText label="STR bonus" validationState={validationRageEnabled} xs={3} >{rageState.STR}</ColText>
+                            <ColText label="CON bonus" validationState={validationRageEnabled} xs={3} >{rageState.CON}</ColText>
+                            <ColText label="Will bonus" validationState={validationRageEnabled} xs={3} >{rageState.will}</ColText>
+                            <ColText label="AC penalty" validationState={validationRageEnabled} xs={3} >{rageState.ac}</ColText>
+                            </Row>
+                        </Col>
+                        <Col sm={4}>
+                            <NoteArea {...props} noteKey="ragePower" val={props.note.ragePower} />
+                        </Col>
+                        </Row>
+                    </Panel>
+                );
+            }
+
+            const AddfieldsNavbar = compose(
+                onlyUpdateForKeys(['debug', 'react_perf']),
+                pure)(AddfieldsNavbarImpl);
+            function AddfieldsNavbarImpl(props) {
+                function clearTemp(e) {
+                    console.log( 'clearTemp' );
+                }
+                function clearTempSubdual(e) {
+                    clearTemp(e);
+                    console.log( 'clearSubdual' );
+                }
+                function clearUses(e) {
+                    console.log( 'clearUses' );
+                }
+                function clearUsesDamage(e) {
+                    clearUses(e);
+                    console.log( 'clearDamage' );
+                }
                 return (
                     <Navbar fluid>
                         <Nav>
+                            <NavDropdown dropup title="TODO: Clear...">
+                                <MenuItem onSelect={clearTemp}>Temporary bonuses</MenuItem>
+                                <MenuItem onSelect={clearTempSubdual}>Temporary bonuses and subdual damage</MenuItem>
+                                <MenuItem onSelect={clearUses}>Uses per day</MenuItem>
+                                <MenuItem onSelect={clearUsesDamage}>Uses per day and all damage</MenuItem>
+                            </NavDropdown>
+                        </Nav>
+                        <Nav>
                             <NavDropdown dropup title="Add fields for...">
-                                <MenuItem>Rage</MenuItem>
-                                <MenuItem>Spells per day</MenuItem>
-                                <MenuItem>Spell list</MenuItem>
+                                <MenuItem onSelect={props.handleChange(['rage'],Object)}>Rage</MenuItem>
+                                <MenuItem>TODO:Spells per day</MenuItem>
+                                <MenuItem>TODO:Spell list</MenuItem>
                             </NavDropdown>
                         </Nav>
                         <Nav pullRight>
-                            <NavDropdown pullRight dropup title="Debug">
+                            <NavDropdown pullRight dropup title={<small>Debug</small>}>
                                 <MenuItem onSelect={props.handleChange(['debug'],invert)}>
                                     <Checkbox checked={props.getState(['debug'],false)}>
                                         console debug
