@@ -1277,7 +1277,7 @@
             }
 
             const RagePanel = compose(
-                onlyUpdateForKeys(['rage', 'stat']),
+                onlyUpdateForKeys(['rage', 'stat', 'note']),
                 pure)(RagePanelImpl);
             function RagePanelImpl(props) {
                 if( !props.getState(['rage']) ) {
@@ -1313,7 +1313,7 @@
                             </Row>
                         </Col>
                         <Col sm={4}>
-                            <NoteArea {...props} noteKey="ragePower" val={props.note.ragePower} />
+                            <NoteArea {...props} noteKey="rage" val={props.note.rage} />
                         </Col>
                         </Row>
                     </Panel>
