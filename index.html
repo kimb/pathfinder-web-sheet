@@ -411,7 +411,7 @@
                                 <NoteArea {...this.fn} noteKey="equipment" val={this.state.note.equipment} />
                             </Col>
                         </Row>
-                        <RageRow {...this.fn} {...this.state} />
+                        <RagePanel {...this.fn} {...this.state} />
                     </Grid>
                     <AddfieldsNavbar {...this.fn} {...this.state} />
                     </Form>
@@ -1276,10 +1276,10 @@
                     {header:'Rage', STR: 4, CON: 4, will: 2, ac: -2};
             }
 
-            const RageRow = compose(
+            const RagePanel = compose(
                 onlyUpdateForKeys(['rage', 'stat']),
-                pure)(RageRowImpl);
-            function RageRowImpl(props) {
+                pure)(RagePanelImpl);
+            function RagePanelImpl(props) {
                 if( !props.getState(['rage']) ) {
                     return <span />;
                 }
