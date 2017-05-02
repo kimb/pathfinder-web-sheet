@@ -412,6 +412,7 @@
                             </Col>
                         </Row>
                         <RagePanel {...this.fn} {...this.state} />
+                        <SpellTablePanel {...this.fn} {...this.state} />
                     </Grid>
                     <AddfieldsNavbar {...this.fn} {...this.state} />
                     </Form>
@@ -558,7 +559,7 @@
             function TextField(props) {
                 //console.debug(props.propKey, props.getState(props.propKey));
                 return (
-                <FormControl type="text"
+                <FormControl {...props} type="text"
                     id={props.propKey.join('-')}
                     value={props.getState(props.propKey, '')}
                     onChange={props.handleChange(props.propKey)}
@@ -575,7 +576,7 @@
                         inputRef={addAutoresize} className="autoresize"
                         value={props.getState(['note',noteKey],'')}
                         onChange={props.handleChange(['note',noteKey])}
-                        placeholder={noteKey+" notes"} />
+                        placeholder={props.placeholder || noteKey+" notes"} />
                     </FormGroup>
                 );
             }
@@ -1320,6 +1321,63 @@
                 );
             }
 
+            function SpellTablePanel(props) {
+                const propKey = 'spell1';
+                if( !props.getState([propKey]) ) {
+                    return <span />;
+                }
+                const headerClassTextField =
+                    <Row>
+                        <Col xs={4}>Spellcaster class:</Col>
+                        <Col xs={3}><TextField {...props} bsSize="sm" propKey={[propKey,'className']}/></Col>
+                        <Col xs={2}>Level:</Col>
+                        <Col xs={2}><TextField {...props} bsSize="sm" propKey={[propKey,'level']}/></Col>
+                    </Row>
+                const rows = [0,1,2,3,4,5,6,7,8,9].map( function(i) {
+                    if( i>0 && props.getState([propKey,'l'+(i-1)]) === undefined ) return;
+                    return <tr>
+                            <td><TextField {...props} propKey={[propKey,'l'+i,'known']}/></td>
+                            <td><TextField {...props} propKey={[propKey,'l'+i,'dc']}/></td>
+                            <td className="active">{i}</td>
+                            <td className="success">{
+                                ['class','ability','misc'].reduce( function(sum, key) {
+                                    return sum + props.getState([propKey,'l'+i,key],0);
+                                }, 0)
+                                }</td>
+                            <td><TextField {...props} propKey={[propKey,'l'+i,'class']}/></td>
+                            <td><TextField {...props} propKey={[propKey,'l'+i,'ability']} className={i?"":"hidden"}/></td>
+                            <td><TextField {...props} propKey={[propKey,'l'+i,'misc']}/></td>
+                        </tr>
+                    });
+                return (
+                    <Panel header={headerClassTextField}>
+                        <Row>
+                        <Col sm={6}>
+                            <Table striped condensed className="spells-table">
+                            <thead>
+                                <tr>
+                                    <th><small>Spells known</small></th>
+                                    <th><small>Save DC</small></th>
+                                    <th><small>Spell Level</small></th>
+                                    <th><small>Total</small></th>
+                                    <th><small>Class</small></th>
+                                    <th><small>Ability bonus</small></th>
+                                    <th><small>Misc</small></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {rows}
+                            </tbody>
+                            </Table>
+                        </Col>
+                        <Col sm={6}>
+                            <NoteArea {...props} placeholder="Specialty, domain, familiar, etc. notes" noteKey={propKey} val={props.note[propKey]} />
+                        </Col>
+                        </Row>
+                    </Panel>
+                );
+            }
+
             const AddfieldsNavbar = compose(
                 onlyUpdateForKeys(['debug', 'react_perf']),
                 pure)(AddfieldsNavbarImpl);
@@ -1351,7 +1409,7 @@
                         <Nav>
                             <NavDropdown dropup title="Add fields for...">
                                 <MenuItem onSelect={props.handleChange(['rage'],Object)}>Rage</MenuItem>
-                                <MenuItem>TODO:Spells per day</MenuItem>
+                                <MenuItem onSelect={props.handleChange(['spell1'],Object)}>Spellcaster class and spell list</MenuItem>
                                 <MenuItem>TODO:Spell list</MenuItem>
                             </NavDropdown>
                         </Nav>
