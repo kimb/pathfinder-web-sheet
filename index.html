@@ -73,11 +73,19 @@
             .skill-table input[type=checkbox] {
                 margin-top: 0;
             }
+            .equipment-table .equipment-name {
+                width: 80%;
+                text-align: left;
+            }
+            .equipment-table textarea.form-control {
+                height: 34px;
+            }
             .checkbox-inline input[type=text] {
                 display: inline;
                 width: 70%;
             }
             textarea.autoresize {
+                height: auto;
                 display: block;
                 overflow: hidden;
                 resize: none;
@@ -411,6 +419,7 @@
                                 <NoteArea {...this.fn} noteKey="equipment" val={this.state.note.equipment} />
                             </Col>
                         </Row>
+                        <EquipmentTable {...this.fn} {...this.state} />
                         <RagePanel {...this.fn} {...this.state} />
                         <SpellTablePanel {...this.fn} {...this.state} />
                     </Grid>
@@ -570,12 +579,13 @@
             const NoteArea = pure(NoteAreaImpl);
             function NoteAreaImpl(props) {
                 const noteKey = props.noteKey;
+                const propKey = props.propKey || ['note',noteKey];
                 return (
-                    <FormGroup controlId={noteKey+"-note"}>
+                    <FormGroup controlId={propKey.join('-')+"-note"}>
                         <FormControl componentClass="textarea"
                         inputRef={addAutoresize} className="autoresize"
-                        value={props.getState(['note',noteKey],'')}
-                        onChange={props.handleChange(['note',noteKey])}
+                        value={props.getState(propKey,'')}
+                        onChange={props.handleChange(propKey)}
                         placeholder={props.placeholder || noteKey+" notes"} />
                     </FormGroup>
                 );
@@ -1277,6 +1287,43 @@
                     {header:'Rage', STR: 4, CON: 4, will: 2, ac: -2};
             }
 
+            function EquipmentTable(props) {
+                let equipmentRows = [];
+                for( let i = 0; i < 50; i++ ) {
+                    const propKey = ['eq',''+i];
+                    const prevKey = ['eq',''+(i-1)];
+                    if( i>0 && isEmpty(props.getState(prevKey,{}))
+                            && isEmpty(props.getState(propKey,{})) ) {
+                        continue;
+                    }
+                    equipmentRows=equipmentRows.concat(
+                        <EquipmentRow {...props} propKey={propKey} />);
+                }
+                return (
+                    <Table striped condensed className="equipment-table">
+                    <thead>
+                        <tr>
+                            <th className="equipment-name"><small>Equipment name</small></th>
+                            <th><small>Value</small></th>
+                            <th><small>Weight</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {equipmentRows}
+                    </tbody>
+                    </Table>
+                );
+            }
+
+            function EquipmentRow(props) {
+                const {propKey} = props;
+                return (<tr>
+                    <td><small><NoteArea {...props} placeholder="name note" propKey={[...propKey,'name']}/></small></td>
+                    <td><small><TextField {...props} propKey={[...propKey,'value']}/></small></td>
+                    <td><small><TextField {...props} propKey={[...propKey,'weight']}/></small></td>
+                </tr>);
+            }
+
             const RagePanel = compose(
                 onlyUpdateForKeys(['rage', 'stat', 'note']),
                 pure)(RagePanelImpl);
@@ -1457,7 +1504,7 @@
             }
             function autoresize_update( inputRef ) {
                 // console.log('autoresize_update',inputRef, inputRef.scrollHeight);
-                inputRef.style.height = 'auto';
+                inputRef.style.height = '';
                 inputRef.style.height = inputRef.scrollHeight+'px';
                 //inputRef.scrollTop = inputRef.scrollHeight;
                 //window.scrollTo(window.scrollLeft,(inputRef.scrollTop+inputRef.scrollHeight));
