@@ -1421,9 +1421,11 @@
                             </Table>
                         </Col>
                         <Col sm={6}>
+                            TODO: range table
                             <NoteArea {...props} placeholder="Specialty, domain, familiar, etc. notes" noteKey={propKey} val={props.note[propKey]} />
                         </Col>
                         </Row>
+                        TODO: autogrowing spell list (up to spells known)
                     </Panel>
                 );
             }
@@ -1460,7 +1462,7 @@
                             <NavDropdown dropup title="Add fields for...">
                                 <MenuItem onSelect={props.handleChange(['rage'],Object)}>Rage</MenuItem>
                                 <MenuItem onSelect={props.handleChange(['spell1'],Object)}>Spellcaster class and spell list</MenuItem>
-                                <MenuItem>TODO:Spell list</MenuItem>
+                                <MenuItem>TODO:Spell like ability list</MenuItem>
                             </NavDropdown>
                         </Nav>
                         <Nav pullRight>
