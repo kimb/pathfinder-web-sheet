@@ -1388,26 +1388,48 @@
                     return <span />;
                 }
                 const headerClassTextField =
-                    <Row>
-                        <Col xs={4}>Spellcaster class:</Col>
-                        <Col xs={3}><TextField {...props} bsSize="sm" propKey={[propKey,'className']}/></Col>
-                        <Col xs={2}>Level:</Col>
-                        <Col xs={2}><TextField {...props} bsSize="sm" propKey={[propKey,'level']}/></Col>
-                    </Row>
+                    <Table condensed className="spells-header-table">
+                    <thead>
+                        <tr>
+                        <td>Spellcaster class:</td>
+                        <td><TextField {...props} bsSize="sm" propKey={[propKey,'className']}/></td>
+                        <td>Level:</td>
+                        <td><TextField {...props} bsSize="sm" propKey={[propKey,'level']}/></td>
+                        <td>Ability:</td>
+                        <td><SelectField {...props} propKey={[propKey,'ability']} options={STATS} /></td>
+                        </tr>
+                    </thead>
+                    </Table>
                 const rows = [0,1,2,3,4,5,6,7,8,9].map( function(i) {
-                    if( i>0 && props.getState([propKey,'l'+(i-1)]) === undefined ) return;
+                    if( i>0 && props.getState([propKey,'l'+(i-1),'class']) === undefined ) return;
+                    if( props.getState([propKey,'l'+(i),'class']) === undefined ) return (
+                        <tr>
+                            <td className="active">{i}</td>
+                            <td></td>
+                            <td></td>
+                            <td className="success"/>
+                            <td><TextField {...props} propKey={[propKey,'l'+i,'class']}/></td>
+                            <td></td>
+                            <td></td>
+                            <td className="warning"></td>
+                        </tr>
+                    );
+                    const abilityBonus = i==0 ? 0 :
+                        props.getAbilityMod( props.getState([propKey,'ability']), true );
                     return <tr>
                             <td className="active">{i}</td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'known']}/></td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'dc']}/></td>
                             <td className="success">{
-                                ['class','ability','misc'].reduce( function(sum, key) {
+                                props.getState([propKey,'l'+i,'class']) === undefined ? "" :
+                                ['class','misc'].reduce( function(sum, key) {
                                     return sum + props.getState([propKey,'l'+i,key],0);
                                 }, 0)
+                                + abilityBonus
                                 - props.getState([propKey,'l'+i,'used'],0)
                                 }</td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'class']}/></td>
-                            <td><TextField {...props} propKey={[propKey,'l'+i,'ability']} className={i?"":"hidden"}/></td>
+                            <td>{abilityBonus||''}</td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'misc']}/></td>
                             <td className="warning"><TextField {...props} propKey={[propKey,'l'+i,'used']}/></td>
                         </tr>
@@ -1423,7 +1445,7 @@
                                     <th><small>#Spells known</small></th>
                                     <th><small>Save DC</small></th>
                                     <th><small>Spells remaining</small></th>
-                                    <th><small>Class bonus</small></th>
+                                    <th><small>Class daily #</small></th>
                                     <th><small>Ability bonus</small></th>
                                     <th><small>Misc bonus</small></th>
                                     <th><small>Used</small></th>
