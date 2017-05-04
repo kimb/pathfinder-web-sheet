@@ -1317,7 +1317,7 @@
                         <EquipmentRow {...props} propKey={propKey} />);
                 }
                 return (
-                    <Table striped condensed className="equipment-table">
+                    <Table condensed className="equipment-table">
                     <thead>
                         <tr>
                             <th className="equipment-name"><small>Equipment name & description</small></th>
@@ -1400,9 +1400,9 @@
                 const rows = [0,1,2,3,4,5,6,7,8,9].map( function(i) {
                     if( i>0 && props.getState([propKey,'l'+(i-1)]) === undefined ) return;
                     return <tr>
+                            <td className="active">{i}</td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'known']}/></td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'dc']}/></td>
-                            <td className="active">{i}</td>
                             <td className="success">{
                                 ['class','ability','misc'].reduce( function(sum, key) {
                                     return sum + props.getState([propKey,'l'+i,key],0);
@@ -1419,12 +1419,12 @@
                     <Panel header={headerClassTextField}>
                         <Row>
                         <Col sm={6}>
-                            <Table striped condensed className="spells-table">
+                            <Table condensed className="spells-table">
                             <thead>
                                 <tr>
-                                    <th><small>Spells known</small></th>
-                                    <th><small>Save DC</small></th>
                                     <th><small>Spell Level</small></th>
+                                    <th><small>#Spells known</small></th>
+                                    <th><small>Save DC</small></th>
                                     <th><small>Total</small></th>
                                     <th><small>Class</small></th>
                                     <th><small>Ability bonus</small></th>
@@ -1438,7 +1438,27 @@
                             </Table>
                         </Col>
                         <Col sm={6}>
-                            TODO: range table
+                            <Table condensed className="spellRange-table">
+                            <thead>
+                                <tr>
+                                    <td><small></small></td>
+                                    <td><small>Close</small></td>
+                                    <td><small>Medium</small></td>
+                                    <td><small>Long</small></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th className="active"><small>Range(ft)</small></th>
+                                    <td className="success">
+                                        {25+5*Math.floor(props.getState([propKey,'level'])/2)}</td>
+                                    <td className="success">
+                                        {100+10*props.getState([propKey,'level'])}</td>
+                                    <td className="success">
+                                        {400+40*props.getState([propKey,'level'])}</td>
+                                </tr>
+                            </tbody>
+                            </Table>
                             <NoteArea {...props} placeholder="Specialty, domain, familiar, etc. notes" noteKey={propKey} val={props.note[propKey]} />
                         </Col>
                         </Row>
