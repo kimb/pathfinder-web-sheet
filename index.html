@@ -32,6 +32,7 @@
                 width: 40%;
                 text-align: left;
             }
+            #ability-note { min-height: 212px; }
             .table .skill-ability {
                 width: 12%;
             }
@@ -41,7 +42,6 @@
             .note-col {
                 padding-bottom: 5px;
             }
-            #ability-note { min-height: 218px; }
             #save-note { min-height: 171px; }
             #attack-note { min-height: 196px; }
             .table>thead>tr>td, .table>thead>tr>th {
@@ -77,6 +77,8 @@
                 width: 80%;
                 text-align: left;
             }
+            #spell-note { min-height: 92px; }
+
             textarea.form-control.onerow {
                 height: 34px;
             }
@@ -540,7 +542,7 @@
             function AbilityTableImpl(props) {
                 const raging = props.getState(['rage','enable'],false);
                 return (
-                <Table condensed>
+                <Table condensed className="ability-table">
                     <thead>
                         <tr>
                             <th><small>Ability</small></th>
@@ -578,13 +580,14 @@
 
             const NoteArea = pure(NoteAreaImpl);
             function NoteAreaImpl(props) {
-                const noteKey = props.noteKey;
+                const noteKey = props.noteKey || props.propKey[props.propKey.length-1];
                 const propKey = props.propKey || ['note',noteKey];
                 const className = [props.className
                     ,"autoresize"
+                    ,propKey.join('-')
                     ,props.onerow ? "onerow" : ""].join(' ');
                 return (
-                    <FormGroup controlId={propKey.join('-')+"-note"}>
+                    <FormGroup controlId={noteKey+"-note"}>
                         <FormControl componentClass="textarea"
                         inputRef={addAutoresize}
                         className={className}
@@ -1085,7 +1088,7 @@
                 onlyUpdateForKeys(WEAPONS), pure)(WeaponTableImpl);
             function WeaponTableImpl(props) {
                 const weaponKeys = ['bonus','dmg','crit',
-                    'range','type','weight','note'];
+                    'range','type','weight'];
                 let weaponRows = [];
                 for( var i = 0; i<20; i++) {
                     if ( i>0 && isEmpty( props.getState(['weapon'+(i-1)])) ) break;
@@ -1093,11 +1096,11 @@
                         <td><TextField {...props} propKey={['weapon'+i,key]} /></td>
                     );
                     const row = <tr>
-                        <td>
-                            <NoteArea {...props} propKey={['weapon'+i,'desc']}
-                                placeholder="weapon note" onerow />
-                        </td>
+                        <td><NoteArea {...props} propKey={['weapon'+i,'desc']}
+                                placeholder="name" onerow /></td>
                         {cells}
+                        <td><NoteArea {...props} propKey={['weapon'+i,'note']}
+                                placeholder="notes" onerow /></td>
                     </tr>;
                     weaponRows = [...weaponRows,row];
                 }
