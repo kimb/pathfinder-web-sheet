@@ -1295,7 +1295,7 @@
                         {rageState.header}
                     </CheckboxField>;
                 const validationRageEnabled = props.getState(['rage','enable'],false) ? "success" : "";
-                console.debug( 'validationRageEnabled', validationRageEnabled, props.getState(['rage','enable'],false) );
+                // console.debug( 'validationRageEnabled', validationRageEnabled, props.getState(['rage','enable'],false) );
                 return (
                     <Panel header={headerCheckbox}>
                         <Row>
@@ -1303,7 +1303,7 @@
                             <Row>
                                 <ColTextField {...props} label="Class levels" propKey={['rage','level']} xs={3} />
                                 <ColTextField {...props} label="Misc rounds" propKey={['rage','rounds','misc']} xs={3} />
-                                <ColTextField {...props} label="Used rounds" propKey={['rage','rounds','used']} xs={3} />
+                                <ColTextField {...props} label="Used rounds" validationState="warning" propKey={['rage','rounds','used']} xs={3} />
                                 <ColText label="Rounds of rage left" validationState="success" xs={3} >{rageRounds}</ColText>
                             </Row>
                             <Row>
@@ -1343,10 +1343,12 @@
                                 ['class','ability','misc'].reduce( function(sum, key) {
                                     return sum + props.getState([propKey,'l'+i,key],0);
                                 }, 0)
+                                - props.getState([propKey,'l'+i,'used'],0)
                                 }</td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'class']}/></td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'ability']} className={i?"":"hidden"}/></td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'misc']}/></td>
+                            <td className="warning"><TextField {...props} propKey={[propKey,'l'+i,'used']}/></td>
                         </tr>
                     });
                 return (
@@ -1363,6 +1365,7 @@
                                     <th><small>Class</small></th>
                                     <th><small>Ability bonus</small></th>
                                     <th><small>Misc</small></th>
+                                    <th><small>Used</small></th>
                                 </tr>
                             </thead>
                             <tbody>
