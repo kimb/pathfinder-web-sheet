@@ -25,16 +25,13 @@
             .weapon-range { width: 8%; }
             .weapon-type { width: 3%; }
             .weapon-weight { width: 3%; }
-            .table .ability-base {
+            .ability-table .ability-base {
                 width: 15%;
             }
-            .table .skill-name {
+            #ability-note { min-height: 212px; }
+            .skill-table .skill-name {
                 width: 40%;
                 text-align: left;
-            }
-            #ability-note { min-height: 212px; }
-            .table .skill-ability {
-                width: 12%;
             }
             .table .hp-temporary {
                 min-width: 110px;
@@ -44,23 +41,13 @@
             }
             #save-note { min-height: 171px; }
             #attack-note { min-height: 196px; }
-            .table>thead>tr>td, .table>thead>tr>th {
-                vertical-align: bottom;
-            }
-            .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th {
-                vertical-align: middle;
-            }
-            .table>thead>tr>td,
-            .table>tbody>tr>th.success, .table>tbody>tr>td,
-            .table>tfoot>tr>td {
-                text-align: center;
-            }
             .skill-table input, .skill-table select {
                 font-size: 100%; /*inherit small*/
                 height: 22px;
             }
             .skill-table td.skill-ability {
                 padding: 3px;
+                width: 12%;
             }
             .skill-ability select {
                 padding: 0;
@@ -97,6 +84,16 @@
             }
             .navbar .checkbox, .navbar .radio {
                 margin: 0;
+            }
+            .table>thead>tr>td, .table>thead>tr>th {
+                vertical-align: bottom;
+            }
+            .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th {
+                vertical-align: middle;
+            }
+            .table>thead>tr>td,
+            .table>tbody>tr>th.success, .table>tbody>tr>td, .table>tfoot>tr>td {
+                text-align: center;
             }
             @media print {
                 body { zoom: 50%; }
