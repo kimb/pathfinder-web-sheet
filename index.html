@@ -203,7 +203,8 @@
                 componentWillMount() {
                     function convertKey(k) {
                         if( STATS.indexOf( k.split('.')[0] )>-1 ) return 'stat.'+k;
-                        if( k == 'info.size' ) return 'size';
+                        if( k == 'info.size' || k == 'size') return 'stat.size';
+                        if( k.indexOf('info') == 0 ) k = k.toLowerCase();
                         if( k.indexOf('info.init') == 0 ) return k.replace('info.init', 'init');
                         if( k.indexOf('info.speed') == 0 ) return k.replace('info.speed', 'speed');
                         if( k.indexOf('acrobatic.') > 0 ) return k.replace('acrobatic.', 'acrobatics.');
@@ -326,7 +327,8 @@
                 }
                 getAbilityTotal(ability, skipTemp=false) {
                     if (STATS.indexOf(ability) == -1) return NaN;
-                    const rageBonus = this.getState(['rage','enable']) && !skipTemp ? getRageState(this.fn)[ability] || 0 : 0;
+                    const rageBonus = this.getState(['rage','enable']) && !skipTemp
+                        ? getRageState(this.fn)[ability] || 0 : 0;
                     return STAT_TYPES.filter(x=>!skipTemp||x!=='temp').reduce(
                         (sum,type) =>
                             sum + this.getState(['stat',ability,type], 0), 0)
@@ -449,8 +451,8 @@
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
                 <FormGroup validationState={props.validationState}
                     controlId={props.propKey.join('-')} bsSize="sm">
-                <ControlLabel>
-                <small class="text-capitalize">{label}</small>
+                <ControlLabel className="text-capitalize">
+                <small>{label}</small>
                 </ControlLabel>
                 <FormControl type="text"
                     value={props.getState(props.propKey,'')}
@@ -489,8 +491,8 @@
             function InfoRowImpl(props) {
                 return (
                     <Row>
-                    <ColTextField {...props} propKey={['info','Character']} xs={7} sm={6}/>
-                    <ColTextField {...props} propKey={['info','Player']} xs={3} sm={5}/>
+                    <ColTextField {...props} propKey={['info','character']} xs={7} sm={6}/>
+                    <ColTextField {...props} propKey={['info','player']} xs={3} sm={5}/>
                     <Col xs={2} sm={1}>
                         <div><small>Minify<span className="hidden-xs"> URL</span></small></div>
                         <Button
@@ -498,18 +500,18 @@
                             href="javascript:window.open('http://www.dy.fi/?c=redir_add&bml=1&url='+encodeURIComponent(location.href), '_blank')">
                             dy.fi</Button>
                     </Col>
-                    <ColTextField {...props} propKey={['info','Race']} sm={2}/>
-                    <ColTextField {...props} propKey={['info','Gender']} sm={1}/>
-                    <ColTextField {...props} propKey={['info','Height']} sm={1}/>
-                    <ColTextField {...props} propKey={['info','Weight']} sm={1}/>
-                    <ColTextField {...props} propKey={['info','Hair']} sm={2}/>
-                    <ColTextField {...props} propKey={['info','Eyes']} sm={2}/>
-                    <ColTextField {...props} propKey={['info','Skin']} sm={2}/>
-                    <ColTextField {...props} propKey={['info','Age']} sm={1}/>
-                    <ColTextField {...props} propKey={['info','Alignment']} sm={2}/>
-                    <ColTextField {...props} propKey={['info','Deity']} sm={3}/>
-                    <ColTextField {...props} propKey={['info','Homeland and occupation']} sm={7}/>
-                    <ColTextField {...props} propKey={['info','Languages']} sm={12}/>
+                    <ColTextField {...props} propKey={['info','race']} sm={2}/>
+                    <ColTextField {...props} propKey={['info','gender']} sm={1}/>
+                    <ColTextField {...props} propKey={['info','height']} sm={1}/>
+                    <ColTextField {...props} propKey={['info','weight']} sm={1}/>
+                    <ColTextField {...props} propKey={['info','hair']} sm={2}/>
+                    <ColTextField {...props} propKey={['info','eyes']} sm={2}/>
+                    <ColTextField {...props} propKey={['info','skin']} sm={2}/>
+                    <ColTextField {...props} propKey={['info','age']} sm={1}/>
+                    <ColTextField {...props} propKey={['info','alignment']} sm={2}/>
+                    <ColTextField {...props} propKey={['info','deity']} sm={3}/>
+                    <ColTextField {...props} propKey={['info','homeland and occupation']} sm={7}/>
+                    <ColTextField {...props} propKey={['info','languages']} sm={12}/>
                     </Row>
                 );
             }
@@ -656,7 +658,7 @@
             }
 
             const HPTable = compose(
-                onlyUpdateForKeys(['hp', 'stat', ...CLASSES]), pure)(HPTableImpl);
+                onlyUpdateForKeys(['hp', 'stat', ...CLASSES, 'rage']), pure)(HPTableImpl);
             function HPTableImpl(props) {
                 const totalHP = props.getAbilityMod('CON')*props.getClassTypeTotal('levels')
                                 +props.getClassTypeTotal('hp');
