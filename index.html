@@ -14,83 +14,83 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
         <style>
-            .form-group { margin-bottom: 0px; }
-            .form-control { padding: 6px 6px; }
-            .class-name { width: 20%; }
-            .armor-name { width: 40%; }
-            .weapon-name { width: 25%; }
-            .weapon-bonus { width: 4%; }
-            .weapon-damage { width: 12%; }
-            .weapon-critical { width: 7%; }
-            .weapon-range { width: 8%; }
-            .weapon-type { width: 3%; }
-            .weapon-weight { width: 3%; }
-            .ability-table .ability-base {
+            #root .form-group { margin-bottom: 0px; }
+            #root .form-control { padding: 6px 6px; }
+            #root .class-name { width: 20%; }
+            #root .armor-name { width: 40%; }
+            #root .weapon-name { width: 25%; }
+            #root .weapon-bonus { width: 4%; }
+            #root .weapon-damage { width: 12%; }
+            #root .weapon-critical { width: 7%; }
+            #root .weapon-range { width: 8%; }
+            #root .weapon-type { width: 3%; }
+            #root .weapon-weight { width: 3%; }
+            #root .ability-table .ability-base {
                 width: 15%;
             }
             #ability-note { min-height: 212px; }
-            .skill-table .skill-name {
+            #root .skill-table .skill-name {
                 width: 40%;
                 text-align: left;
             }
-            .table .hp-temporary {
+            #root .hp-table .hp-temporary {
                 min-width: 110px;
             }
-            .note-col {
+            #root .note-col {
                 padding-bottom: 5px;
             }
             #save-note { min-height: 171px; }
             #attack-note { min-height: 196px; }
-            .skill-table input.form-control, .skill-table select.form-control {
+            #root .skill-table input.form-control, #root .skill-table select.form-control {
                 font-size: 100%; /*inherit small*/
                 height: 22px;
             }
-            .skill-table td.skill-ability {
+            #root .skill-table td.skill-ability {
                 padding: 3px;
                 width: 12%;
             }
-            .skill-ability select.form-control {
+            #root .skill-ability select.form-control {
                 padding: 0;
                 line-height: 20px;
                 -moz-appearance: none;
                 -webkit-appearance:none;
             }
-            .skill-ability select::-ms-expand {
+            #root .skill-ability select::-ms-expand {
                 display: none;
             }
-            .equipment-table .equipment-name {
+            #root .equipment-table .equipment-name {
                 width: 80%;
                 text-align: left;
             }
             #spell-note { min-height: 92px; }
 
-            textarea.form-control.onerow {
+            #root textarea.form-control.onerow {
                 height: 34px;
             }
-            .checkbox-inline input[type=text] {
+            #root .checkbox-inline input[type=text] {
                 display: inline;
                 width: 70%;
             }
-            textarea.autoresize {
+            #root textarea.autoresize {
                 height: auto;
                 display: block;
                 overflow: hidden;
                 resize: none;
             }
-            .navbar {
+            #root .navbar {
                 margin: 12px;
             }
-            .navbar .checkbox, .navbar .radio {
+            #root .navbar .checkbox, #root .navbar .radio {
                 margin: 0;
             }
-            .table>thead>tr>td, .table>thead>tr>th {
+            #root .table>thead>tr>td, #root .table>thead>tr>th {
                 vertical-align: bottom;
             }
-            .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th {
+            #root .table>tbody>tr>td, #root .table>tbody>tr>th, #root .table>tfoot>tr>td, #root .table>tfoot>tr>th {
                 vertical-align: middle;
             }
-            .table>thead>tr>td,
-            .table>tbody>tr>th.success, .table>tbody>tr>td, .table>tfoot>tr>td {
+            #root .table>thead>tr>td,
+            #root .table>tbody>tr>th.success, #root .table>tbody>tr>td, #root .table>tfoot>tr>td {
                 text-align: center;
             }
             @media print {
@@ -661,7 +661,7 @@
                 const totalHP = props.getAbilityMod('CON')*props.getClassTypeTotal('levels')
                                 +props.getClassTypeTotal('hp');
                 return (
-                    <Table condensed>
+                    <Table condensed className="hp-table">
                     <thead>
                         <tr>
                             <th className="active"><small>HP (con*lvl+cls)</small></th>
