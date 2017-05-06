@@ -41,7 +41,7 @@
             }
             #save-note { min-height: 171px; }
             #attack-note { min-height: 196px; }
-            .skill-table input, .skill-table select {
+            .skill-table input.form-control, .skill-table select.form-control {
                 font-size: 100%; /*inherit small*/
                 height: 22px;
             }
@@ -49,16 +49,14 @@
                 padding: 3px;
                 width: 12%;
             }
-            .skill-ability select {
+            .skill-ability select.form-control {
                 padding: 0;
+                line-height: 20px;
                 -moz-appearance: none;
                 -webkit-appearance:none;
             }
             .skill-ability select::-ms-expand {
                 display: none;
-            }
-            .skill-table input[type=checkbox] {
-                margin-top: 0;
             }
             .equipment-table .equipment-name {
                 width: 80%;
