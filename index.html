@@ -1143,7 +1143,7 @@
                 const optionList = options.map( (option,index) =>
                     <option value={option}>{option}</option> );
                 return (
-                    <FormGroup controlId={propKey.join('-')}>
+                    <FormGroup controlId={propKey.join('-')} bsSize={props.bsSize||"sm"}>
                         <FormControl componentClass="select"
                             placeholder={props.getState(propKey)}
                             value={props.getState(propKey)}
