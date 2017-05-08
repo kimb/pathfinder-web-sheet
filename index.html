@@ -161,7 +161,11 @@
                 }
 
                 componentDidUpdate(prevProps, prevState) {
+                    const title = this.getState(['info','character'])
+                        + '(lvl' + this.getClassTypeTotal('levels') + '): '
+                        + (this.prevChangeWasToKey || '');
                     if( this.isLoading ) { // push no state while loading
+                        document.title = title;
                         return;
                     }
                     let result = {};
@@ -186,9 +190,6 @@
                     for (var k in result) {
                         qp += "&" + k + "=" + encodeURIComponent( result[k] );
                     }
-                    const title = this.getState(['info','character'])
-                        + '(lvl' + this.getClassTypeTotal('levels') + '): '
-                        + this.prevChangeWasToKey;
                     if ( ''+this.prevHistoryPushWasWithKey == ''+this.prevChangeWasToKey ) {
                         console.debug('history.replaceState', title);
                         history.replaceState(this.state , title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
