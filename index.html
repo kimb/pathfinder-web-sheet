@@ -568,10 +568,11 @@
             function TextField(props) {
                 //console.debug(props.propKey, props.getState(props.propKey));
                 return (
-                <FormControl {...props} type="text"
+                <FormControl type="text"
                     id={props.propKey.join('-')}
                     value={props.getState(props.propKey, '')}
                     onChange={props.handleChange(props.propKey)}
+                    placeholder={props.placeholder}
                 />
                 );
             }
@@ -1416,12 +1417,13 @@
                             <td className="warning"></td>
                         </tr>
                     );
-                    const abilityBonus = i==0 ? 0 :
-                        props.getAbilityMod( props.getState([propKey,'ability']), true );
+                    const abilityMod = props.getAbilityMod( props.getState([propKey,'ability']), true );
+                    const abilityBonus = i==0 ? 0 : abilityMod;
                     return <tr>
                             <td className="active">{i}</td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'known']}/></td>
-                            <td><TextField {...props} propKey={[propKey,'l'+i,'dc']}/></td>
+                            <td><TextField {...props} propKey={[propKey,'l'+i,'dc']}
+                                placeholder={10+i+abilityMod} /></td>
                             <td className="success">{
                                 props.getState([propKey,'l'+i,'class']) === undefined ? "" :
                                 ['class','misc'].reduce( function(sum, key) {
