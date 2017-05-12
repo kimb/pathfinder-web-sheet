@@ -573,6 +573,7 @@
                     value={props.getState(props.propKey, '')}
                     onChange={props.handleChange(props.propKey)}
                     placeholder={props.placeholder}
+                    className={props.className||''}
                 />
                 );
             }
@@ -1405,24 +1406,14 @@
                     </Table>
                 const rows = [0,1,2,3,4,5,6,7,8,9].map( function(i) {
                     if( i>0 && props.getState([propKey,'l'+(i-1),'class']) === undefined ) return;
-                    if( props.getState([propKey,'l'+(i),'class']) === undefined ) return (
-                        <tr>
-                            <td className="active">{i}</td>
-                            <td></td>
-                            <td></td>
-                            <td className="success"/>
-                            <td><TextField {...props} propKey={[propKey,'l'+i,'class']}/></td>
-                            <td></td>
-                            <td></td>
-                            <td className="warning"></td>
-                        </tr>
-                    );
+                    const hideLast = props.getState([propKey,'l'+(i),'class']) === undefined?'hidden':'';
                     const abilityMod = props.getAbilityMod( props.getState([propKey,'ability']), true );
                     const abilityBonus = i==0 ? 0 : abilityMod;
                     return <tr>
                             <td className="active">{i}</td>
-                            <td><TextField {...props} propKey={[propKey,'l'+i,'known']}/></td>
-                            <td><TextField {...props} propKey={[propKey,'l'+i,'dc']}
+                            <td><TextField {...props} className={hideLast}
+                                propKey={[propKey,'l'+i,'known']}/></td>
+                            <td><TextField {...props} className={hideLast} propKey={[propKey,'l'+i,'dc']}
                                 placeholder={10+i+abilityMod} /></td>
                             <td className="success">{
                                 props.getState([propKey,'l'+i,'class']) === undefined ? "" :
@@ -1433,9 +1424,11 @@
                                 - props.getState([propKey,'l'+i,'used'],0)
                                 }</td>
                             <td><TextField {...props} propKey={[propKey,'l'+i,'class']}/></td>
-                            <td>{abilityBonus||''}</td>
-                            <td><TextField {...props} propKey={[propKey,'l'+i,'misc']}/></td>
-                            <td className="warning"><TextField {...props} propKey={[propKey,'l'+i,'used']}/></td>
+                            <td>{hideLast?'':abilityBonus||''}</td>
+                            <td><TextField {...props} className={hideLast}
+                                propKey={[propKey,'l'+i,'misc']}/></td>
+                            <td className="warning"><TextField {...props} className={hideLast}
+                                propKey={[propKey,'l'+i,'used']}/></td>
                         </tr>
                     });
                 return (
@@ -1482,7 +1475,8 @@
                                 </tr>
                             </tbody>
                             </Table>
-                            <NoteArea {...props} placeholder="Specialty, domain, familiar, etc. notes" noteKey={propKey} val={props.note[propKey]} />
+                            <NoteArea {...props} placeholder="Specialty, domain, familiar, etc. notes"
+                                noteKey={propKey} val={props.note[propKey]} />
                         </Col>
                         </Row>
                         TODO: autogrowing spell list (up to spells known)
