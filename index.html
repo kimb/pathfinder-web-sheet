@@ -494,7 +494,7 @@
                     <Row>
                     <ColTextField {...props} propKey={['info','character']} xs={7} sm={6}/>
                     <ColTextField {...props} propKey={['info','player']} xs={3} sm={5}/>
-                    <Col xs={2} sm={1}>
+                    <Col className="hidden" xs={2} sm={1}>
                         <div><small>Minify<span className="hidden-xs"> URL</span></small></div>
                         <Button
                             bsStyle="info" target="_blank"
@@ -503,8 +503,8 @@
                     </Col>
                     <ColTextField {...props} propKey={['info','race']} sm={2}/>
                     <ColTextField {...props} propKey={['info','gender']} sm={1}/>
-                    <ColTextField {...props} propKey={['info','height']} sm={1}/>
-                    <ColTextField {...props} propKey={['info','weight']} sm={1}/>
+                    <ColTextField {...props} propKey={['info','height']} xs={3} sm={1}/>
+                    <ColTextField {...props} propKey={['info','weight']} xs={3} sm={1}/>
                     <ColTextField {...props} propKey={['info','hair']} sm={2}/>
                     <ColTextField {...props} propKey={['info','eyes']} sm={2}/>
                     <ColTextField {...props} propKey={['info','skin']} sm={2}/>
