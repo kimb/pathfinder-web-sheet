@@ -1415,14 +1415,15 @@
                 const prep = props.getState([...propKey, 'prep']);
                 const used = props.getState([...propKey, 'used'], 0);
                 const propsDC = { ...props, placeholder: dcPlaceholder };
-                const usedCell = { className: prep-used>0?"success":"" };
+                const prepCell = { className: prep>0?"success":"" };
+                const usedCell = { className: prep<used?"danger":"warning" };
                 return (
                 <tr>
                     <th className="active">{level}</th>
                     <td><CheckboxField {...props} propKey={[...propKey,'SR']}/></td>
                     <td><TextField {...propsDC} propKey={[...propKey,'dc']}/></td>
                     <td><TextField {...props} propKey={[...propKey,'save']}/></td>
-                    <td><TextField {...props} propKey={[...propKey,'prep']}/></td>
+                    <td {...prepCell}><TextField {...props} propKey={[...propKey,'prep']}/></td>
                     <td {...usedCell}><TextField {...props} propKey={[...propKey,'used']}/></td>
                     <td><NoteArea {...props} propKey={[...propKey,'name']}
                         placeholder="spell name & description" onerow/></td>
@@ -1455,24 +1456,27 @@
                             dcPlaceholder={props.getState([...levelKey,'dc'],10+lev+abilityMod)}
                             propKey={[...levelKey, String(i)]} level={lev} /> ]
                     }
+                    const remainingSpells = props.getState([...levelKey,'class'])===undefined?"":
+                        abilityBonus - props.getState([...levelKey,'used'],0)
+                        + ['class','misc'].reduce( function(sum, key) {
+                            return sum + props.getState([...levelKey,key],0);
+                        }, 0);
+                    const remainingProps = { className: remainingSpells>0 ? "success" : "" };
+                    const usedProps = { className:
+                        props.getState([...levelKey,'class'])===undefined ? "" :
+                        remainingSpells<0 ? "danger" : "warning" };
                     return <tr>
                             <th className="active">{lev}</th>
                             <td><TextField {...props} className={hideLast}
                                 propKey={[...levelKey,'known']}/></td>
                             <td><TextField {...props} className={hideLast} propKey={[...levelKey,'dc']}
                                 placeholder={10+lev+abilityMod} /></td>
-                            <td className="success">{
-                                props.getState([...levelKey,'class']) === undefined ? "" :
-                                abilityBonus - props.getState([...levelKey,'used'],0)
-                                + ['class','misc'].reduce( function(sum, key) {
-                                    return sum + props.getState([...levelKey,key],0);
-                                }, 0)
-                                }</td>
+                            <td {...remainingProps}>{remainingSpells}</td>
                             <td><TextField {...props} propKey={[...levelKey,'class']}/></td>
                             <td>{hideLast?'':abilityBonus||''}</td>
                             <td><TextField {...props} className={hideLast}
                                 propKey={[...levelKey,'misc']}/></td>
-                            <td className="warning"><TextField {...props} className={hideLast}
+                            <td {...usedProps}><TextField {...props} className={hideLast}
                                 propKey={[...levelKey,'used']}/></td>
                         </tr>
                     });
