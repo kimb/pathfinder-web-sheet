@@ -25,20 +25,14 @@
             #root .weapon-range { width: 8%; }
             #root .weapon-type { width: 3%; }
             #root .weapon-weight { width: 3%; }
-            #root .ability-table .ability-base {
-                width: 15%;
-            }
+            #root .ability-table .ability-base { width: 15%; }
             #ability-note { min-height: 212px; }
             #root .skill-table .skill-name {
                 width: 40%;
                 text-align: left;
             }
-            #root .hp-table .hp-temporary {
-                min-width: 110px;
-            }
-            #root .note-col {
-                padding-bottom: 5px;
-            }
+            #root .hp-table .hp-temporary { min-width: 110px; }
+            #root .note-col { padding-bottom: 5px; }
             #save-note { min-height: 171px; }
             #attack-note { min-height: 196px; }
             #root .skill-table input.form-control, #root .skill-table select.form-control {
@@ -295,7 +289,7 @@
                         if( mutator !== undefined ) {
                             const oldVal = this.getState( propKey );
                             const newVal = mutator( oldVal, e );
-                            // console.debug('handleChange mutator:', propKey, newVal, oldVal, mutator);
+                             console.debug('handleChange mutator:', propKey, newVal, oldVal, mutator);
                             return this.setStateByKey( propKey, newVal);
                         }
                         const evval = e.target.type === 'checkbox' ? e.target.checked
@@ -304,7 +298,7 @@
                             typeof(evval)==='boolean' ? evval || undefined :
                             evval.length==0 ? undefined :
                             evval;
-                        // console.log('handleChange event', propKey, newVal, evval, e.target);
+                         console.log('handleChange event', propKey, newVal, evval, e.target);
                         this.setStateByKey( propKey, newVal );
                     };
                 }
@@ -1128,10 +1122,10 @@
             }
 
             function CheckboxField(props) {
-                const {propKey} = props;
+                const {propKey, inline} = props;
                 return (
                     <FormGroup controlId={propKey.join('-')}>
-                        <Checkbox inline
+                        <Checkbox inline={inline}
                             checked={props.getState(propKey)}
                             onChange={props.handleChange(propKey)}>
                             {props.children}
@@ -1191,7 +1185,7 @@
                 const isClass = props.getState([...propKey,'is-class']);
                 return (<tr>
                     <td className="skill-name">
-                        <CheckboxField {...props} propKey={[...propKey,'is-class']}>
+                        <CheckboxField {...props} inline propKey={[...propKey,'is-class']}>
                         <small>{nameField}</small></CheckboxField></td>
                     <td className="skill-ability"><small>{empty?'':abilityField}</small></td>
                     <th className="success"><small>{
@@ -1356,7 +1350,7 @@
                     - props.getState(['rage','rounds','used'],0)
                 const rageState = getRageState(props);
                 const headerCheckbox =
-                    <CheckboxField {...props} propKey={['rage','enable']}>
+                    <CheckboxField {...props} inline propKey={['rage','enable']}>
                         {rageState.header}
                     </CheckboxField>;
                 const validationRageEnabled = props.getState(['rage','enable'],false) ? "success" : "";
