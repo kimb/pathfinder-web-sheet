@@ -49,6 +49,11 @@
                 -moz-appearance: none;
                 -webkit-appearance:none;
             }
+            #root .spell-range select.form-control {
+                padding: 0;
+                -moz-appearance: none;
+                -webkit-appearance:none;
+            }
             #root .skill-ability select::-ms-expand {
                 display: none;
             }
@@ -56,6 +61,7 @@
                 width: 80%;
                 text-align: left;
             }
+            #root .spell-list-table .spell-name { width: 60%; }
             #spell-note { min-height: 92px; }
 
             #root textarea.form-control.onerow {
@@ -1383,12 +1389,9 @@
                 );
             }
 
-            function SpellTablePanel(props) {
-                const propKey = 'spell1';
-                if( !props.getState([propKey]) ) {
-                    return <span />;
-                }
-                const headerClassTextField =
+            function SpellTablePanelHeader(props) {
+                const {propKey} = props;
+                return (
                     <Table condensed className="spells-header-table">
                     <thead>
                         <tr>
@@ -1401,35 +1404,78 @@
                         </tr>
                     </thead>
                     </Table>
-                const rows = [0,1,2,3,4,5,6,7,8,9].map( function(i) {
-                    if( i>0 && props.getState([propKey,'l'+(i-1),'class']) === undefined ) return;
-                    const hideLast = props.getState([propKey,'l'+(i),'class']) === undefined?'hidden':'';
-                    const abilityMod = props.getAbilityMod( props.getState([propKey,'ability']), true );
-                    const abilityBonus = i==0 ? 0 : abilityMod;
+                );
+            }
+
+            const RANGES = [ 'personal', 'touch', 'short', 'medium', 'long' ];
+            function SpellTablePanelRow(props) {
+                const {propKey,level,dcPlaceholder} = props;
+                const prep = props.getState([...propKey, 'prep']);
+                const used = props.getState([...propKey, 'used'], 0);
+                const propsDC = { ...props, placeholder: dcPlaceholder };
+                const usedCell = { className: prep-used>0?"success":"" };
+                return (
+                <tr>
+                    <th className="active">{level}</th>
+                    <td><CheckboxField {...props} propKey={[...propKey,'SR']}/></td>
+                    <td><TextField {...propsDC} propKey={[...propKey,'dc']}/></td>
+                    <td><TextField {...props} propKey={[...propKey,'save']}/></td>
+                    <td><TextField {...props} propKey={[...propKey,'prep']}/></td>
+                    <td {...usedCell}><TextField {...props} propKey={[...propKey,'used']}/></td>
+                    <td><NoteArea {...props} propKey={[...propKey,'name']}
+                        placeholder="spell name & description" onerow/></td>
+                    <td><TextField {...props} propKey={[...propKey,'school']}/></td>
+                    <td><TextField {...props} propKey={[...propKey,'duration']}/></td>
+                    <td className="spell-range">
+                        <SelectField {...props} propKey={[...propKey,'range']} options={RANGES} />
+                    </td>
+                </tr>
+                );
+            }
+
+            function SpellTablePanel(props) {
+                const propKey = 'spell1';
+                if( !props.getState([propKey]) ) {
+                    return <span />;
+                }
+                let spellTableRows = [];
+                const abilityMod = props.getAbilityMod( props.getState([propKey,'ability']), true );
+                const rows = [0,1,2,3,4,5,6,7,8,9].map( function(lev) {
+                    if( lev>0 && props.getState([propKey,'l'+(lev-1),'class']) === undefined ) return;
+                    const levelKey = [propKey,'l'+(lev)];
+                    const hideLast = props.getState([...levelKey,'class']) === undefined?'hidden':'';
+                    const abilityBonus = lev==0 ? 0 : abilityMod;
+                    for( let i = 0; i<props.getState([...levelKey,'known'],0); i++ ) {
+                        if( i>0 && props.getState([...levelKey,String(i-1)]) === undefined
+                            && props.getState([...levelKey,String(i)]) === undefined
+                        ) continue;
+                        spellTableRows = [...spellTableRows, <SpellTablePanelRow {...props}
+                            dcPlaceholder={props.getState([...levelKey,'dc'],10+lev+abilityMod)}
+                            propKey={[...levelKey, String(i)]} level={lev} /> ]
+                    }
                     return <tr>
-                            <td className="active">{i}</td>
+                            <th className="active">{lev}</th>
                             <td><TextField {...props} className={hideLast}
-                                propKey={[propKey,'l'+i,'known']}/></td>
-                            <td><TextField {...props} className={hideLast} propKey={[propKey,'l'+i,'dc']}
-                                placeholder={10+i+abilityMod} /></td>
+                                propKey={[...levelKey,'known']}/></td>
+                            <td><TextField {...props} className={hideLast} propKey={[...levelKey,'dc']}
+                                placeholder={10+lev+abilityMod} /></td>
                             <td className="success">{
-                                props.getState([propKey,'l'+i,'class']) === undefined ? "" :
-                                ['class','misc'].reduce( function(sum, key) {
-                                    return sum + props.getState([propKey,'l'+i,key],0);
+                                props.getState([...levelKey,'class']) === undefined ? "" :
+                                abilityBonus - props.getState([...levelKey,'used'],0)
+                                + ['class','misc'].reduce( function(sum, key) {
+                                    return sum + props.getState([...levelKey,key],0);
                                 }, 0)
-                                + abilityBonus
-                                - props.getState([propKey,'l'+i,'used'],0)
                                 }</td>
-                            <td><TextField {...props} propKey={[propKey,'l'+i,'class']}/></td>
+                            <td><TextField {...props} propKey={[...levelKey,'class']}/></td>
                             <td>{hideLast?'':abilityBonus||''}</td>
                             <td><TextField {...props} className={hideLast}
-                                propKey={[propKey,'l'+i,'misc']}/></td>
+                                propKey={[...levelKey,'misc']}/></td>
                             <td className="warning"><TextField {...props} className={hideLast}
-                                propKey={[propKey,'l'+i,'used']}/></td>
+                                propKey={[...levelKey,'used']}/></td>
                         </tr>
                     });
                 return (
-                    <Panel header={headerClassTextField}>
+                    <Panel header={SpellTablePanelHeader({...props, propKey:propKey})}>
                         <Row>
                         <Col sm={6}>
                             <Table condensed className="spells-table">
@@ -1476,7 +1522,30 @@
                                 noteKey={propKey} val={props.note[propKey]} />
                         </Col>
                         </Row>
-                        TODO: autogrowing spell list (up to spells known)
+                        <Row>
+                        <Col xs={12}>
+                        <Table condensed className="spell-list-table">
+                            <thead>
+                                <tr>
+                                    <th><small>Lvl</small></th>
+                                    <th><small>SR</small></th>
+                                    <th><small>DC</small></th>
+                                    <th><small>Save type</small></th>
+                                    <th><small>Prep</small></th>
+                                    <th><small>Used</small></th>
+                                    <th className="spell-name">
+                                        <small>Equipment name & description & ref</small></th>
+                                    <th><small>School</small></th>
+                                    <th><small>Duration</small></th>
+                                    <th><small>Range</small></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {spellTableRows}
+                            </tbody>
+                        </Table>
+                        </Col>
+                        </Row>
                     </Panel>
                 );
             }
@@ -1547,6 +1616,7 @@
             }
             var autoresizeFields = [];
             function addAutoresize(inputRef) {
+                if( !inputRef ) return;
                 autoresizeFields.push( inputRef );
                 inputRef.addEventListener('input', function(e) { autoresize_update(e.target) }, false);
                 autoresize_update( inputRef );
