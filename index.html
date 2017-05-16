@@ -89,11 +89,13 @@
             #root .table>thead>tr>td, #root .table>thead>tr>th {
                 vertical-align: bottom;
             }
+            #root .table tr.middle>td, #root .table tr.middle>th,
             #root .table>tbody>tr>td, #root .table>tbody>tr>th, #root .table>tfoot>tr>td, #root .table>tfoot>tr>th {
                 vertical-align: middle;
             }
             #root .table>thead>tr>td,
-            #root .table>tbody>tr>th.success, #root .table>tbody>tr>td, #root .table>tfoot>tr>td {
+            #root .table>tbody>tr>th.success, #root .table>tbody>tr>td,
+            #root .table>tfoot>tr>td {
                 text-align: center;
             }
             @media print {
@@ -406,6 +408,7 @@
                             <WeaponTable {...this.fn} {...this.state}/>
                         </Col>
                         </Row>
+                        <RagePanel {...this.fn} {...this.state} />
                         <Row>
                             <Col sm={12} md={6} className="note-col">
                                 <NoteArea {...this.fn} noteKey="feat" val={this.state.note.feat} />
@@ -423,7 +426,6 @@
                             </Col>
                         </Row>
                         <EquipmentTable {...this.fn} {...this.state} />
-                        <RagePanel {...this.fn} {...this.state} />
                         <SpellTablePanel {...this.fn} {...this.state} />
                     </Grid>
                     <AddfieldsNavbar {...this.fn} {...this.state} />
@@ -1394,7 +1396,7 @@
                 return (
                     <Table condensed className="spells-header-table">
                     <thead>
-                        <tr>
+                        <tr className="middle">
                         <td>Spellcaster class:</td>
                         <td><TextField {...props} bsSize="sm" propKey={[propKey,'className']}/></td>
                         <td>Level:</td>
