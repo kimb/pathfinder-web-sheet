@@ -16,6 +16,7 @@
         <style>
             #root .form-group { margin-bottom: 0px; }
             #root .form-control { padding: 6px 6px; }
+            #root label[for="stat-size"] { padding-top: 5px; }
             #root .class-name { width: 50%; }
             #root .armor-name { width: 40%; }
             #root .weapon-name { width: 25%; }
@@ -1409,7 +1410,7 @@
                 );
             }
 
-            const RANGES = [ 'personal', 'touch', 'short', 'medium', 'long' ];
+            const RANGES = [ 'personal', 'touch', 'close', 'medium', 'long' ];
             function SpellTablePanelRow(props) {
                 const {propKey,level,dcPlaceholder} = props;
                 const prep = props.getState([...propKey, 'prep']);
@@ -1461,7 +1462,7 @@
                         + ['class','misc'].reduce( function(sum, key) {
                             return sum + props.getState([...levelKey,key],0);
                         }, 0);
-                    const remainingProps = { className: remainingSpells>0 ? "success" : "" };
+                    const remainingProps = { className: remainingSpells>0 ? "success" : "text-center" };
                     const usedProps = { className:
                         props.getState([...levelKey,'class'])===undefined ? "" :
                         remainingSpells<0 ? "danger" : "warning" };
@@ -1471,7 +1472,7 @@
                                 propKey={[...levelKey,'known']}/></td>
                             <td><TextField {...props} className={hideLast} propKey={[...levelKey,'dc']}
                                 placeholder={10+lev+abilityMod} /></td>
-                            <td {...remainingProps}>{remainingSpells}</td>
+                            <th {...remainingProps}>{remainingSpells}</th>
                             <td><TextField {...props} propKey={[...levelKey,'class']}/></td>
                             <td>{hideLast?'':abilityBonus||''}</td>
                             <td><TextField {...props} className={hideLast}
@@ -1506,21 +1507,21 @@
                             <Table condensed className="spellRange-table">
                             <thead>
                                 <tr>
-                                    <td><small></small></td>
-                                    <td><small>Close</small></td>
-                                    <td><small>Medium</small></td>
-                                    <td><small>Long</small></td>
+                                    <td></td>
+                                    <td>Close</td>
+                                    <td>Medium</td>
+                                    <td>Long</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <th className="active"><small>Range(ft)</small></th>
-                                    <td className="success">
-                                        {25+5*Math.floor(props.getState([propKey,'level'])/2)}</td>
-                                    <td className="success">
-                                        {100+10*props.getState([propKey,'level'])}</td>
-                                    <td className="success">
-                                        {400+40*props.getState([propKey,'level'])}</td>
+                                    <td className="active">Range(ft)</td>
+                                    <th className="success">
+                                        {25+5*Math.floor(props.getState([propKey,'level'])/2)}</th>
+                                    <th className="success">
+                                        {100+10*props.getState([propKey,'level'])}</th>
+                                    <th className="success">
+                                        {400+40*props.getState([propKey,'level'])}</th>
                                 </tr>
                             </tbody>
                             </Table>
