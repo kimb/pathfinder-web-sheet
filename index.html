@@ -65,6 +65,7 @@
             #root .spell-list-table .spell-name { width: 60%; }
             #spell-note { min-height: 92px; }
 
+            #root .form-control-static .btn { margin-top: -5px; }
             #root textarea.form-control.onerow {
                 height: 34px;
             }
@@ -440,7 +441,7 @@
             function ColText(props) {
                 return (
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
-                <FormGroup validationState={props.validationState} bsSize="sm">
+                <FormGroup validationState={props.validationState}>
                     <ControlLabel>
                         <small>{props.label}</small>
                     </ControlLabel>
@@ -497,16 +498,18 @@
                 onlyUpdateForKeys(['info','stat']), pure)(InfoRowImpl);
             function InfoRowImpl(props) {
                 return (
+                    <div>
                     <Row>
                     <ColTextField {...props} propKey={['info','character']} xs={7} sm={6}/>
-                    <ColTextField {...props} propKey={['info','player']} xs={3} sm={5}/>
-                    <Col className="hidden" xs={2} sm={1}>
-                        <div><small>Minify<span className="hidden-xs"> URL</span></small></div>
+                    <ColTextField {...props} propKey={['info','player']} xs={3} sm={4}/>
+                    <ColText label="Minify" xs={2} sm={2}>
                         <Button
-                            bsStyle="info" target="_blank"
-                            href="javascript:window.open('http://www.dy.fi/?c=redir_add&bml=1&url='+encodeURIComponent(location.href), '_blank')">
-                            dy.fi</Button>
-                    </Col>
+                            bsSize="sm" bsStyle="info" target="_blank"
+                            href="javascript:window.open('https://tinyurl.com/create.php?url='+encodeURIComponent(location.href), '_blank')">
+                            tinyurl.com</Button>
+                    </ColText>
+                    </Row>
+                    <Row>
                     <ColTextField {...props} propKey={['info','race']} sm={2}/>
                     <ColTextField {...props} propKey={['info','gender']} sm={1}/>
                     <ColTextField {...props} propKey={['info','height']} xs={3} sm={1}/>
@@ -520,6 +523,7 @@
                     <ColTextField {...props} propKey={['info','homeland and occupation']} sm={7}/>
                     <ColTextField {...props} propKey={['info','languages']} sm={12}/>
                     </Row>
+                    </div>
                 );
             }
 
