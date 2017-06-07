@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
         <style>
+            #root .min-width-3-digits { min-width: 3.5em; }
             #root .form-group { margin-bottom: 0px; }
             #root .form-control { padding: 6px 6px; }
             #root label[for="stat-size"] { padding-top: 5px; }
@@ -646,9 +647,9 @@
                             <tr>
                                 <th className="class-name"><small>Classname</small></th>
                                 <th><small>HD</small></th>
-                                <th><small>HP</small></th>
+                                <th className="min-width-3-digits"><small>HP</small></th>
+                                <th className="min-width-3-digits"><small>Skill</small></th>
                                 <th><small>BAB</small></th>
-                                <th><small>Skill</small></th>
                                 <th><small>FORT</small></th>
                                 <th><small>REF</small></th>
                                 <th><small>WILL</small></th>
@@ -665,8 +666,8 @@
                                 <th>Base totals</th>
                                 <td></td>
                                 <td>{props.getClassTypeTotal('hp')}</td>
-                                <td>{props.getClassTypeTotal('bab')}</td>
                                 <td>{props.getClassTypeTotal('skill')}</td>
+                                <td>{props.getClassTypeTotal('bab')}</td>
                                 <td>{props.getClassTypeTotal('fort')}</td>
                                 <td>{props.getClassTypeTotal('refl')}</td>
                                 <td>{props.getClassTypeTotal('will')}</td>
