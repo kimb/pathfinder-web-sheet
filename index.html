@@ -169,8 +169,9 @@
 
                 componentDidUpdate(prevProps, prevState) {
                     const title = this.getState(['info','character'])
-                        + '(lvl' + this.getClassTypeTotal('levels') + '): '
-                        + (this.prevChangeWasToKey || '');
+                        + '(lvl' + this.getClassTypeTotal('levels') + ') '
+                        + "v" + this.getState(['md','rev'],0)
+                        + " / " + this.getState(['md','prevChangeTime'],'');
                     if( this.isLoading ) { // push no state while loading
                         document.title = title;
                         return;
@@ -292,6 +293,12 @@
                 setStateByKey( propKey, newVal ) {
                     this.setState( (prevState, setProps) => {
                         const newState = this.withPropKeyValue( prevState, propKey, newVal );
+                        if( !this.isLoading ) {
+                            newState.md = {
+                                prevChangeTime : new Date().toLocaleString('sv-SV'),
+                                rev : (prevState.md&&prevState.md.rev||0)+1
+                            };
+                        }
                         this.prevChangeWasToKey = propKey;
                         //console.log('setState', propKey, newVal, newState, 'of', prevState, setProps);
                         return newState;
@@ -354,6 +361,7 @@
                 render() {
                     return (
                     <Form>
+                    <AddfieldsNavbar {...this.fn} {...this.state} />
                     <Grid fluid>
                         <InfoRow {...this.fn} {...this.state} />
                         <Row>
@@ -430,7 +438,6 @@
                         <EquipmentTable {...this.fn} {...this.state} />
                         <SpellTablePanel {...this.fn} {...this.state} />
                     </Grid>
-                    <AddfieldsNavbar {...this.fn} {...this.state} />
                     </Form>
                     );
                 }
@@ -1562,7 +1569,7 @@
             }
 
             const AddfieldsNavbar = compose(
-                onlyUpdateForKeys(['debug', 'react_perf']),
+                onlyUpdateForKeys(['md','debug', 'react_perf']),
                 pure)(AddfieldsNavbarImpl);
             function AddfieldsNavbarImpl(props) {
                 function clearTemp(e) {
@@ -1579,10 +1586,19 @@
                     clearUses(e);
                     console.log( 'clearDamage' );
                 }
+                const version = "Edits: " + props.getState(['md','rev'],0)
+                    + " Last change at: " + props.getState(['md','prevChangeTime'],'N/A');
                 return (
                     <Navbar fluid>
+                        <Navbar.Header>
+                            <Navbar.Toggle />
+                        </Navbar.Header>
+                        <Navbar.Collapse>
+                            <Navbar.Text>
+                                { version }
+                            </Navbar.Text>
                         <Nav>
-                            <NavDropdown dropup title="TODO: Clear...">
+                            <NavDropdown title="TODO: Clear...">
                                 <MenuItem onSelect={clearTemp}>Temporary bonuses</MenuItem>
                                 <MenuItem onSelect={clearTempSubdual}>Temporary bonuses and subdual damage</MenuItem>
                                 <MenuItem onSelect={clearUses}>Uses per day</MenuItem>
@@ -1590,14 +1606,14 @@
                             </NavDropdown>
                         </Nav>
                         <Nav>
-                            <NavDropdown dropup title="Add fields for...">
+                            <NavDropdown title="Add fields for...">
                                 <MenuItem onSelect={props.handleChange(['rage'],Object)}>Rage</MenuItem>
                                 <MenuItem onSelect={props.handleChange(['spell1'],Object)}>Spellcaster class and spell list</MenuItem>
                                 <MenuItem>TODO:Spell like ability list</MenuItem>
                             </NavDropdown>
                         </Nav>
                         <Nav pullRight>
-                            <NavDropdown pullRight dropup title={<small>Debug</small>}>
+                            <NavDropdown pullRight title={<small>Debug</small>}>
                                 <MenuItem onSelect={props.handleChange(['debug'],invert)}>
                                     <Checkbox checked={props.getState(['debug'],false)}>
                                         console debug
@@ -1610,6 +1626,7 @@
                                 </MenuItem>
                             </NavDropdown>
                         </Nav>
+                        </Navbar.Collapse>
                     </Navbar>
                 );
             }
