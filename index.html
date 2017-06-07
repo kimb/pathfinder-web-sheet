@@ -1586,16 +1586,17 @@
                     clearUses(e);
                     console.log( 'clearDamage' );
                 }
-                const version = "Edits: " + props.getState(['md','rev'],0)
-                    + " Last change at: " + props.getState(['md','prevChangeTime'],'N/A');
                 return (
                     <Navbar fluid>
                         <Navbar.Header>
+                            <Navbar.Brand>
+                                { "Version: " + props.getState(['md','rev'],0) }
+                            </Navbar.Brand>
                             <Navbar.Toggle />
                         </Navbar.Header>
                         <Navbar.Collapse>
-                            <Navbar.Text>
-                                { version }
+                            <Navbar.Text validationState="success">
+                                { "last change at: " + props.getState(['md','prevChangeTime'],'N/A') }
                             </Navbar.Text>
                         <Nav>
                             <NavDropdown title="TODO: Clear...">
