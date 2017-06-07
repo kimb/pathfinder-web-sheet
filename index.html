@@ -141,8 +141,9 @@
             const { pure, compose, onlyUpdateForKeys  } = Recompose;
             const STATS = ['STR','DEX','CON', 'INT','WIS','CHA'];
             const STAT_TYPES = ['base','enhance','misc','temp'];
-            const CLASSES = ['class1','class2','class3','class4','class5'];
-            const CLASS_TYPES = [ 'class', 'hd', 'hp', 'bab', 'skill', 'fort', 'refl', 'will', 'levels' ];
+            const CLASSES = ['class1','class2','class3','class4','class5',
+                'class6','class7','class8','class9','class10'];
+            const CLASS_TYPES = [ 'class', 'hd', 'hp', 'skill', 'bab', 'fort', 'refl', 'will', 'levels' ];
             const WEAPONS = ['weapon0', 'weapon1','weapon2','weapon3','weapon4','weapon5',
                 'weapon6','weapon7','weapon8','weapon9','weapon10',
                 'weapon11','weapon12','weapon13','weapon14','weapon15',
@@ -641,6 +642,11 @@
             const ClassTable = compose(
                 onlyUpdateForKeys([...CLASSES]), pure)(ClassTableImpl);
             function ClassTableImpl(props) {
+                const classRows = CLASSES.map( function(classN,i) {
+                    if ( i>0 && isEmpty(props.getState(['class'+i]))
+                        && isEmpty(props.getState(['class'+(i+1)])) ) return null;
+                    return <ClassRow {...props} name={classN} val={props[classN]} />;
+                } );
                 return (
                     <Table condensed>
                         <thead>
@@ -657,11 +663,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <ClassRow {...props} name="class1" val={props.class1} />
-                            <ClassRow {...props} name="class2" val={props.class2} />
-                            <ClassRow {...props} name="class3" val={props.class3} />
-                            <ClassRow {...props} name="class4" val={props.class4} />
-                            <ClassRow {...props} name="class5" val={props.class5} />
+                            { classRows }
                             <tr>
                                 <th>Base totals</th>
                                 <td></td>
