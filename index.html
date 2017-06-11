@@ -149,6 +149,7 @@
                 'weapon11','weapon12','weapon13','weapon14','weapon15',
                 'weapon16','weapon17','weapon18','weapon19','weapon20'];
             const SAVES = ['fort','refl','will'];
+            const SPELLCASTERS = ['sp0','sp1','sp2','sp3','sp4'];
 
             class App extends React.Component {
                 constructor(props) {
@@ -220,6 +221,8 @@
                         if( k.indexOf('info.speed') == 0 ) return k.replace('info.speed', 'speed');
                         if( k.indexOf('acrobatic.') > 0 ) return k.replace('acrobatic.', 'acrobatics.');
                         if( /refl*\./.test(k) ) return k.replace(/refl*\./, 'refl.');
+                        if( k == 'note.spell1' ) return "sp0.note";
+                        if( k.indexOf('spell1.') == 0 ) return k.replace('spell1.', 'sp0.');
                         return k;
                     }
                     function getQueryParams(qs) {
@@ -438,7 +441,7 @@
                             </Col>
                         </Row>
                         <EquipmentTable {...this.fn} {...this.state} />
-                        <SpellTablePanel {...this.fn} {...this.state} />
+                        <SpellcasterPanels {...this.fn} {...this.state} />
                     </Grid>
                     </Form>
                     );
@@ -599,20 +602,21 @@
 
             const NoteArea = pure(NoteAreaImpl);
             function NoteAreaImpl(props) {
-                const noteKey = props.noteKey || props.propKey[props.propKey.length-1];
-                const propKey = props.propKey || ['note',noteKey];
+                const id = props.noteKey + '-note' || props.propKey.join('-');
+                const propKey = props.propKey || ['note', props.noteKey];
+                const role = props.noteKey || props.propKey[props.propKey.length-1];
                 const className = [props.className
                     ,"autoresize"
                     ,propKey.join('-')
                     ,props.onerow ? "onerow" : ""].join(' ');
                 return (
-                    <FormGroup controlId={noteKey+"-note"}>
+                    <FormGroup controlId={id}>
                         <FormControl componentClass="textarea"
                         inputRef={addAutoresize}
                         className={className}
                         value={props.getState(propKey,'')}
                         onChange={props.handleChange(propKey)}
-                        placeholder={props.placeholder || noteKey+" notes"} />
+                        placeholder={props.placeholder || role+" notes"} />
                     </FormGroup>
                 );
             }
@@ -1406,6 +1410,13 @@
                 );
             }
 
+            function SpellcasterPanels(props) {
+                const panels = SPELLCASTERS.map( function(k) {
+                    return <SpellTablePanel {...props} propKey={[k]}/>
+                });
+                return <div>{panels}</div>;
+            }
+
             function SpellTablePanelHeader(props) {
                 const {propKey} = props;
                 return (
@@ -1413,11 +1424,11 @@
                     <thead>
                         <tr className="middle">
                         <td>Spellcaster class:</td>
-                        <td><TextField {...props} bsSize="sm" propKey={[propKey,'className']}/></td>
+                        <td><TextField {...props} bsSize="sm" propKey={[...propKey,'className']}/></td>
                         <td>Level:</td>
-                        <td><TextField {...props} bsSize="sm" propKey={[propKey,'level']}/></td>
+                        <td><TextField {...props} bsSize="sm" propKey={[...propKey,'level']}/></td>
                         <td>Ability:</td>
-                        <td><SelectField {...props} propKey={[propKey,'ability']} options={STATS} /></td>
+                        <td><SelectField {...props} propKey={[...propKey,'ability']} options={STATS} /></td>
                         </tr>
                     </thead>
                     </Table>
@@ -1452,15 +1463,15 @@
             }
 
             function SpellTablePanel(props) {
-                const propKey = 'spell1';
-                if( !props.getState([propKey]) ) {
-                    return <span />;
+                const {propKey} = props;
+                if( !props.getState(propKey) ) {
+                    return null;
                 }
                 let spellTableRows = [];
-                const abilityMod = props.getAbilityMod( props.getState([propKey,'ability']), true );
+                const abilityMod = props.getAbilityMod( props.getState([...propKey,'ability']), true );
                 const rows = [0,1,2,3,4,5,6,7,8,9].map( function(lev) {
-                    if( lev>0 && props.getState([propKey,'l'+(lev-1),'class']) === undefined ) return;
-                    const levelKey = [propKey,'l'+(lev)];
+                    if( lev>0 && props.getState([...propKey,'l'+(lev-1),'class']) === undefined ) return;
+                    const levelKey = [...propKey,'l'+lev];
                     const hideLast = props.getState([...levelKey,'class']) === undefined?'hidden':'';
                     const abilityBonus = lev==0 ? 0 : abilityMod;
                     for( let i = 0; i<props.getState([...levelKey,'known'],0); i++ ) {
@@ -1531,16 +1542,16 @@
                                 <tr>
                                     <td className="active">Range(ft)</td>
                                     <th className="success">
-                                        {25+5*Math.floor(props.getState([propKey,'level'])/2)}</th>
+                                        {25+5*Math.floor(props.getState([...propKey,'level'])/2)}</th>
                                     <th className="success">
-                                        {100+10*props.getState([propKey,'level'])}</th>
+                                        {100+10*props.getState([...propKey,'level'])}</th>
                                     <th className="success">
-                                        {400+40*props.getState([propKey,'level'])}</th>
+                                        {400+40*props.getState([...propKey,'level'])}</th>
                                 </tr>
                             </tbody>
                             </Table>
                             <NoteArea {...props} placeholder="Specialty, domain, familiar, etc. notes"
-                                noteKey={propKey} val={props.note[propKey]} />
+                                propKey={[...propKey,'note']} val={props.getState([...propKey,'note'])} />
                         </Col>
                         </Row>
                         <Row>
@@ -1612,7 +1623,8 @@
                         <Nav>
                             <NavDropdown title="Add fields for...">
                                 <MenuItem onSelect={props.handleChange(['rage'],Object)}>Rage</MenuItem>
-                                <MenuItem onSelect={props.handleChange(['spell1'],Object)}>Spellcaster class and spell list</MenuItem>
+                                <MenuItem onSelect={props.handleChange([SPELLCASTERS.find(
+                                         x=>!props[x] )],Object)}>Spellcaster class and spell list</MenuItem>
                                 <MenuItem>TODO:Spell like ability list</MenuItem>
                             </NavDropdown>
                         </Nav>
