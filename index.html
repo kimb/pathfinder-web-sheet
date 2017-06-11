@@ -1613,7 +1613,7 @@
                                 { "last change at: " + props.getState(['md','prevChangeTime'],'N/A') }
                             </Navbar.Text>
                         <Nav>
-                            <NavDropdown title="TODO: Clear...">
+                            <NavDropdown title="TODO: Clear..." className="hidden">
                                 <MenuItem onSelect={clearTemp}>Temporary bonuses</MenuItem>
                                 <MenuItem onSelect={clearTempSubdual}>Temporary bonuses and subdual damage</MenuItem>
                                 <MenuItem onSelect={clearUses}>Uses per day</MenuItem>
@@ -1625,7 +1625,7 @@
                                 <MenuItem onSelect={props.handleChange(['rage'],Object)}>Rage</MenuItem>
                                 <MenuItem onSelect={props.handleChange([SPELLCASTERS.find(
                                          x=>!props[x] )],Object)}>Spellcaster class and spell list</MenuItem>
-                                <MenuItem>TODO:Spell like ability list</MenuItem>
+                                <MenuItem className="hidden">TODO:Spell like ability list</MenuItem>
                             </NavDropdown>
                         </Nav>
                         <Nav pullRight>
