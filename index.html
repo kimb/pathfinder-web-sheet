@@ -51,11 +51,6 @@
                 -moz-appearance: none;
                 -webkit-appearance:none;
             }
-            #root .spell-range select.form-control {
-                padding: 0;
-                -moz-appearance: none;
-                -webkit-appearance:none;
-            }
             #root .skill-ability select::-ms-expand {
                 display: none;
             }
@@ -66,6 +61,11 @@
             #root .spell-list-table .spell-name { width: 60%; }
             #spell-note { min-height: 92px; }
 
+            #root .appearance-none {
+                padding: 0;
+                -moz-appearance: none;
+                -webkit-appearance:none;
+            }
             #root .form-control-static .btn { margin-top: -5px; }
             #root textarea.form-control.onerow {
                 height: 34px;
@@ -150,6 +150,7 @@
                 'weapon16','weapon17','weapon18','weapon19','weapon20'];
             const SAVES = ['fort','refl','will'];
             const SPELLCASTERS = ['sp0','sp1','sp2','sp3','sp4'];
+            const ARMOR_TYPES = ['Light','Medium','Heavy'];
 
             class App extends React.Component {
                 constructor(props) {
@@ -1067,7 +1068,7 @@
 
             function ArmorTable(props) {
                 const armorKeys = ['ac','max-dex','skill-penalty',
-                    'spell-fail','type','weight'];
+                    'spell-fail','weight'];
                 const armorControls = armorKeys.map( (key) =>
                     <td><TextField {...props} propKey={['armor',key]} /></td>
                 );
@@ -1086,8 +1087,8 @@
                             <th><small>Max Dex</small></th>
                             <th><small>Check penalty</small></th>
                             <th><small>Spell fail</small></th>
-                            <th><small>Type</small></th>
                             <th><small>Weight</small></th>
+                            <th><small>Type</small></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1096,6 +1097,10 @@
                             <td><NoteArea {...props} propKey={['armor','desc']}
                                 placeholder="armor note" onerow /></td>
                             {armorControls}
+                            <td>
+                                <SelectField {...props} propKey={['armor','type']} options={ARMOR_TYPES}
+                                    className="appearance-none"/>
+                            </td>
                         </tr>
                         <tr>
                             <th className="active"><small>Shield</small></th>
@@ -1164,7 +1169,7 @@
                 );
             }
             function SelectField(props) {
-                const {propKey, options} = props;
+                const {propKey, className, options} = props;
                 const currVal = props.getState(propKey);
                 const emptyOption = options.indexOf(currVal) > -1 ? "" : <option />
                 const optionList = options.map( (option,index) =>
@@ -1172,6 +1177,7 @@
                 return (
                     <FormGroup controlId={propKey.join('-')} bsSize={props.bsSize||"sm"}>
                         <FormControl componentClass="select"
+                            className={className}
                             placeholder={props.getState(propKey)}
                             value={props.getState(propKey)}
                             onChange={props.handleChange(propKey)}>
@@ -1456,7 +1462,8 @@
                     <td><TextField {...props} propKey={[...propKey,'school']}/></td>
                     <td><TextField {...props} propKey={[...propKey,'duration']}/></td>
                     <td className="spell-range">
-                        <SelectField {...props} propKey={[...propKey,'range']} options={RANGES} />
+                        <SelectField {...props} propKey={[...propKey,'range']} options={RANGES}
+                            className="appearance-none"/>
                     </td>
                 </tr>
                 );
