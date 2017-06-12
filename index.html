@@ -156,7 +156,7 @@
                 constructor(props) {
                     super(props);
                     this.prevChangeWasToKey = '';
-                    this.state = {stat:{ size:0 }, note:{}};
+                    this.state = {stat:{ size:0 }, speed:{land:'30x4'}, note:{}};
                     STATS.map( (stat) => {
                         this.state.stat[stat] = { 'base': 10 };
                     });
