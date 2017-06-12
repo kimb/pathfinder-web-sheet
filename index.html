@@ -169,6 +169,8 @@
                     this.fn.getAbilityTotal = this.getAbilityTotal.bind(this);
                     this.fn.getAbilityMod = this.getAbilityMod.bind(this);
                     this.fn.getArmorLimitedDex = this.getArmorLimitedDex.bind(this);
+                    this.fn.getCurrentLoad = this.getCurrentLoad.bind(this);
+                    this.fn.getMaxLoad = this.getMaxLoad.bind(this);
                 }
 
                 componentDidUpdate(prevProps, prevState) {
@@ -364,6 +366,39 @@
                         this.getState(['armor','max-dex'], Infinity),
                         this.getState(['shield','max-dex'], Infinity));
                 }
+                getCurrentLoad() {
+                    return [...WEAPONS, 'armor', 'shield'].map( k => [k] )
+                        .concat( Object.keys( this.state.eq || {} ).map ( k => ['eq', k] ) )
+                        .reduce( (sum, key) => {
+                            const propKey = [...key, 'weight'];
+                            return sum + this.getState( propKey, 0 );
+                        }, 0);
+                }
+                getMaxLoad(str) {
+                    function baseMaxLoad(str) {
+                        if( str < 11 ) return 10*str;
+                        if( str > 14 ) return 2*baseMaxLoad(str-5);
+                        return [115, 130, 150, 175][str-11];
+                    }
+                    function sizeMultiplier(sizeMod, legs) {
+                        if( legs == 2) {
+                            if( sizeMod < 0 ) return -sizeMod*2;
+                            if( sizeMod == 0 ) return 1;
+                            if( sizeMod == 1 ) return 3/4;
+                            return 1/sizeMod;
+                        } else if( legs == 4 ) {
+                            if( sizeMod < 1 )
+                                return sizeMultiplier(sizeMod,2)*3/2;
+                            if( sizeMod == 1 ) return 1;
+                            if( sizeMod == 2 ) return 3/4;
+                            return 2*sizeMultiplier(sizeMod,2);
+                        }
+                    }
+                    return Math.floor(
+                        baseMaxLoad( this.getAbilityTotal('STR'))
+                        * sizeMultiplier(this.getState(['stat','size']),
+                            this.getState(['stat','legs'],2)) );
+                }
                 render() {
                     return (
                     <Form>
@@ -442,6 +477,7 @@
                             </Col>
                         </Row>
                         <EquipmentTable {...this.fn} {...this.state} />
+                        <LoadRow {...this.fn} {...this.state} />
                         <SpellcasterPanels {...this.fn} {...this.state} />
                     </Grid>
                     </Form>
@@ -1651,6 +1687,47 @@
                         </Nav>
                         </Navbar.Collapse>
                     </Navbar>
+                );
+            }
+
+            function LoadRow(props) {
+                const maxLoad = props.getMaxLoad();
+                const loadLevels = [Math.floor(1/3*maxLoad),
+                    Math.floor(2/3*maxLoad), maxLoad];
+                const currentLoad = props.getCurrentLoad();
+                function loadClass(loadLevel) {
+                    const levels = [-1].concat(loadLevels);
+                    if( currentLoad > levels[3] ) return "danger"
+                    return levels[loadLevel] < currentLoad &&
+                        currentLoad <= levels[loadLevel+1] ? "success" : "";
+                }
+                return (
+                    <Row>
+                        <Col sm={6}>
+                            <Table condensed className="load-table">
+                            <thead>
+                                <tr>
+                                    <td></td>
+                                    <td>Light</td>
+                                    <td>Medium</td>
+                                    <td>Heavy</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td className="active">Current load: <strong>{currentLoad}</strong></td>
+                                    <td className={loadClass(0)}>{loadLevels[0]}</td>
+                                    <td className={loadClass(1)}>{loadLevels[1]}</td>
+                                    <td className={loadClass(2)}>{loadLevels[2]}</td>
+                                </tr>
+                            </tbody>
+                            </Table>
+                        </Col>
+                        <Col sm={6}>
+                            <NoteArea {...props} placeholder="Load notes"
+                                propKey={['load','note']} val={props.getState(['load','note'])} />
+                        </Col>
+                    </Row>
                 );
             }
 
