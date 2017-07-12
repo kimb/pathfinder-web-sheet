@@ -14,74 +14,25 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
         <style>
-            #root .min-width-3-digits { min-width: 3.5em; }
+            /* Normalize customization */
+            .small { font-size: 80%; }
+            /* Bootstrap customization */
             #root .form-group { margin-bottom: 0px; }
             #root .form-control { padding: 6px 6px; }
-            #root label[for="stat-size"] { padding-top: 5px; }
-            #root .class-name { width: 50%; }
-            #root .armor-name { width: 40%; }
-            #root .weapon-name { width: 25%; }
-            #root .weapon-bonus { width: 4%; }
-            #root .weapon-damage { width: 12%; }
-            #root .weapon-critical { width: 7%; }
-            #root .weapon-range { width: 8%; }
-            #root .weapon-type { width: 3%; }
-            #root .weapon-weight { width: 3%; }
-            #root .ability-table .ability-base { width: 15%; }
-            #ability-note { min-height: 212px; }
-            #root .skill-table .skill-name {
-                width: 40%;
-                text-align: left;
-            }
-            #root .hp-table .hp-temporary { min-width: 110px; }
-            #root .note-col { padding-bottom: 5px; }
-            #save-note { min-height: 171px; }
-            #attack-note { min-height: 196px; }
-            #root .skill-table input.form-control, #root .skill-table select.form-control {
+            #root textarea { margin-bottom: 20px; }
+            #root table textarea { margin-bottom: 0; }
+            #root small input.form-control, #root small select.form-control,
+            #root .small input.form-control, #root .small select.form-control {
                 font-size: 100%; /*inherit small*/
                 height: 22px;
             }
-            #root .skill-table td.skill-ability {
-                padding: 3px;
-                width: 12%;
-            }
-            #root .skill-ability select.form-control {
-                padding: 0;
-                line-height: 20px;
-                -moz-appearance: none;
-                -webkit-appearance:none;
-            }
-            #root .skill-ability select::-ms-expand {
-                display: none;
-            }
-            #root .equipment-table .equipment-name {
-                width: 80%;
-                text-align: left;
-            }
-            #root .spell-list-table .spell-name { width: 60%; }
-            #spell-note { min-height: 92px; }
-
-            #root .appearance-none {
-                padding: 0;
-                -moz-appearance: none;
-                -webkit-appearance:none;
-            }
             #root .form-control-static .btn { margin-top: -5px; }
-            #root textarea.form-control.onerow {
-                height: 34px;
-            }
             #root .checkbox-inline input[type=text] {
                 display: inline;
                 width: 70%;
             }
             #root input[type=text] {
                 min-width: 2.1em;
-            }
-            #root textarea.autoresize {
-                height: auto;
-                display: block;
-                overflow: hidden;
-                resize: none;
             }
             #root .navbar {
                 margin: 12px;
@@ -97,8 +48,7 @@
                 vertical-align: middle;
             }
             #root .table>thead>tr>td,
-            #root .table>tbody>tr>th.success, #root .table>tbody>tr>td,
-            #root .table>tfoot>tr>td {
+            #root .table>tbody>tr>th.success, #root .table>tbody>tr>td {
                 text-align: center;
             }
             @media print {
@@ -134,6 +84,69 @@
                 .col-md-2 { width: 16.666666666666664%; }
                 .col-md-1 { width: 8.333333333333332%; }
             }
+            /* custom classes */
+            #root .width-2-digit { width: 2.5em; }
+            #root .width-4em { width: 4em; }
+            #root .width-5em { width: 5em; }
+            #root .min-width-3-digits { min-width: 3.5em; }
+            #root .line-height-1 { line-height: 1.0; }
+            #root textarea.form-control.onerow {
+                height: 34px;
+            }
+            #root textarea.autoresize {
+                height: auto;
+                display: block;
+                overflow: hidden;
+                resize: none;
+            }
+            #root .appearance-none {
+                padding: 0;
+                -moz-appearance: none;
+                -webkit-appearance:none;
+            }
+            /* component specific */
+            #root label[for="stat-size"] { padding-top: 5px; }
+            #root .class-name { width: 50%; }
+            #root .armor-name { width: 40%; }
+            #root .weapon-name { width: 25%; }
+            #root .weapon-bonus { width: 4%; }
+            #root .weapon-damage { width: 12%; }
+            #root .weapon-critical { width: 7%; }
+            #root .weapon-range { width: 8%; }
+            #root .weapon-type { width: 3%; }
+            #root .weapon-weight { width: 3%; }
+            #root .ability-table .ability-base { width: 15%; }
+            #ability-note { min-height: 212px; }
+            #root .skill-table .skill-name {
+                width: 40%;
+                text-align: left;
+                padding-right: 0;
+            }
+            #root .hp-table .hp-temporary { min-width: 110px; }
+            #root .note-col { padding-bottom: 5px; }
+            #save-note { min-height: 171px; }
+            #attack-note { min-height: 196px; }
+            #root .skill-table td.skill-ability {
+                padding: 3px;
+                padding-right: 0;
+                width: 12%;
+            }
+            #root .skill-ability select.form-control {
+                padding: 0;
+                line-height: 20px;
+                -moz-appearance: none;
+                -webkit-appearance:none;
+            }
+            #root .skill-ability select::-ms-expand {
+                display: none;
+            }
+            #root .equipment-table .equipment-name {
+                width: 80%;
+                text-align: left;
+            }
+            #root .spell-list-table .spell-name { width: 60%; }
+            #spell-note { min-height: 92px; }
+
         </style>
 
         <script type="text/babel">
@@ -156,10 +169,51 @@
                 constructor(props) {
                     super(props);
                     this.prevChangeWasToKey = '';
-                    this.state = {stat:{ size:0 }, speed:{land:'30x4'}, note:{}};
+                    this.state = {stat:{ size:0 } };
                     STATS.map( (stat) => {
                         this.state.stat[stat] = { 'base': 10 };
                     });
+                    this.default = {
+                        load: {
+                            light: {
+                                "base-speed": "30 (x4)",
+                                "max-dex": Infinity,
+                                "skill-penalty": 0
+                            },
+                            medium: {
+                                "base-speed": function(fn) {
+                                    return Speed.reduceBase(fn.getValue('load.light.base-speed'));
+                                },
+                                "max-dex": 3,
+                                "skill-penalty": 3
+                            },
+                            heavy: {
+                                "base-speed": function(fn) {
+                                    return Speed.reduceRun(fn.getValue('load.medium.base-speed'));
+                                },
+                                "max-dex": 1,
+                                "skill-penalty": 6
+                            },
+                            lift: {
+                                "base-speed": "5/round"
+                            }
+                        },
+                        armor: {
+                            light: {
+                                "base-speed": function(fn) { return fn.getValue('load.light.base-speed'); }
+                            },
+                            medium: {
+                                "base-speed": function(fn) {
+                                    return Speed.reduceBase(fn.getValue('armor.light.base-speed'));
+                                }
+                            },
+                            heavy: {
+                                "base-speed": function(fn) {
+                                    return Speed.reduceRun(fn.getValue('armor.medium.base-speed'));
+                                }
+                            }
+                        }
+                    }
                     this.prevHistoryPushWasWithKey;
                     this.isLoading = false;
                     this.fn = {};
@@ -170,7 +224,18 @@
                     this.fn.getAbilityMod = this.getAbilityMod.bind(this);
                     this.fn.getArmorLimitedDex = this.getArmorLimitedDex.bind(this);
                     this.fn.getCurrentLoad = this.getCurrentLoad.bind(this);
-                    this.fn.getMaxLoad = this.getMaxLoad.bind(this);
+                    this.fn.getCurrentLoadName = this.getCurrentLoadName.bind(this);
+                    this.fn.getArmedLoad = this.getArmedLoad.bind(this);
+                    this.fn.getArmedLoadName = this.getArmedLoadName.bind(this);
+                    this.fn.getLoadLevels = this.getLoadLevels.bind(this);
+                    this.fn.getArmedSpeed = this.getArmedSpeed.bind(this);
+                    this.fn.getCurrentSpeed = this.getCurrentSpeed.bind(this);
+                    this.fn.getOverlandSpeed = this.getOverlandSpeed.bind(this);
+                    this.fn.getArmedSkillCheckPenalty = this.getArmedSkillCheckPenalty.bind(this);
+                    this.fn.getCurrentSkillCheckPenalty = this.getCurrentSkillCheckPenalty.bind(this);
+                    this.fn.getDefault = this.getDefault.bind(this);
+                    this.fn.getValue = this.getValue.bind(this);
+                    window.app = this; // for console debugging
                 }
 
                 componentDidUpdate(prevProps, prevState) {
@@ -226,6 +291,7 @@
                         if( /refl*\./.test(k) ) return k.replace(/refl*\./, 'refl.');
                         if( k == 'note.spell1' ) return "sp0.note";
                         if( k.indexOf('spell1.') == 0 ) return k.replace('spell1.', 'sp0.');
+                        if( k.indexOf('speed.land') == 0 ) return "load.light.base-speed";
                         return k;
                     }
                     function getQueryParams(qs) {
@@ -299,6 +365,8 @@
                     return newState;
                 }
                 setStateByKey( propKey, newVal ) {
+                    if( propKey.indexOf('.') > 0 )
+                        propKey = propKey.split('.');
                     this.setState( (prevState, setProps) => {
                         const newState = this.withPropKeyValue( prevState, propKey, newVal );
                         if( !this.isLoading ) {
@@ -330,20 +398,41 @@
                         this.setStateByKey( propKey, newVal );
                     };
                 }
-                getState(propKey, defaultTo) {
-                    if( typeof defaultTo === 'number' ) {
+                getState(propKey, defaultTo, type) {
+                    if( !type ) type = typeof defaultTo;
+                    if( type === 'number' ) {
+                        const stateVal = this.getState( propKey );
+                        if( undefined === defaultTo && undefined === stateVal ) return undefined;
                         return Number( this.getState( propKey ) || defaultTo );
                     }
-                    if( typeof defaultTo === 'boolean' ) {
+                    if( type === 'boolean' ) {
                         return this.getState( propKey, 'false' ).toString() === 'true';
                     }
+                    if( propKey.indexOf('.') > 0 )
+                        propKey = propKey.split('.');
                     if( !Array.isArray(propKey) ) {
-                        throw new Error('propKey must be an array: ' + propKey);
+                        throw new Error('propKey must be an array or dot-separated: ' + propKey);
                     }
                     const stateVal = propKey.reduce((tree, key) =>
                         typeof tree == 'object' && key in tree ? tree[key] : undefined, this.state );
                     return stateVal !== undefined ? stateVal : defaultTo;
                 }
+                getDefault(propKey) {
+                    if( propKey.indexOf('.') > 0 )
+                        propKey = propKey.split('.');
+                    const value = propKey.reduce((tree, key) =>
+                        typeof tree == 'object' && key in tree ? tree[key] : undefined, this.default );
+                    return typeof value == 'function' ? value(this.fn) : value;
+                }
+
+                getValue(propKey, defaultTo) {
+                    const stateVal = this.getState( propKey, undefined, typeof defaultTo)
+                    if( undefined !== stateVal ) return stateVal;
+                    const defaultVal = this.getDefault( propKey );
+                    if( undefined !== defaultVal ) return defaultVal;
+                    return defaultTo;
+                }
+
                 getClassTypeTotal(type) {
                     return CLASSES.reduce( (sum, classN) =>
                         ( sum+this.getState([classN,type],0)), 0)
@@ -374,7 +463,25 @@
                             return sum + this.getState( propKey, 0 );
                         }, 0);
                 }
-                getMaxLoad(str) {
+                getCurrentLoadName() {
+                    return this.getLoadName( this.getCurrentLoad() );
+                }
+                getArmedLoad() {
+                    return [...WEAPONS, 'armor', 'shield'].map( k => [k] )
+                        .reduce( (sum, key) => {
+                            const propKey = [...key, 'weight'];
+                            return sum + this.getState( propKey, 0 );
+                        }, 0);
+                }
+                getArmedLoadName() {
+                    return this.getLoadName( this.getArmedLoad() );
+                }
+                getLoadName( load ) {
+                    const loadLevels = this.getLoadLevels();
+                    const i=loadLevels.findIndex( function(loadLimit) { return load <= loadLimit; } );
+                    return ['light', 'medium', 'heavy', 'lift', 'drag', 'overloaded'][i];
+                }
+                getLoadLevels() {
                     function baseMaxLoad(str) {
                         if( str < 11 ) return 10*str;
                         if( str > 14 ) return 2*baseMaxLoad(str-5);
@@ -394,11 +501,43 @@
                             return 2*sizeMultiplier(sizeMod,2);
                         }
                     }
-                    return Math.floor(
-                        baseMaxLoad( this.getAbilityTotal('STR'))
+                    const maxLoad = Math.floor(
+                        baseMaxLoad( this.getAbilityTotal('STR') )
                         * sizeMultiplier(this.getState(['stat','size']),
                             this.getState(['stat','legs'],2)) );
+                    return [Math.floor(1/3*maxLoad),
+                        Math.floor(2/3*maxLoad), maxLoad, 2*maxLoad, 5*maxLoad, Infinity];
                 }
+
+                getArmedSpeed() {
+                    return Speed.min(
+                        this.getValue('armor.'+this.getState('armor.type', 'Light').toLowerCase()+'.base-speed'),
+                        this.getValue('load.'+this.getLoadName(this.getArmedLoad())+'.base-speed'));
+                }
+
+                getCurrentSpeed() {
+                    return Speed.min(
+                        this.getArmedSpeed(),
+                        this.getValue('load.'+this.getCurrentLoadName()+'.base-speed') );
+                }
+
+                getOverlandSpeed() {
+                    return Speed.parse(this.getCurrentSpeed()).base/10;
+                }
+
+                getArmedSkillCheckPenalty() {
+                    return Math.max(
+                        this.getState(['armor','skill-penalty'],0)
+                            + this.getState(['shield','skill-penalty'],0),
+                        this.getValue('load.'+this.getArmedLoadName()+'.skill-penalty', NaN) );
+                }
+
+                getCurrentSkillCheckPenalty() {
+                    return Math.max(
+                        this.getArmedSkillCheckPenalty(),
+                        this.getValue('load.'+this.getCurrentLoadName()+'.skill-penalty', NaN) );
+                }
+
                 render() {
                     return (
                     <Form>
@@ -413,7 +552,7 @@
                             </Col>
                             <SizeField className="note-col" {...this.fn} {...this.state} sm={3} xs={4}/>
                             <Col xs={4} sm={3} className="note-col">
-                                <NoteArea {...this.fn} noteKey="ability" val={this.state.note.ability} />
+                                <NoteArea {...this.fn} noteKey="ability" val={this.getState('note.ability')} />
                             </Col>
                         </Row>
                         </Col>
@@ -423,7 +562,6 @@
                         </Row>
                         <Row>
                         <Col md={7}>
-                            <SpeedTable {...this.fn} {...this.state} />
                             <Row>
                             <Col xs={7}>
                                 <InitTable {...this.fn} {...this.state}/>
@@ -439,7 +577,7 @@
                                 <SaveTable {...this.fn} {...this.state}/>
                             </Col>
                             <Col xs={4} className="note-col">
-                                <NoteArea {...this.fn} noteKey="save" val={this.state.note.save} />
+                                <NoteArea {...this.fn} noteKey="save" val={this.getState('note.save')} />
                             </Col>
                         </Row>
                         <Row>
@@ -447,7 +585,7 @@
                                 <AttackTable {...this.fn} {...this.state} />
                             </Col>
                             <Col xs={4} className="note-col">
-                                <NoteArea {...this.fn} noteKey="attack" val={this.state.note.attack} />
+                                <NoteArea {...this.fn} noteKey="attack" val={this.getState('note.attack')} />
                             </Col>
                         </Row>
                         <ArmorTable {...this.fn}/>
@@ -462,22 +600,29 @@
                         <RagePanel {...this.fn} {...this.state} />
                         <Row>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.fn} noteKey="feat" val={this.state.note.feat} />
+                                <NoteArea {...this.fn} noteKey="feat" val={this.getState('note.feat')} />
                             </Col>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.fn} noteKey="character" val={this.state.note.character} />
+                                <NoteArea {...this.fn} noteKey="character" val={this.getState('note.character')} />
                             </Col>
                         </Row>
                         <Row>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.fn} noteKey="special" val={this.state.note.special} />
+                                <NoteArea {...this.fn} noteKey="special" val={this.getState('note.special')} />
                             </Col>
                             <Col sm={12} md={6} className="note-col">
-                                <NoteArea {...this.fn} noteKey="equipment" val={this.state.note.equipment} />
+                                <NoteArea {...this.fn} noteKey="equipment" val={this.getState('note.equipment')} />
                             </Col>
                         </Row>
                         <EquipmentTable {...this.fn} {...this.state} />
-                        <LoadRow {...this.fn} {...this.state} />
+                        <Row>
+                            <Col sm={7}>
+                                <SpeedTable {...this.fn} {...this.state} />
+                                <NoteArea {...this.fn} {...this.state} placeholder="Speed and load notes" onerow
+                                    propKey={['load','note']} val={this.getState('load.note')}/>
+                            </Col>
+                            <Col sm={5}><LoadTable {...this.fn} {...this.state} /></Col>
+                        </Row>
                         <SpellcasterPanels {...this.fn} {...this.state} />
                     </Grid>
                     </Form>
@@ -625,13 +770,14 @@
             }
 
             function TextField(props) {
+                const placeholder = props.placeholder || props.getDefault( props.propKey );
                 //console.debug(props.propKey, props.getState(props.propKey));
                 return (
                 <FormControl type="text"
                     id={props.propKey.join('-')}
                     value={props.getState(props.propKey, '')}
                     onChange={props.handleChange(props.propKey)}
-                    placeholder={props.placeholder}
+                    placeholder={placeholder}
                     className={props.className||''}
                 />
                 );
@@ -815,40 +961,46 @@
                 );
             }
 
-            const SpeedTable = compose(
-                onlyUpdateForKeys(['speed']), pure)(SpeedTableImpl);
-            function SpeedTableImpl(props) {
+            function SpeedTable(props) {
                 return (
+                    <div>
                     <Table condensed>
                     <thead>
                         <tr>
-                            <th></th>
-                            <th><small>Land</small></th>
-                            <th><small>w/&nbsp;armor</small></th>
-                            <th><small>Swim</small></th>
-                            <th><small>Climb</small></th>
-                            <th><small>Fly</small></th>
-                            <th><small>Fly&nbsp;manu.</small></th>
-                            <th><small>Burrow</small></th>
-                            <th><small>Misc</small></th>
-                            <th><small>Temp</small></th>
+                            <th>Speed</th>
+                            <th><small>armed & armored wo/&nbsp;equipment</small></th>
+                            <th><small>a&a w/ all equipment</small></th>
+                            <th><small>Overland mph</small></th>
+                            <th><small>Misc note</small></th>
+                            <th><small>Temp note</small></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <th className="active">Speed</th>
-                            <td><TextField {...props} propKey={['speed','land']} /></td>
-                            <td><TextField {...props} propKey={['speed','armored']} /></td>
-                            <td><TextField {...props} propKey={['speed','swim']} /></td>
-                            <td><TextField {...props} propKey={['speed','climb']} /></td>
-                            <td><TextField {...props} propKey={['speed','fly']} /></td>
-                            <td><TextField {...props} propKey={['speed','fly-manu']} /></td>
-                            <td><TextField {...props} propKey={['speed','burrow']} /></td>
+                            <th className="active">Land</th>
+                            <td className="success">{props.getArmedSpeed()}</td>
+                            <td className="info">{props.getCurrentSpeed()}</td>
+                            <td>{props.getOverlandSpeed()}</td>
                             <td><TextField {...props} propKey={['speed','misc']} /></td>
                             <td><TextField {...props} propKey={['speed','temp']} /></td>
                         </tr>
                     </tbody>
                     </Table>
+                    <Table condensed>
+                    <tbody>
+                        <tr>
+                            <th className="active"><small>Swim</small></th>
+                            <td><TextField {...props} propKey={['speed','swim']} /></td>
+                            <th className="active"><small>Climb</small></th>
+                            <td><TextField {...props} propKey={['speed','climb']} /></td>
+                            <th className="active"><small>Fly</small></th>
+                            <td><TextField {...props} propKey={['speed','fly']} /></td>
+                            <th className="active"><small>Burrow</small></th>
+                            <td><TextField {...props} propKey={['speed','burrow']} /></td>
+                        </tr>
+                    </tbody>
+                    </Table>
+                    </div>
                 );
             }
 
@@ -962,7 +1114,8 @@
                 const rageBonus = raging ? getRageState(props)[props.save] || 0 : 0;
                 return (
                     <tr>
-                        <th className="active">{props.save.toUpperCase()}</th>
+                        <th className="active line-height-1">{props.save.toUpperCase()}
+                            <small> ({props.ability})</small></th>
                         <th className="success">{
                             props.getClassTypeTotal(props.save)
                             +props.getAbilityMod(props.ability)
@@ -1242,7 +1395,7 @@
             function SkillRow(props) {
                 const {propKey,name,ability,hasCategory} = props;
                 const hasAcPenalty = SKILL_AC_PENALTY_ABILITIES.indexOf(ability) > -1;
-                const dispName = name + (hasAcPenalty ? '*': '') + (hasCategory ? ': ': '');
+                const dispName = name + (hasCategory ? ': ': '');
                 const categoryField = hasCategory
                         ? <TextField {...props} propKey={[...propKey,'categ']}/>
                         : "";
@@ -1267,8 +1420,8 @@
                             + (ranks>0 && isClass ? 3 : 0)
                             + props.getState([...propKey,'misc'],0)
                             + props.getState([...propKey,'temp'],0)
-                            - (hasAcPenalty ? props.getState(['armor','skill-penalty'],0)
-                                + props.getState(['shield','skill-penalty'],0) : 0 )
+                            - (hasAcPenalty ? props.getCurrentSkillCheckPenalty() : 0 )
+                            + (hasAcPenalty ? '*': '')
                         : ""
                             }</small></th>
                     <td><small><TextField {...props} propKey={[...propKey,'ranks']}/></small></td>
@@ -1280,7 +1433,7 @@
             }
 
             const SkillTable = compose(
-                onlyUpdateForKeys(['skill', 'stat', 'armor', 'shield', ...CLASSES]),
+                onlyUpdateForKeys(['skill', 'stat', 'armor', 'shield', ...CLASSES, 'load', 'eq', ...WEAPONS]),
                 pure)(SkillTableImpl);
             function SkillTableImpl(props) {
                 const SKILL_ABILITIES = ['DEX', 'INT', 'CHA', 'STR', 'INT', 'CHA',
@@ -1351,7 +1504,7 @@
                             <th><small>Total</small></th>
                             <th><small>Ranks</small></th>
                             <th><small>Abil</small></th>
-                            <th><small>Trai</small></th>
+                            <th><small>Trn.</small></th>
                             <th><small>Misc</small></th>
                             <th><small>Temp</small></th>
                         </tr>
@@ -1360,6 +1513,16 @@
                         {skillRows}
                         {customSkillRows}
                     </tbody>
+                    <tfoot className="small">
+                        <tr>
+                            <td colSpan={8}>
+                                *: denotes that current armor check penalty is applied:
+                                { props.getCurrentSkillCheckPenalty() }<br/>
+                                (using a move action to drop your equipment would change it to:
+                                { props.getArmedSkillCheckPenalty() })
+                            </td>
+                        </tr>
+                    </tfoot>
                     </Table>
                 );
             }
@@ -1403,8 +1566,8 @@
                 const {propKey} = props;
                 return (<tr>
                     <td><small><NoteArea {...props} placeholder="name note" propKey={[...propKey,'name']} onerow/></small></td>
-                    <td><small><TextField {...props} propKey={[...propKey,'value']}/></small></td>
-                    <td><small><TextField {...props} propKey={[...propKey,'weight']}/></small></td>
+                    <td><TextField {...props} propKey={[...propKey,'value']}/></td>
+                    <td><TextField {...props} propKey={[...propKey,'weight']}/></td>
                 </tr>);
             }
 
@@ -1583,7 +1746,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td className="active">Range(ft)</td>
+                                    <td className="active">Range (ft)</td>
                                     <th className="success">
                                         {25+5*Math.floor(props.getState([...propKey,'level'])/2)}</th>
                                     <th className="success">
@@ -1690,24 +1853,28 @@
                 );
             }
 
-            function LoadRow(props) {
-                const maxLoad = props.getMaxLoad();
-                const loadLevels = [Math.floor(1/3*maxLoad),
-                    Math.floor(2/3*maxLoad), maxLoad];
+            function LoadTable(props) {
+                const loadLevels = props.getLoadLevels();
                 const currentLoad = props.getCurrentLoad();
-                function loadClass(loadLevel) {
+                function fullLoadClass(loadLevel) {
                     const levels = [-1].concat(loadLevels);
-                    if( currentLoad > levels[3] ) return "danger"
+                    if( currentLoad > levels[3] && loadLevel < 3 ) return "danger"
                     return levels[loadLevel] < currentLoad &&
-                        currentLoad <= levels[loadLevel+1] ? "success" : "";
+                        currentLoad <= levels[loadLevel+1] ? "info" : "";
+                }
+                const armedLoadName = props.getArmedLoadName();
+                function loadClass(loadName) {
+                    return armedLoadName == loadName ? "success" : "";
+                }
+                function armorClass(armorLevel) {
+                    return ARMOR_TYPES[armorLevel] == props.getState('armor.type') ?
+                        "success" : "";
                 }
                 return (
-                    <Row>
-                        <Col sm={6}>
-                            <Table condensed className="load-table">
+                            <Table condensed className="load-table small">
                             <thead>
                                 <tr>
-                                    <td></td>
+                                    <th>Encumberance</th>
                                     <td>Light</td>
                                     <td>Medium</td>
                                     <td>Heavy</td>
@@ -1717,21 +1884,71 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td className="active">Current load: <strong>{currentLoad}</strong></td>
-                                    <td className={loadClass(0)}>{loadLevels[0]}</td>
-                                    <td className={loadClass(1)}>{loadLevels[1]}</td>
-                                    <td className={loadClass(2)}>{loadLevels[2]}</td>
-                                    <td>{loadLevels[2]*2}</td>
-                                    <td>{loadLevels[2]*5}</td>
+                                    <th className="active">Current load: <strong>{currentLoad}</strong></th>
+                                    <td className={fullLoadClass(0)}>{loadLevels[0]}</td>
+                                    <td className={fullLoadClass(1)}>{loadLevels[1]}</td>
+                                    <td className={fullLoadClass(2)}>{loadLevels[2]}</td>
+                                    <td className={fullLoadClass(3)}>{loadLevels[2]*2}</td>
+                                    <td className={fullLoadClass(4)}>{loadLevels[2]*5}</td>
+                                </tr>
+                                <tr>
+                                    <th className="active">a&a load: <strong>{props.getArmedLoad()}</strong></th>
+                                    <td className={loadClass('light')}>{loadLevels[0]}</td>
+                                    <td className={loadClass('medium')}>{loadLevels[1]}</td>
+                                    <td className={loadClass('heavy')}>{loadLevels[2]}</td>
+                                    <td className={loadClass('lift')}>{loadLevels[2]*2}</td>
+                                    <td className={loadClass('drag')}>{loadLevels[2]*5}</td>
+                                </tr>
+                                <tr>
+                                    <th className="active">Max DEX to AC</th>
+                                    <td className={loadClass('light')}>-</td>
+                                    <td className={loadClass('medium')}>
+                                        <TextField {...props} propKey={['load','medium','max-dex']}
+                                            placeholder="3" className="width-2-digit" /></td>
+                                    <td className={loadClass('heavy')}>
+                                        <TextField {...props} propKey={['load','heavy','max-dex']}
+                                            placeholder="1" className="width-2-digit" /></td>
+                                    <td>
+                                        <TextField {...props} propKey={['load','stagger','max-dex']}
+                                            placeholder="0" className="width-2-digit" /></td>
+                                </tr>
+                                <tr>
+                                    <th className="active">Skill check penalty</th>
+                                    <td className={loadClass('light')}>0</td>
+                                    <td className={loadClass('medium')}>
+                                        <TextField {...props} propKey={['load','medium','skill-penalty']}
+                                            placeholder="3" className="width-2-digit" /></td>
+                                    <td className={loadClass('heavy')}>
+                                        <TextField {...props} propKey={['load','heavy','skill-penalty']}
+                                            placeholder="6" className="width-2-digit" /></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th className="active">Base speed (run)</th>
+                                    <td className={loadClass('light')}>
+                                        <TextField {...props} propKey={['load','light','base-speed']}
+                                            className="width-5em" /></td>
+                                    <td className={loadClass('medium')}>
+                                        <TextField {...props} propKey={['load','medium','base-speed']}
+                                            className="width-5em" /></td>
+                                    <td className={loadClass('heavy')}>
+                                        <TextField {...props} propKey={['load','heavy','base-speed']}
+                                            className="width-5em" /></td>
+                                    <td className={loadClass('lift')}>
+                                        {props.getValue(['load','lift','base-speed'])}</td>
+                                </tr>
+                                <tr>
+                                    <th className="active">Speed with armor (run)</th>
+                                    <td className={armorClass(0)}>{props.getValue('load.light.base-speed')}</td>
+                                    <td className={armorClass(1)}>
+                                        <TextField {...props} propKey={['armor','medium','base-speed']}
+                                            className="width-5em" /></td>
+                                    <td className={armorClass(2)}>
+                                        <TextField {...props} propKey={['armor','heavy','base-speed']}
+                                            className="width-5em" /></td>
                                 </tr>
                             </tbody>
                             </Table>
-                        </Col>
-                        <Col sm={6}>
-                            <NoteArea {...props} placeholder="Load notes"
-                                propKey={['load','note']} val={props.getState(['load','note'])} />
-                        </Col>
-                    </Row>
                 );
             }
 
@@ -1742,6 +1959,28 @@
         </script>
 
         <script type="text/javascript">
+            function Speed(base, run) {
+                this.base = base;
+                this.run = run;
+            }
+            Speed.prototype.toString = function() { return this.base + " (x" + this.run + ")";};
+            Speed.parse = function(speed) {
+                if( speed instanceof Speed ) return speed;
+                return new Speed(Number((speed+' ').split(/[ (x)\/]+/)[0]),
+                    Number((speed+' ').split(/[ (x)]+/)[1] || 4));
+            }
+            Speed.reduceBase = function(speedArg) {
+                const speed = Speed.parse(speedArg);
+                return new Speed( Math.ceil(speed.base/5*2/3)*5, speed.run).toString();
+            }
+            Speed.reduceRun = function(speedArg) {
+                const speed = Speed.parse(speedArg);
+                return new Speed( speed.base, speed.run-1 ).toString();
+            }
+            Speed.min = function(s1, s2) {
+                return Speed.parse(s1).base <= Speed.parse(s2).base ? s1 : s2;
+            }
+
             function isEmpty(object) {
                 return object == null ||
                     typeof(object) === 'object' && Object.keys(object).length == 0;
