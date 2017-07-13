@@ -182,14 +182,14 @@
                             },
                             medium: {
                                 "base-speed": function(fn) {
-                                    return Speed.reduceBase(fn.getValue('load.light.base-speed'));
+                                    return Speed.reduceBase(fn.getValue('load.light.base-speed')).toString();
                                 },
                                 "max-dex": 3,
                                 "skill-penalty": 3
                             },
                             heavy: {
                                 "base-speed": function(fn) {
-                                    return Speed.reduceRun(fn.getValue('load.medium.base-speed'));
+                                    return Speed.reduceRun(fn.getValue('load.medium.base-speed')).toString();
                                 },
                                 "max-dex": 1,
                                 "skill-penalty": 6
@@ -204,13 +204,21 @@
                             },
                             medium: {
                                 "base-speed": function(fn) {
-                                    return Speed.reduceBase(fn.getValue('armor.light.base-speed'));
+                                    return Speed.reduceBase(fn.getValue('armor.light.base-speed')).toString();
                                 }
                             },
                             heavy: {
                                 "base-speed": function(fn) {
-                                    return Speed.reduceRun(fn.getValue('armor.medium.base-speed'));
+                                    return Speed.reduceRun(fn.getValue('armor.medium.base-speed')).toString();
                                 }
+                            }
+                        },
+                        speed: {
+                            swim: function(fn) {
+                                    return Speed.halfBase( fn.getCurrentSpeed() ).base + "/round";
+                            },
+                            climb: function(fn) {
+                                    return Speed.halfBase( fn.getCurrentSpeed() ).base + "/round";
                             }
                         }
                     }
@@ -1969,13 +1977,15 @@
                 return new Speed(Number((speed+' ').split(/[ (x)\/]+/)[0]),
                     Number((speed+' ').split(/[ (x)]+/)[1] || 4));
             }
-            Speed.reduceBase = function(speedArg) {
+            Speed.modifyBase = function(speedArg, multiplier) {
                 const speed = Speed.parse(speedArg);
-                return new Speed( Math.ceil(speed.base/5*2/3)*5, speed.run).toString();
+                return new Speed( Math.ceil(speed.base/5*multiplier)*5, speed.run);
             }
+            Speed.reduceBase = function(speedArg) { return Speed.modifyBase(speedArg, 2/3); }
+            Speed.halfBase = function(speedArg) { return Speed.modifyBase(speedArg, 1/2); }
             Speed.reduceRun = function(speedArg) {
                 const speed = Speed.parse(speedArg);
-                return new Speed( speed.base, speed.run-1 ).toString();
+                return new Speed( speed.base, speed.run-1 );
             }
             Speed.min = function(s1, s2) {
                 return Speed.parse(s1).base <= Speed.parse(s2).base ? s1 : s2;
