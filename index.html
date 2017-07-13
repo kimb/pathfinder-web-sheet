@@ -461,7 +461,8 @@
                     return Math.min(
                         this.getAbilityMod('DEX'),
                         this.getState(['armor','max-dex'], Infinity),
-                        this.getState(['shield','max-dex'], Infinity));
+                        this.getState(['shield','max-dex'], Infinity),
+                        this.getValue('load.'+this.getLoadName(this.getArmedLoad())+'.max-dex'));
                 }
                 getCurrentLoad() {
                     return [...WEAPONS, 'armor', 'shield'].map( k => [k] )
