@@ -1,157 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=0.75">
-        <title>Pathfinder web character sheet</title>
-        <!--script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js" integrity="sha256-obZACiHd7gkOk9iIL/pimWMTJ4W/pBsKu+oZnSeBIek=" crossorigin="anonymous"></script>-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react.min.js" integrity="sha256-lLTXVU5NHLl101VgD3LswV6ZgI2PjSjZ5dVzhBcq52k=" crossorigin="anonymous"></script>
-        <!--script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-with-addons.min.js" integrity="sha256-ykoK6YBjgeCBJDtPZysq9Jad9t24BfFNtlmmr61nfnw=" crossorigin="anonymous"></script-->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.5.4/react-dom.min.js" integrity="sha256-4DRNdBX+quo7fRIFuR9yhr157hq/9FcAsHRDNQEXZSM=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/react-bootstrap/0.30.10/react-bootstrap.min.js" integrity="sha256-0f2lNftVu5NhiwAcZzgUV8BVpft8Zy+dVvnMbBzkKCw=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/recompose/0.23.1/Recompose.min.js" integrity="sha256-XDhSiYRiccAHw3isP5XYFAFZXetrB0/7K1WtlhlfoyM=" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.min.js" integrity="sha256-GD3ItO3la9UgSsiiVIn1briRJCxizFqORPaIveATvcI=" crossorigin="anonymous"></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css">
-        <style>
-            /* Normalize customization */
-            .small { font-size: 80%; }
-            /* Bootstrap customization */
-            #root .form-group { margin-bottom: 0px; }
-            #root .form-control { padding: 6px 6px; }
-            #root textarea { margin-bottom: 20px; }
-            #root table textarea { margin-bottom: 0; }
-            #root small input.form-control, #root small select.form-control,
-            #root .small input.form-control, #root .small select.form-control {
-                font-size: 100%; /*inherit small*/
-                height: 22px;
-            }
-            #root .form-control-static .btn { margin-top: -5px; }
-            #root .checkbox-inline input[type=text] {
-                display: inline;
-                width: 70%;
-            }
-            #root input[type=text] {
-                min-width: 2.1em;
-            }
-            #root .navbar {
-                margin: 12px;
-            }
-            #root .navbar .checkbox, #root .navbar .radio {
-                margin: 0;
-            }
-            #root .table>thead>tr>td, #root .table>thead>tr>th {
-                vertical-align: bottom;
-            }
-            #root .table tr.middle>td, #root .table tr.middle>th,
-            #root .table>tbody>tr>td, #root .table>tbody>tr>th, #root .table>tfoot>tr>td, #root .table>tfoot>tr>th {
-                vertical-align: middle;
-            }
-            #root .table>thead>tr>td,
-            #root .table>tbody>tr>th.success, #root .table>tbody>tr>td {
-                text-align: center;
-            }
-            @media print {
-                body { zoom: 50%; }
-                .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
-                    float: left!important;
-                }
-                .col-sm-12 { width: 100%; }
-                .col-sm-11 { width: 91.66666666666666%; }
-                .col-sm-10 { width: 83.33333333333334%; }
-                .col-sm-9 { width: 75%; }
-                .col-sm-8 { width: 66.66666666666666%; }
-                .col-sm-7 { width: 58.333333333333336%; }
-                .col-sm-6 { width: 50%; }
-                .col-sm-5 { width: 41.66666666666667%; }
-                .col-sm-4 { width: 33.33333333333333%; }
-                .col-sm-3 { width: 25%; }
-                .col-sm-2 { width: 16.666666666666664%; }
-                .col-sm-1 { width: 8.333333333333332%; }
-                .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
-                    float: left!important;
-                }
-                .col-md-12 { width: 100%; }
-                .col-md-11 { width: 91.66666666666666%; }
-                .col-md-10 { width: 83.33333333333334%; }
-                .col-md-9 { width: 75%; }
-                .col-md-8 { width: 66.66666666666666%; }
-                .col-md-7 { width: 58.333333333333336%; }
-                .col-md-6 { width: 50%; }
-                .col-md-5 { width: 41.66666666666667%; }
-                .col-md-4 { width: 33.33333333333333%; }
-                .col-md-3 { width: 25%; }
-                .col-md-2 { width: 16.666666666666664%; }
-                .col-md-1 { width: 8.333333333333332%; }
-            }
-            /* custom classes */
-            #root .width-2-digit { width: 2.5em; }
-            #root .width-4em { width: 4em; }
-            #root .width-5em { width: 5em; }
-            #root .min-width-3-digits { min-width: 3.5em; }
-            #root .line-height-1 { line-height: 1.0; }
-            #root textarea.form-control.onerow {
-                height: 34px;
-            }
-            #root textarea.autoresize {
-                height: auto;
-                display: block;
-                overflow: hidden;
-                resize: none;
-            }
-            #root .appearance-none {
-                padding: 0;
-                -moz-appearance: none;
-                -webkit-appearance:none;
-            }
-            /* component specific */
-            #root label[for="stat-size"] { padding-top: 5px; }
-            #root .class-name { width: 50%; }
-            #root .armor-name { width: 40%; }
-            #root .weapon-name { width: 25%; }
-            #root .weapon-bonus { width: 4%; }
-            #root .weapon-damage { width: 12%; }
-            #root .weapon-critical { width: 7%; }
-            #root .weapon-range { width: 8%; }
-            #root .weapon-type { width: 3%; }
-            #root .weapon-weight { width: 3%; }
-            #root .ability-table .ability-base { width: 15%; }
-            #ability-note { min-height: 212px; }
-            #root .skill-table .skill-name {
-                width: 40%;
-                text-align: left;
-                padding-right: 0;
-            }
-            #root .hp-table .hp-temporary { min-width: 110px; }
-            #root .note-col { padding-bottom: 5px; }
-            #save-note { min-height: 171px; }
-            #attack-note { min-height: 196px; }
-            #root .skill-table td.skill-ability {
-                padding: 3px;
-                padding-right: 0;
-                width: 12%;
-            }
-            #root .skill-ability select.form-control {
-                padding: 0;
-                line-height: 20px;
-                -moz-appearance: none;
-                -webkit-appearance:none;
-            }
-            #root .skill-ability select::-ms-expand {
-                display: none;
-            }
-            #root .equipment-table .equipment-name {
-                width: 80%;
-                text-align: left;
-            }
-            #root .spell-list-table .spell-name { width: 60%; }
-            #spell-note { min-height: 92px; }
+import _ from 'lodash';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { Glyphicon, Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button, ButtonGroup, DropdownButton, MenuItem, Navbar, Nav, NavDropdown, Panel } from 'react-bootstrap';
+import { pure, compose, onlyUpdateForKeys  } from 'recompose';
 
-        </style>
-
-        <script type="text/babel">
-            const { Glyphicon, Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button, ButtonGroup, DropdownButton, MenuItem, Navbar, Nav, NavDropdown, Panel } = ReactBootstrap;
-            const { pure, compose, onlyUpdateForKeys  } = Recompose;
             const STATS = ['STR','DEX','CON', 'INT','WIS','CHA'];
             const STAT_TYPES = ['base','enhance','misc','temp'];
             const CLASSES = ['class1','class2','class3','class4','class5',
@@ -165,7 +17,7 @@
             const SPELLCASTERS = ['sp0','sp1','sp2','sp3','sp4'];
             const ARMOR_TYPES = ['Light','Medium','Heavy'];
 
-            class App extends React.Component {
+            class App extends Component {
                 constructor(props) {
                     super(props);
                     this.prevChangeWasToKey = '';
@@ -638,9 +490,7 @@
                     );
                 }
             }
-        </script>
 
-        <script type="text/babel">
             function ColText(props) {
                 return (
                 <Col bsClass="col" xs={props.xs || Math.min(props.sm*2, 12)} sm={props.sm}>
@@ -1824,7 +1674,7 @@
                             <Navbar.Toggle />
                         </Navbar.Header>
                         <Navbar.Collapse>
-                            <Navbar.Text validationState="success">
+                            <Navbar.Text>
                                 { "last change at: " + props.getState(['md','prevChangeTime'],'N/A') }
                             </Navbar.Text>
                         <Nav>
@@ -1965,67 +1815,5 @@
                 return (!!v) ? undefined : true;
             }
 
-        </script>
+ReactDOM.render( <App />, document.getElementById('root'));
 
-        <script type="text/javascript">
-            function Speed(base, run) {
-                this.base = base;
-                this.run = run;
-            }
-            Speed.prototype.toString = function() { return this.base + " (x" + this.run + ")";};
-            Speed.parse = function(speed) {
-                if( speed instanceof Speed ) return speed;
-                return new Speed(Number((speed+' ').split(/[ (x)\/]+/)[0]),
-                    Number((speed+' ').split(/[ (x)]+/)[1] || 4));
-            }
-            Speed.modifyBase = function(speedArg, multiplier) {
-                const speed = Speed.parse(speedArg);
-                return new Speed( Math.ceil(speed.base/5*multiplier)*5, speed.run);
-            }
-            Speed.reduceBase = function(speedArg) { return Speed.modifyBase(speedArg, 2/3); }
-            Speed.halfBase = function(speedArg) { return Speed.modifyBase(speedArg, 1/2); }
-            Speed.reduceRun = function(speedArg) {
-                const speed = Speed.parse(speedArg);
-                return new Speed( speed.base, speed.run-1 );
-            }
-            Speed.min = function(s1, s2) {
-                return Speed.parse(s1).base <= Speed.parse(s2).base ? s1 : s2;
-            }
-
-            function isEmpty(object) {
-                return object == null ||
-                    typeof(object) === 'object' && Object.keys(object).length == 0;
-            }
-            var autoresizeFields = [];
-            function addAutoresize(inputRef) {
-                if( !inputRef ) return;
-                autoresizeFields.push( inputRef );
-                inputRef.addEventListener('input', function(e) { autoresize_update(e.target) }, false);
-                autoresize_update( inputRef );
-            }
-            function autoresizeAll() {
-                console.debug( 'autoresizeAll' );
-                autoresizeFields.forEach( autoresize_update );
-            }
-            function autoresize_update( inputRef ) {
-                // console.log('autoresize_update',inputRef, inputRef.scrollHeight);
-                inputRef.style.height = '';
-                inputRef.style.height = inputRef.scrollHeight+'px';
-                //inputRef.scrollTop = inputRef.scrollHeight;
-                //window.scrollTo(window.scrollLeft,(inputRef.scrollTop+inputRef.scrollHeight));
-            }
-            // Polyfill
-            if (!Array.isArray) {
-                Array.isArray = function(arg) {
-                    return Object.prototype.toString.call(arg) === '[object Array]';
-                };
-            }
-        </script>
-    </head>
-    <body>
-        <div id="root">Failed to load? :(</div>
-        <script type="text/babel">
-            ReactDOM.render( <App />, document.getElementById('root'));
-        </script>
-    </body>
-</html>
