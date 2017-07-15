@@ -1544,6 +1544,7 @@ var ACTable = (0, _recompose.compose)((0, _recompose.onlyUpdateForKeys)(['stat',
 function ACTableImpl(props) {
     var raging = props.getState(['rage', 'enable'], false);
     var rageBonus = raging ? getRageState(props)['ac'] : 0;
+    var flatFootDexPenalty = Math.min(0, props.getArmorLimitedDex());
     return _react2.default.createElement(
         _reactBootstrap.Table,
         { condensed: true },
@@ -1832,7 +1833,7 @@ function ACTableImpl(props) {
                 _react2.default.createElement(
                     'th',
                     { className: 'success' },
-                    10 + props.getState(['armor', 'ac'], 0) + props.getState(['shield', 'ac'], 0) + props.getState(['stat', 'size'], 0) + props.getState(['ac', 'natural'], 0) + props.getState(['ac', 'deflect'], 0) + props.getState(['ac', 'ff-misc'], 0) + props.getState(['ac', 'temp'], 0) + rageBonus
+                    10 + props.getState(['armor', 'ac'], 0) + props.getState(['shield', 'ac'], 0) + props.getState(['stat', 'size'], 0) + props.getState(['ac', 'natural'], 0) + props.getState(['ac', 'deflect'], 0) + props.getState(['ac', 'ff-misc'], 0) + props.getState(['ac', 'temp'], 0) + flatFootDexPenalty + rageBonus
                 ),
                 _react2.default.createElement(
                     'td',
@@ -1856,7 +1857,7 @@ function ACTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    '-'
+                    flatFootDexPenalty
                 ),
                 _react2.default.createElement(
                     'td',

@@ -869,6 +869,7 @@ const ACTable = compose(
 function ACTableImpl(props) {
     const raging = props.getState(['rage','enable'],false);
     const rageBonus = raging ? getRageState(props)['ac'] : 0;
+    const flatFootDexPenalty = Math.min( 0, props.getArmorLimitedDex() );
     return (
         <Table condensed>
             <thead>
@@ -950,12 +951,13 @@ function ACTableImpl(props) {
                                                 +props.getState(['ac','deflect'],0)
                                                 +props.getState(['ac','ff-misc'],0)
                                                 +props.getState(['ac','temp'],0)
+                                                +flatFootDexPenalty
                                                 +rageBonus}
                                             </th>
                                             <td className="hidden-xs"><small>10+</small></td>
                                             <td>{props.getState(['armor','ac'],'')}</td>
                                             <td>{props.getState(['shield','ac'],'')}</td>
-                                            <td>-</td>
+                                            <td>{flatFootDexPenalty}</td>
                                             <td>{props.getState(['stat','size'],'')}</td>
                                             <td>-</td>
                                             <td>{props.getState(['ac','natural'],'')}</td>
