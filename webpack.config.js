@@ -8,21 +8,21 @@ module.exports = {
   entry: ['babel-polyfill', './src/index.jsx'],
   output: {
     filename: '[name].js',
-      path: path.resolve(__dirname, 'docs')
+    path: path.resolve(__dirname, 'docs')
   },
   module: {
     rules: [
       {
         test: /\.jsx$/,
-          include: /src/,
-          use: {
-            loader: 'babel-loader',
-              options: {
-                cacheDirectory: true,
-                presets: ['es2015','react','stage-2'],
-                plugins: []
-              }
+        include: /src/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true,
+            presets: ['es2015','react','stage-2'],
+            plugins: []
           }
+        }
       }
     ]
   },
@@ -37,16 +37,16 @@ module.exports = {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       name: "vendor",
-        minChunks: function(module){
-          return module.context && module.context.indexOf("node_modules") !== -1;
-        }
+      minChunks: function(module){
+        return module.context && module.context.indexOf("node_modules") !== -1;
+      }
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false,
-          screw_ie8: true,
-          drop_console: false,
-          drop_debugger: false
+        screw_ie8: true,
+        drop_console: false,
+        drop_debugger: false
       },
       extractComments: true,
       include: "vendor.js"

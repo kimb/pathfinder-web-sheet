@@ -1,5 +1,5 @@
 {
-  "vim": ":vim: ts=2 sw=2:",
+  "vim": " Vim: ts=2 sw=2: ",
   "private": true,
   "name": "pathfinder-web-sheet",
   "version": "1.0.0",

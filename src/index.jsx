@@ -588,15 +588,15 @@ function StatRow(props) {
     const rageBonus = raging ? getRageState(props)[ability] : 0;
     const abilityFields = STAT_TYPES.map( (type) =>
     <td><TextField {...props} propKey={['stat',ability,type]} /></td>
-).concat( <td className={raging?"":"hidden"}>{rageBonus||""}</td>);
-return (
-    <tr>
-        <th className="active">{ability}</th>
-        <td>{props.getAbilityTotal(ability)}</td>
-        <th className="success">{props.getAbilityMod(ability)}</th>
-        {abilityFields}
-    </tr>
-);
+    ).concat( <td className={raging?"":"hidden"}>{rageBonus||""}</td>);
+    return (
+        <tr>
+            <th className="active">{ability}</th>
+            <td>{props.getAbilityTotal(ability)}</td>
+            <th className="success">{props.getAbilityMod(ability)}</th>
+            {abilityFields}
+        </tr>
+    );
 }
 
 const AbilityTable = compose(
@@ -678,12 +678,12 @@ function ClassRowImpl(props) {
     const rowName = props.name;
     const classFields = CLASS_TYPES.map( (type) =>
     <td><TextField {...props} propKey={[rowName,type]} /></td>
-);
-return (
-    <tr>
-        {classFields}
-    </tr>
-);
+    );
+    return (
+        <tr>
+            {classFields}
+        </tr>
+    );
 }
 
 const ClassTable = compose(
@@ -764,7 +764,7 @@ function HPTableImpl(props) {
             </tr>
         </tbody>
     </Table>
-);
+    );
 }
 
 const InitTable = compose(
@@ -952,23 +952,23 @@ function ACTableImpl(props) {
                                                 +props.getState(['ac','ff-misc'],0)
                                                 +props.getState(['ac','temp'],0)
                                                 +flatFootDexPenalty
-                                                +rageBonus}
-                                            </th>
-                                            <td className="hidden-xs"><small>10+</small></td>
-                                            <td>{props.getState(['armor','ac'],'')}</td>
-                                            <td>{props.getState(['shield','ac'],'')}</td>
-                                            <td>{flatFootDexPenalty}</td>
-                                            <td>{props.getState(['stat','size'],'')}</td>
-                                            <td>-</td>
-                                            <td>{props.getState(['ac','natural'],'')}</td>
-                                            <td>{props.getState(['ac','deflect'],'')}</td>
-                                            <td><TextField {...props} propKey={['ac','ff-misc']} /></td>
-                                            <td>{props.getState(['ac','temp'],'')}</td>
-                                            <td className={raging?"":"hidden"}><small>{rageBonus}</small></td>
-                                        </tr>
-                                    </tbody>
-                                </Table>
-                            );
+                                            +rageBonus}
+                                        </th>
+                                        <td className="hidden-xs"><small>10+</small></td>
+                                        <td>{props.getState(['armor','ac'],'')}</td>
+                                        <td>{props.getState(['shield','ac'],'')}</td>
+                                        <td>{flatFootDexPenalty}</td>
+                                        <td>{props.getState(['stat','size'],'')}</td>
+                                        <td>-</td>
+                                        <td>{props.getState(['ac','natural'],'')}</td>
+                                        <td>{props.getState(['ac','deflect'],'')}</td>
+                                        <td><TextField {...props} propKey={['ac','ff-misc']} /></td>
+                                        <td>{props.getState(['ac','temp'],'')}</td>
+                                        <td className={raging?"":"hidden"}><small>{rageBonus}</small></td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        );
 }
 
 function SaveTableRow(props) {
@@ -1052,69 +1052,69 @@ function AttackTableImpl(props) {
         <td><TextField {...props} propKey={[attack['name'],'misc']}/></td>
         <td><TextField {...props} propKey={[attack['name'],'temp']}/></td>
     </tr>
-);
-return (
-    <Table condensed>
-        <thead>
-            <tr>
-                <th className="attack-name">
-                    <small>Attack</small>
-                </th>
-                <th><small>Total</small></th>
-                <th className="hidden-xs"></th>
-                <th><small>BAB</small></th>
-                <th><small>Abil<span className="hidden-xs">ity</span></small></th>
-                <th><small>Size</small></th>
-                <th><small>Misc</small></th>
-                <th><small>Temp</small></th>
-            </tr>
-        </thead>
-        <tbody>
-            {attackRows}
-            <tr>
-                <th className="active">CMB</th>
-                <th className="success">
-                    {
-                        props.getClassTypeTotal('bab')
-                            + cmbAbilityMod
-                            - sizeMod
-                            + props.getState(['cmb','misc'],0)
-                            + props.getState(['cmb','temp'],0)
-                    }</th>
-                <td className="hidden-xs"></td>
-                <td>{props.getClassTypeTotal('bab')}</td>
-                <td><NoPrintAbbr title="STR for small and larger, DEX for tiny and smaller. Use the misc modifier to adjust for the Agile Maneuvers feat.">{cmbAbilityMod}</NoPrintAbbr></td>
-                <td><NoPrintAbbr title="*special* size modifier">{-sizeMod}</NoPrintAbbr></td>
-                <td><TextField {...props} propKey={['cmb','misc']}/></td>
-                <td><TextField {...props} propKey={['cmb','temp']}/></td>
-            </tr>
-            <tr>
-                <th className="active">CMD</th>
-                <th className="success">
-                    { 10
-                            + props.getClassTypeTotal('bab')
-                            + strMod + dexMod
-                            + props.getState(['ac','dodge'],0)
-                            + props.getState(['ac','deflect'],0)
-                            - sizeMod
-                            + props.getState(['cmd','misc'],0)
-                            + props.getState(['cmd','temp'],0)
-                    }</th>
-                <td className="hidden-xs"><small>10+</small></td>
-                <td>{props.getClassTypeTotal('bab')}</td>
-                <td><NoPrintAbbr title="STR+DEX+dodge+deflect">
+    );
+    return (
+        <Table condensed>
+            <thead>
+                <tr>
+                    <th className="attack-name">
+                        <small>Attack</small>
+                    </th>
+                    <th><small>Total</small></th>
+                    <th className="hidden-xs"></th>
+                    <th><small>BAB</small></th>
+                    <th><small>Abil<span className="hidden-xs">ity</span></small></th>
+                    <th><small>Size</small></th>
+                    <th><small>Misc</small></th>
+                    <th><small>Temp</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                {attackRows}
+                <tr>
+                    <th className="active">CMB</th>
+                    <th className="success">
                         {
-                            strMod + dexMod
-                            + props.getState(['ac','dodge'],0)
+                            props.getClassTypeTotal('bab')
+                                + cmbAbilityMod
+                                - sizeMod
+                                + props.getState(['cmb','misc'],0)
+                                + props.getState(['cmb','temp'],0)
+                        }</th>
+                    <td className="hidden-xs"></td>
+                    <td>{props.getClassTypeTotal('bab')}</td>
+                    <td><NoPrintAbbr title="STR for small and larger, DEX for tiny and smaller. Use the misc modifier to adjust for the Agile Maneuvers feat.">{cmbAbilityMod}</NoPrintAbbr></td>
+                    <td><NoPrintAbbr title="*special* size modifier">{-sizeMod}</NoPrintAbbr></td>
+                    <td><TextField {...props} propKey={['cmb','misc']}/></td>
+                    <td><TextField {...props} propKey={['cmb','temp']}/></td>
+                </tr>
+                <tr>
+                    <th className="active">CMD</th>
+                    <th className="success">
+                        { 10
+                                + props.getClassTypeTotal('bab')
+                                + strMod + dexMod
+                                + props.getState(['ac','dodge'],0)
                                 + props.getState(['ac','deflect'],0)
-                        }</NoPrintAbbr></td>
-                <td><NoPrintAbbr title="*special* size modifier">{-sizeMod}</NoPrintAbbr></td>
-                <td><NoPrintAbbr title="Add here any insight, luck, morale, profane, and sacred bonuses to AC"><TextField {...props} propKey={['cmd','misc']}/></NoPrintAbbr></td>
-                <td><TextField {...props} propKey={['cmd','temp']}/></td>
-            </tr>
-        </tbody>
-    </Table>
-);
+                                - sizeMod
+                                + props.getState(['cmd','misc'],0)
+                                + props.getState(['cmd','temp'],0)
+                        }</th>
+                    <td className="hidden-xs"><small>10+</small></td>
+                    <td>{props.getClassTypeTotal('bab')}</td>
+                    <td><NoPrintAbbr title="STR+DEX+dodge+deflect">
+                            {
+                                strMod + dexMod
+                                + props.getState(['ac','dodge'],0)
+                                    + props.getState(['ac','deflect'],0)
+                            }</NoPrintAbbr></td>
+                    <td><NoPrintAbbr title="*special* size modifier">{-sizeMod}</NoPrintAbbr></td>
+                    <td><NoPrintAbbr title="Add here any insight, luck, morale, profane, and sacred bonuses to AC"><TextField {...props} propKey={['cmd','misc']}/></NoPrintAbbr></td>
+                    <td><TextField {...props} propKey={['cmd','temp']}/></td>
+                </tr>
+            </tbody>
+        </Table>
+    );
 }
 
 function ArmorTable(props) {
@@ -1122,9 +1122,9 @@ function ArmorTable(props) {
         'spell-fail','weight'];
     const armorControls = armorKeys.map( (key) =>
     <td><TextField {...props} propKey={['armor',key]} /></td>
-);
-const shieldControls = armorKeys.map( (key) =>
-<td><TextField {...props} propKey={['shield',key]} /></td>
+    );
+    const shieldControls = armorKeys.map( (key) =>
+        <td><TextField {...props} propKey={['shield',key]} /></td>
     );
     return (
         <Table condensed className="armor-table">
