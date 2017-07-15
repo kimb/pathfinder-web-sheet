@@ -5,7 +5,7 @@ var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
 module.exports = {
   name: 'bundle',
-  entry: './src/index.jsx',
+  entry: ['babel-polyfill', './src/index.jsx'],
   output: {
     filename: '[name].js',
       path: path.resolve(__dirname, 'docs')
@@ -18,7 +18,9 @@ module.exports = {
           use: {
             loader: 'babel-loader',
               options: {
-                presets: ['es2015','react','stage-2']
+                cacheDirectory: true,
+                presets: ['es2015','react','stage-2'],
+                plugins: []
               }
           }
       }

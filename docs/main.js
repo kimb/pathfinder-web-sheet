@@ -1,64 +1,44 @@
 webpackJsonp([0],{
 
-/***/ 211:
+/***/ 315:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var _toConsumableArray2 = __webpack_require__(207);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var _toConsumableArray3 = _interopRequireDefault(_toConsumableArray2);
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-var _keys = __webpack_require__(205);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _keys2 = _interopRequireDefault(_keys);
+__webpack_require__(207);
 
-var _extends2 = __webpack_require__(4);
-
-var _extends3 = _interopRequireDefault(_extends2);
-
-var _typeof2 = __webpack_require__(61);
-
-var _typeof3 = _interopRequireDefault(_typeof2);
-
-var _getPrototypeOf = __webpack_require__(204);
-
-var _getPrototypeOf2 = _interopRequireDefault(_getPrototypeOf);
-
-var _classCallCheck2 = __webpack_require__(1);
-
-var _classCallCheck3 = _interopRequireDefault(_classCallCheck2);
-
-var _createClass2 = __webpack_require__(206);
-
-var _createClass3 = _interopRequireDefault(_createClass2);
-
-var _possibleConstructorReturn2 = __webpack_require__(3);
-
-var _possibleConstructorReturn3 = _interopRequireDefault(_possibleConstructorReturn2);
-
-var _inherits2 = __webpack_require__(2);
-
-var _inherits3 = _interopRequireDefault(_inherits2);
-
-var _lodash = __webpack_require__(208);
+var _lodash = __webpack_require__(576);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var _react = __webpack_require__(0);
+var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = __webpack_require__(19);
+var _reactDom = __webpack_require__(35);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactBootstrap = __webpack_require__(209);
+var _reactBootstrap = __webpack_require__(639);
 
-var _recompose = __webpack_require__(210);
+var _recompose = __webpack_require__(726);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var STATS = ['STR', 'DEX', 'CON', 'INT', 'WIS', 'CHA'];
 var STAT_TYPES = ['base', 'enhance', 'misc', 'temp'];
@@ -70,12 +50,12 @@ var SPELLCASTERS = ['sp0', 'sp1', 'sp2', 'sp3', 'sp4'];
 var ARMOR_TYPES = ['Light', 'Medium', 'Heavy'];
 
 var App = function (_Component) {
-    (0, _inherits3.default)(App, _Component);
+    _inherits(App, _Component);
 
     function App(props) {
-        (0, _classCallCheck3.default)(this, App);
+        _classCallCheck(this, App);
 
-        var _this = (0, _possibleConstructorReturn3.default)(this, (App.__proto__ || (0, _getPrototypeOf2.default)(App)).call(this, props));
+        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
         _this.prevChangeWasToKey = '';
         _this.state = { stat: { size: 0 } };
@@ -158,7 +138,7 @@ var App = function (_Component) {
         return _this;
     }
 
-    (0, _createClass3.default)(App, [{
+    _createClass(App, [{
         key: 'componentDidUpdate',
         value: function componentDidUpdate(prevProps, prevState) {
             var title = this.getState(['info', 'character']) + '(lvl' + this.getClassTypeTotal('levels') + ') ' + "v" + this.getState(['md', 'rev'], 0) + " / " + this.getState(['md', 'prevChangeTime'], '');
@@ -174,7 +154,7 @@ var App = function (_Component) {
                 } else if (typeof cur == 'function') {
                     console.warn('componentDidUpdate: function at', prop);
                 } else if (Object(cur) !== cur) {
-                    console.debug('componentDidUpdate saving:', prop, cur, typeof cur === 'undefined' ? 'undefined' : (0, _typeof3.default)(cur));
+                    console.debug('componentDidUpdate saving:', prop, cur, typeof cur === 'undefined' ? 'undefined' : _typeof(cur));
                     result[prop] = cur;
                 } else if (Array.isArray(cur)) {
                     console.warn('componentDidUpdate: skipping array at', prop);
@@ -289,7 +269,7 @@ var App = function (_Component) {
                 if (childState[key] === undefined) {
                     return newLeaf = newLeaf[key] = {};
                 }
-                newLeaf = newLeaf[key] = (0, _extends3.default)({}, childState[key]);
+                newLeaf = newLeaf[key] = _extends({}, childState[key]);
                 return childState[key];
             }, prevState);
             var oldVal = leaf[propKey[propKey.length - 1]];
@@ -337,7 +317,7 @@ var App = function (_Component) {
     }, {
         key: 'getState',
         value: function getState(propKey, defaultTo, type) {
-            if (!type) type = typeof defaultTo === 'undefined' ? 'undefined' : (0, _typeof3.default)(defaultTo);
+            if (!type) type = typeof defaultTo === 'undefined' ? 'undefined' : _typeof(defaultTo);
             if (type === 'number') {
                 var _stateVal = this.getState(propKey);
                 if (undefined === defaultTo && undefined === _stateVal) return undefined;
@@ -351,7 +331,7 @@ var App = function (_Component) {
                 throw new Error('propKey must be an array or dot-separated: ' + propKey);
             }
             var stateVal = propKey.reduce(function (tree, key) {
-                return (typeof tree === 'undefined' ? 'undefined' : (0, _typeof3.default)(tree)) == 'object' && key in tree ? tree[key] : undefined;
+                return (typeof tree === 'undefined' ? 'undefined' : _typeof(tree)) == 'object' && key in tree ? tree[key] : undefined;
             }, this.state);
             return stateVal !== undefined ? stateVal : defaultTo;
         }
@@ -360,14 +340,14 @@ var App = function (_Component) {
         value: function getDefault(propKey) {
             if (propKey.indexOf('.') > 0) propKey = propKey.split('.');
             var value = propKey.reduce(function (tree, key) {
-                return (typeof tree === 'undefined' ? 'undefined' : (0, _typeof3.default)(tree)) == 'object' && key in tree ? tree[key] : undefined;
+                return (typeof tree === 'undefined' ? 'undefined' : _typeof(tree)) == 'object' && key in tree ? tree[key] : undefined;
             }, this.default);
             return typeof value == 'function' ? value(this.fn) : value;
         }
     }, {
         key: 'getValue',
         value: function getValue(propKey, defaultTo) {
-            var stateVal = this.getState(propKey, undefined, typeof defaultTo === 'undefined' ? 'undefined' : (0, _typeof3.default)(defaultTo));
+            var stateVal = this.getState(propKey, undefined, typeof defaultTo === 'undefined' ? 'undefined' : _typeof(defaultTo));
             if (undefined !== stateVal) return stateVal;
             var defaultVal = this.getDefault(propKey);
             if (undefined !== defaultVal) return defaultVal;
@@ -414,10 +394,10 @@ var App = function (_Component) {
 
             return [].concat(WEAPONS, ['armor', 'shield']).map(function (k) {
                 return [k];
-            }).concat((0, _keys2.default)(this.state.eq || {}).map(function (k) {
+            }).concat(Object.keys(this.state.eq || {}).map(function (k) {
                 return ['eq', k];
             })).reduce(function (sum, key) {
-                var propKey = [].concat((0, _toConsumableArray3.default)(key), ['weight']);
+                var propKey = [].concat(_toConsumableArray(key), ['weight']);
                 return sum + _this9.getState(propKey, 0);
             }, 0);
         }
@@ -434,7 +414,7 @@ var App = function (_Component) {
             return [].concat(WEAPONS, ['armor', 'shield']).map(function (k) {
                 return [k];
             }).reduce(function (sum, key) {
-                var propKey = [].concat((0, _toConsumableArray3.default)(key), ['weight']);
+                var propKey = [].concat(_toConsumableArray(key), ['weight']);
                 return sum + _this10.getState(propKey, 0);
             }, 0);
         }
@@ -507,11 +487,11 @@ var App = function (_Component) {
             return _react2.default.createElement(
                 _reactBootstrap.Form,
                 null,
-                _react2.default.createElement(AddfieldsNavbar, (0, _extends3.default)({}, this.fn, this.state)),
+                _react2.default.createElement(AddfieldsNavbar, _extends({}, this.fn, this.state)),
                 _react2.default.createElement(
                     _reactBootstrap.Grid,
                     { fluid: true },
-                    _react2.default.createElement(InfoRow, (0, _extends3.default)({}, this.fn, this.state)),
+                    _react2.default.createElement(InfoRow, _extends({}, this.fn, this.state)),
                     _react2.default.createElement(
                         _reactBootstrap.Row,
                         null,
@@ -524,20 +504,20 @@ var App = function (_Component) {
                                 _react2.default.createElement(
                                     _reactBootstrap.Col,
                                     { xs: 8, sm: 9 },
-                                    _react2.default.createElement(AbilityTable, (0, _extends3.default)({}, this.fn, this.state))
+                                    _react2.default.createElement(AbilityTable, _extends({}, this.fn, this.state))
                                 ),
-                                _react2.default.createElement(SizeField, (0, _extends3.default)({ className: 'note-col' }, this.fn, this.state, { sm: 3, xs: 4 })),
+                                _react2.default.createElement(SizeField, _extends({ className: 'note-col' }, this.fn, this.state, { sm: 3, xs: 4 })),
                                 _react2.default.createElement(
                                     _reactBootstrap.Col,
                                     { xs: 4, sm: 3, className: 'note-col' },
-                                    _react2.default.createElement(NoteArea, (0, _extends3.default)({}, this.fn, { noteKey: 'ability', val: this.getState('note.ability') }))
+                                    _react2.default.createElement(NoteArea, _extends({}, this.fn, { noteKey: 'ability', val: this.getState('note.ability') }))
                                 )
                             )
                         ),
                         _react2.default.createElement(
                             _reactBootstrap.Col,
                             { md: 7 },
-                            _react2.default.createElement(ClassTable, (0, _extends3.default)({}, this.fn, this.state))
+                            _react2.default.createElement(ClassTable, _extends({}, this.fn, this.state))
                         )
                     ),
                     _react2.default.createElement(
@@ -552,28 +532,28 @@ var App = function (_Component) {
                                 _react2.default.createElement(
                                     _reactBootstrap.Col,
                                     { xs: 7 },
-                                    _react2.default.createElement(InitTable, (0, _extends3.default)({}, this.fn, this.state)),
-                                    _react2.default.createElement(ResistanceTable, (0, _extends3.default)({}, this.fn, this.state))
+                                    _react2.default.createElement(InitTable, _extends({}, this.fn, this.state)),
+                                    _react2.default.createElement(ResistanceTable, _extends({}, this.fn, this.state))
                                 ),
                                 _react2.default.createElement(
                                     _reactBootstrap.Col,
                                     { xs: 5 },
-                                    _react2.default.createElement(HPTable, (0, _extends3.default)({}, this.fn, this.state))
+                                    _react2.default.createElement(HPTable, _extends({}, this.fn, this.state))
                                 )
                             ),
-                            _react2.default.createElement(ACTable, (0, _extends3.default)({}, this.fn, this.state)),
+                            _react2.default.createElement(ACTable, _extends({}, this.fn, this.state)),
                             _react2.default.createElement(
                                 _reactBootstrap.Row,
                                 null,
                                 _react2.default.createElement(
                                     _reactBootstrap.Col,
                                     { xs: 8 },
-                                    _react2.default.createElement(SaveTable, (0, _extends3.default)({}, this.fn, this.state))
+                                    _react2.default.createElement(SaveTable, _extends({}, this.fn, this.state))
                                 ),
                                 _react2.default.createElement(
                                     _reactBootstrap.Col,
                                     { xs: 4, className: 'note-col' },
-                                    _react2.default.createElement(NoteArea, (0, _extends3.default)({}, this.fn, { noteKey: 'save', val: this.getState('note.save') }))
+                                    _react2.default.createElement(NoteArea, _extends({}, this.fn, { noteKey: 'save', val: this.getState('note.save') }))
                                 )
                             ),
                             _react2.default.createElement(
@@ -582,12 +562,12 @@ var App = function (_Component) {
                                 _react2.default.createElement(
                                     _reactBootstrap.Col,
                                     { xs: 8 },
-                                    _react2.default.createElement(AttackTable, (0, _extends3.default)({}, this.fn, this.state))
+                                    _react2.default.createElement(AttackTable, _extends({}, this.fn, this.state))
                                 ),
                                 _react2.default.createElement(
                                     _reactBootstrap.Col,
                                     { xs: 4, className: 'note-col' },
-                                    _react2.default.createElement(NoteArea, (0, _extends3.default)({}, this.fn, { noteKey: 'attack', val: this.getState('note.attack') }))
+                                    _react2.default.createElement(NoteArea, _extends({}, this.fn, { noteKey: 'attack', val: this.getState('note.attack') }))
                                 )
                             ),
                             _react2.default.createElement(ArmorTable, this.fn)
@@ -595,27 +575,27 @@ var App = function (_Component) {
                         _react2.default.createElement(
                             _reactBootstrap.Col,
                             { md: 5 },
-                            _react2.default.createElement(SkillTable, (0, _extends3.default)({}, this.fn, this.state))
+                            _react2.default.createElement(SkillTable, _extends({}, this.fn, this.state))
                         ),
                         _react2.default.createElement(
                             _reactBootstrap.Col,
                             { xs: 12 },
-                            _react2.default.createElement(WeaponTable, (0, _extends3.default)({}, this.fn, this.state))
+                            _react2.default.createElement(WeaponTable, _extends({}, this.fn, this.state))
                         )
                     ),
-                    _react2.default.createElement(RagePanel, (0, _extends3.default)({}, this.fn, this.state)),
+                    _react2.default.createElement(RagePanel, _extends({}, this.fn, this.state)),
                     _react2.default.createElement(
                         _reactBootstrap.Row,
                         null,
                         _react2.default.createElement(
                             _reactBootstrap.Col,
                             { sm: 12, md: 6, className: 'note-col' },
-                            _react2.default.createElement(NoteArea, (0, _extends3.default)({}, this.fn, { noteKey: 'feat', val: this.getState('note.feat') }))
+                            _react2.default.createElement(NoteArea, _extends({}, this.fn, { noteKey: 'feat', val: this.getState('note.feat') }))
                         ),
                         _react2.default.createElement(
                             _reactBootstrap.Col,
                             { sm: 12, md: 6, className: 'note-col' },
-                            _react2.default.createElement(NoteArea, (0, _extends3.default)({}, this.fn, { noteKey: 'character', val: this.getState('note.character') }))
+                            _react2.default.createElement(NoteArea, _extends({}, this.fn, { noteKey: 'character', val: this.getState('note.character') }))
                         )
                     ),
                     _react2.default.createElement(
@@ -624,36 +604,37 @@ var App = function (_Component) {
                         _react2.default.createElement(
                             _reactBootstrap.Col,
                             { sm: 12, md: 6, className: 'note-col' },
-                            _react2.default.createElement(NoteArea, (0, _extends3.default)({}, this.fn, { noteKey: 'special', val: this.getState('note.special') }))
+                            _react2.default.createElement(NoteArea, _extends({}, this.fn, { noteKey: 'special', val: this.getState('note.special') }))
                         ),
                         _react2.default.createElement(
                             _reactBootstrap.Col,
                             { sm: 12, md: 6, className: 'note-col' },
-                            _react2.default.createElement(NoteArea, (0, _extends3.default)({}, this.fn, { noteKey: 'equipment', val: this.getState('note.equipment') }))
+                            _react2.default.createElement(NoteArea, _extends({}, this.fn, { noteKey: 'equipment', val: this.getState('note.equipment') }))
                         )
                     ),
-                    _react2.default.createElement(EquipmentTable, (0, _extends3.default)({}, this.fn, this.state)),
+                    _react2.default.createElement(EquipmentTable, _extends({}, this.fn, this.state)),
                     _react2.default.createElement(
                         _reactBootstrap.Row,
                         null,
                         _react2.default.createElement(
                             _reactBootstrap.Col,
                             { sm: 7 },
-                            _react2.default.createElement(SpeedTable, (0, _extends3.default)({}, this.fn, this.state)),
-                            _react2.default.createElement(NoteArea, (0, _extends3.default)({}, this.fn, this.state, { placeholder: 'Speed and load notes', onerow: true,
+                            _react2.default.createElement(SpeedTable, _extends({}, this.fn, this.state)),
+                            _react2.default.createElement(NoteArea, _extends({}, this.fn, this.state, { placeholder: 'Speed and load notes', onerow: true,
                                 propKey: ['load', 'note'], val: this.getState('load.note') }))
                         ),
                         _react2.default.createElement(
                             _reactBootstrap.Col,
                             { sm: 5 },
-                            _react2.default.createElement(LoadTable, (0, _extends3.default)({}, this.fn, this.state))
+                            _react2.default.createElement(LoadTable, _extends({}, this.fn, this.state))
                         )
                     ),
-                    _react2.default.createElement(SpellcasterPanels, (0, _extends3.default)({}, this.fn, this.state))
+                    _react2.default.createElement(SpellcasterPanels, _extends({}, this.fn, this.state))
                 )
             );
         }
     }]);
+
     return App;
 }(_react.Component);
 
@@ -720,7 +701,7 @@ function SizeField(props) {
     var statePropKey = ['stat', 'size'];
     return _react2.default.createElement(
         _reactBootstrap.Col,
-        (0, _extends3.default)({}, props, { bsClass: 'col', xs: props.xs || Math.min(props.sm * 2, 12) }),
+        _extends({}, props, { bsClass: 'col', xs: props.xs || Math.min(props.sm * 2, 12) }),
         _react2.default.createElement(
             _reactBootstrap.FormGroup,
             { controlId: statePropKey.join('-'), bsSize: 'sm' },
@@ -752,8 +733,8 @@ function InfoRowImpl(props) {
         _react2.default.createElement(
             _reactBootstrap.Row,
             null,
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'character'], xs: 7, sm: 6 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'player'], xs: 3, sm: 4 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'character'], xs: 7, sm: 6 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'player'], xs: 3, sm: 4 })),
             _react2.default.createElement(
                 ColText,
                 { label: 'Minify', xs: 2, sm: 2 },
@@ -769,18 +750,18 @@ function InfoRowImpl(props) {
         _react2.default.createElement(
             _reactBootstrap.Row,
             null,
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'race'], sm: 2 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'gender'], sm: 1 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'height'], xs: 3, sm: 1 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'weight'], xs: 3, sm: 1 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'hair'], sm: 2 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'eyes'], sm: 2 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'skin'], sm: 2 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'age'], sm: 1 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'alignment'], sm: 2 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'deity'], sm: 3 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'homeland and occupation'], sm: 7 })),
-            _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { propKey: ['info', 'languages'], sm: 12 }))
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'race'], sm: 2 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'gender'], sm: 1 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'height'], xs: 3, sm: 1 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'weight'], xs: 3, sm: 1 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'hair'], sm: 2 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'eyes'], sm: 2 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'skin'], sm: 2 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'age'], sm: 1 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'alignment'], sm: 2 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'deity'], sm: 3 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'homeland and occupation'], sm: 7 })),
+            _react2.default.createElement(ColTextField, _extends({}, props, { propKey: ['info', 'languages'], sm: 12 }))
         )
     );
 }
@@ -794,7 +775,7 @@ function StatRow(props) {
         return _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['stat', ability, type] }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: ['stat', ability, type] }))
         );
     }).concat(_react2.default.createElement(
         'td',
@@ -917,12 +898,12 @@ function AbilityTableImpl(props) {
         _react2.default.createElement(
             'tbody',
             null,
-            _react2.default.createElement(StatRow, (0, _extends3.default)({}, props, { ability: 'STR' })),
-            _react2.default.createElement(StatRow, (0, _extends3.default)({}, props, { ability: 'DEX' })),
-            _react2.default.createElement(StatRow, (0, _extends3.default)({}, props, { ability: 'CON' })),
-            _react2.default.createElement(StatRow, (0, _extends3.default)({}, props, { ability: 'INT' })),
-            _react2.default.createElement(StatRow, (0, _extends3.default)({}, props, { ability: 'WIS' })),
-            _react2.default.createElement(StatRow, (0, _extends3.default)({}, props, { ability: 'CHA' }))
+            _react2.default.createElement(StatRow, _extends({}, props, { ability: 'STR' })),
+            _react2.default.createElement(StatRow, _extends({}, props, { ability: 'DEX' })),
+            _react2.default.createElement(StatRow, _extends({}, props, { ability: 'CON' })),
+            _react2.default.createElement(StatRow, _extends({}, props, { ability: 'INT' })),
+            _react2.default.createElement(StatRow, _extends({}, props, { ability: 'WIS' })),
+            _react2.default.createElement(StatRow, _extends({}, props, { ability: 'CHA' }))
         )
     );
 }
@@ -981,7 +962,7 @@ function ClassRowImpl(props) {
         return _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [rowName, type] }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [rowName, type] }))
         );
     });
     return _react2.default.createElement(
@@ -995,7 +976,7 @@ var ClassTable = (0, _recompose.compose)((0, _recompose.onlyUpdateForKeys)([].co
 function ClassTableImpl(props) {
     var classRows = CLASSES.map(function (classN, i) {
         if (i > 0 && isEmpty(props.getState(['class' + i])) && isEmpty(props.getState(['class' + (i + 1)]))) return null;
-        return _react2.default.createElement(ClassRow, (0, _extends3.default)({}, props, { name: classN, val: props[classN] }));
+        return _react2.default.createElement(ClassRow, _extends({}, props, { name: classN, val: props[classN] }));
     });
     return _react2.default.createElement(
         _reactBootstrap.Table,
@@ -1184,7 +1165,7 @@ function HPTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['hp', 'temp'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['hp', 'temp'] }))
                 )
             ),
             _react2.default.createElement(
@@ -1198,7 +1179,7 @@ function HPTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['hp', 'subdual'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['hp', 'subdual'] }))
                 )
             ),
             _react2.default.createElement(
@@ -1212,7 +1193,7 @@ function HPTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['hp', 'lethal'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['hp', 'lethal'] }))
                 )
             ),
             _react2.default.createElement(
@@ -1317,17 +1298,17 @@ function InitTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['init', 'enh'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['init', 'enh'] }))
                 ),
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['init', 'misc'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['init', 'misc'] }))
                 ),
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['init', 'temp'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['init', 'temp'] }))
                 )
             )
         )
@@ -1353,7 +1334,7 @@ function ResistanceTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['info', 'dr'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['info', 'dr'] }))
                 ),
                 _react2.default.createElement(
                     'th',
@@ -1363,7 +1344,7 @@ function ResistanceTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['info', 'sr'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['info', 'sr'] }))
                 )
             ),
             _react2.default.createElement(
@@ -1377,7 +1358,7 @@ function ResistanceTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     { colSpan: '3' },
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['info', 'resists'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['info', 'resists'] }))
                 )
             )
         )
@@ -1478,12 +1459,12 @@ function SpeedTable(props) {
                     _react2.default.createElement(
                         'td',
                         null,
-                        _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['speed', 'misc'] }))
+                        _react2.default.createElement(TextField, _extends({}, props, { propKey: ['speed', 'misc'] }))
                     ),
                     _react2.default.createElement(
                         'td',
                         null,
-                        _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['speed', 'temp'] }))
+                        _react2.default.createElement(TextField, _extends({}, props, { propKey: ['speed', 'temp'] }))
                     )
                 )
             )
@@ -1509,7 +1490,7 @@ function SpeedTable(props) {
                     _react2.default.createElement(
                         'td',
                         null,
-                        _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['speed', 'swim'] }))
+                        _react2.default.createElement(TextField, _extends({}, props, { propKey: ['speed', 'swim'] }))
                     ),
                     _react2.default.createElement(
                         'th',
@@ -1523,7 +1504,7 @@ function SpeedTable(props) {
                     _react2.default.createElement(
                         'td',
                         null,
-                        _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['speed', 'climb'] }))
+                        _react2.default.createElement(TextField, _extends({}, props, { propKey: ['speed', 'climb'] }))
                     ),
                     _react2.default.createElement(
                         'th',
@@ -1537,7 +1518,7 @@ function SpeedTable(props) {
                     _react2.default.createElement(
                         'td',
                         null,
-                        _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['speed', 'fly'] }))
+                        _react2.default.createElement(TextField, _extends({}, props, { propKey: ['speed', 'fly'] }))
                     ),
                     _react2.default.createElement(
                         'th',
@@ -1551,7 +1532,7 @@ function SpeedTable(props) {
                     _react2.default.createElement(
                         'td',
                         null,
-                        _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['speed', 'burrow'] }))
+                        _react2.default.createElement(TextField, _extends({}, props, { propKey: ['speed', 'burrow'] }))
                     )
                 )
             )
@@ -1731,27 +1712,27 @@ function ACTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['ac', 'dodge'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['ac', 'dodge'] }))
                 ),
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['ac', 'natural'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['ac', 'natural'] }))
                 ),
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['ac', 'deflect'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['ac', 'deflect'] }))
                 ),
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['ac', 'ac-misc'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['ac', 'ac-misc'] }))
                 ),
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['ac', 'temp'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['ac', 'temp'] }))
                 ),
                 _react2.default.createElement(
                     'td',
@@ -1823,7 +1804,7 @@ function ACTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['ac', 'touch-misc'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['ac', 'touch-misc'] }))
                 ),
                 _react2.default.createElement(
                     'td',
@@ -1900,7 +1881,7 @@ function ACTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['ac', 'ff-misc'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['ac', 'ff-misc'] }))
                 ),
                 _react2.default.createElement(
                     'td',
@@ -1957,17 +1938,17 @@ function SaveTableRow(props) {
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [props.save, 'enhance'] }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [props.save, 'enhance'] }))
         ),
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [props.save, 'misc'] }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [props.save, 'misc'] }))
         ),
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [props.save, 'temp'] }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [props.save, 'temp'] }))
         ),
         _react2.default.createElement(
             'td',
@@ -2085,9 +2066,9 @@ function SaveTableImpl(props) {
         _react2.default.createElement(
             'tbody',
             null,
-            _react2.default.createElement(SaveTableRow, (0, _extends3.default)({}, props, { save: 'fort', ability: 'CON' })),
-            _react2.default.createElement(SaveTableRow, (0, _extends3.default)({}, props, { save: 'refl', ability: 'DEX' })),
-            _react2.default.createElement(SaveTableRow, (0, _extends3.default)({}, props, { save: 'will', ability: 'WIS' }))
+            _react2.default.createElement(SaveTableRow, _extends({}, props, { save: 'fort', ability: 'CON' })),
+            _react2.default.createElement(SaveTableRow, _extends({}, props, { save: 'refl', ability: 'DEX' })),
+            _react2.default.createElement(SaveTableRow, _extends({}, props, { save: 'will', ability: 'WIS' }))
         )
     );
 }
@@ -2131,12 +2112,12 @@ function AttackTableImpl(props) {
             _react2.default.createElement(
                 'td',
                 null,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [attack['name'], 'misc'] }))
+                _react2.default.createElement(TextField, _extends({}, props, { propKey: [attack['name'], 'misc'] }))
             ),
             _react2.default.createElement(
                 'td',
                 null,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [attack['name'], 'temp'] }))
+                _react2.default.createElement(TextField, _extends({}, props, { propKey: [attack['name'], 'temp'] }))
             )
         );
     });
@@ -2264,12 +2245,12 @@ function AttackTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['cmb', 'misc'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['cmb', 'misc'] }))
                 ),
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['cmb', 'temp'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['cmb', 'temp'] }))
                 )
             ),
             _react2.default.createElement(
@@ -2323,13 +2304,13 @@ function AttackTableImpl(props) {
                     _react2.default.createElement(
                         NoPrintAbbr,
                         { title: 'Add here any insight, luck, morale, profane, and sacred bonuses to AC' },
-                        _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['cmd', 'misc'] }))
+                        _react2.default.createElement(TextField, _extends({}, props, { propKey: ['cmd', 'misc'] }))
                     )
                 ),
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['cmd', 'temp'] }))
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['cmd', 'temp'] }))
                 )
             )
         )
@@ -2342,14 +2323,14 @@ function ArmorTable(props) {
         return _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['armor', key] }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: ['armor', key] }))
         );
     });
     var shieldControls = armorKeys.map(function (key) {
         return _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['shield', key] }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: ['shield', key] }))
         );
     });
     return _react2.default.createElement(
@@ -2445,14 +2426,14 @@ function ArmorTable(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(NoteArea, (0, _extends3.default)({}, props, { propKey: ['armor', 'desc'],
+                    _react2.default.createElement(NoteArea, _extends({}, props, { propKey: ['armor', 'desc'],
                         placeholder: 'armor note', onerow: true }))
                 ),
                 armorControls,
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(SelectField, (0, _extends3.default)({}, props, { propKey: ['armor', 'type'], options: ARMOR_TYPES,
+                    _react2.default.createElement(SelectField, _extends({}, props, { propKey: ['armor', 'type'], options: ARMOR_TYPES,
                         className: 'appearance-none' }))
                 )
             ),
@@ -2471,7 +2452,7 @@ function ArmorTable(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(NoteArea, (0, _extends3.default)({}, props, { propKey: ['shield', 'desc'],
+                    _react2.default.createElement(NoteArea, _extends({}, props, { propKey: ['shield', 'desc'],
                         placeholder: 'shield note', onerow: true }))
                 ),
                 shieldControls
@@ -2490,7 +2471,7 @@ function WeaponTableImpl(props) {
             return _react2.default.createElement(
                 'td',
                 null,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['weapon' + i, key] }))
+                _react2.default.createElement(TextField, _extends({}, props, { propKey: ['weapon' + i, key] }))
             );
         });
         var row = _react2.default.createElement(
@@ -2499,18 +2480,18 @@ function WeaponTableImpl(props) {
             _react2.default.createElement(
                 'td',
                 null,
-                _react2.default.createElement(NoteArea, (0, _extends3.default)({}, props, { propKey: ['weapon' + i, 'desc'],
+                _react2.default.createElement(NoteArea, _extends({}, props, { propKey: ['weapon' + i, 'desc'],
                     placeholder: 'name', onerow: true }))
             ),
             cells,
             _react2.default.createElement(
                 'td',
                 null,
-                _react2.default.createElement(NoteArea, (0, _extends3.default)({}, props, { propKey: ['weapon' + i, 'note'],
+                _react2.default.createElement(NoteArea, _extends({}, props, { propKey: ['weapon' + i, 'note'],
                     placeholder: 'notes', onerow: true }))
             )
         );
-        weaponRows = [].concat((0, _toConsumableArray3.default)(weaponRows), [row]);
+        weaponRows = [].concat(_toConsumableArray(weaponRows), [row]);
     }
     return _react2.default.createElement(
         _reactBootstrap.Table,
@@ -2653,18 +2634,18 @@ var SKILL_AC_PENALTY_ABILITIES = ['STR', 'DEX'];
 function CustomSkillRow(props) {
     var propKey = props.propKey;
 
-    var abilityKey = [].concat((0, _toConsumableArray3.default)(propKey), ['ability']);
+    var abilityKey = [].concat(_toConsumableArray(propKey), ['ability']);
     var ability = props.getState(abilityKey);
     var hasAcPenalty = SKILL_AC_PENALTY_ABILITIES.indexOf(ability) > -1;
     var nameField = _react2.default.createElement(
         'span',
         null,
-        _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['categ']) })),
+        _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['categ']) })),
         hasAcPenalty ? "*" : ""
     );
-    var abilityField = _react2.default.createElement(SelectField, (0, _extends3.default)({}, props, { propKey: abilityKey, options: STATS }));
-    var empty = isEmpty(props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['categ']), {}));
-    return _react2.default.createElement(SkillRowBase, (0, _extends3.default)({}, props, { nameField: nameField, ability: ability,
+    var abilityField = _react2.default.createElement(SelectField, _extends({}, props, { propKey: abilityKey, options: STATS }));
+    var empty = isEmpty(props.getState([].concat(_toConsumableArray(propKey), ['categ']), {}));
+    return _react2.default.createElement(SkillRowBase, _extends({}, props, { nameField: nameField, ability: ability,
         abilityField: abilityField, hasAcPenalty: hasAcPenalty, empty: empty }));
 }
 function SkillRow(props) {
@@ -2675,14 +2656,14 @@ function SkillRow(props) {
 
     var hasAcPenalty = SKILL_AC_PENALTY_ABILITIES.indexOf(ability) > -1;
     var dispName = name + (hasCategory ? ': ' : '');
-    var categoryField = hasCategory ? _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['categ']) })) : "";
+    var categoryField = hasCategory ? _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['categ']) })) : "";
     var nameField = _react2.default.createElement(
         'span',
         null,
         dispName,
         categoryField
     );
-    return _react2.default.createElement(SkillRowBase, (0, _extends3.default)({}, props, { nameField: nameField, ability: ability,
+    return _react2.default.createElement(SkillRowBase, _extends({}, props, { nameField: nameField, ability: ability,
         abilityField: ability, hasAcPenalty: hasAcPenalty }));
 }
 
@@ -2695,8 +2676,8 @@ function SkillRowBase(props) {
         isUntrainedUse = props.isUntrainedUse,
         empty = props.empty;
 
-    var ranks = props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['ranks']));
-    var isClass = props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['is-class']));
+    var ranks = props.getState([].concat(_toConsumableArray(propKey), ['ranks']));
+    var isClass = props.getState([].concat(_toConsumableArray(propKey), ['is-class']));
     return _react2.default.createElement(
         'tr',
         null,
@@ -2705,7 +2686,7 @@ function SkillRowBase(props) {
             { className: 'skill-name' },
             _react2.default.createElement(
                 CheckboxField,
-                (0, _extends3.default)({}, props, { inline: true, propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['is-class']) }),
+                _extends({}, props, { inline: true, propKey: [].concat(_toConsumableArray(propKey), ['is-class']) }),
                 _react2.default.createElement(
                     'small',
                     null,
@@ -2728,7 +2709,7 @@ function SkillRowBase(props) {
             _react2.default.createElement(
                 'small',
                 null,
-                isUntrainedUse || ranks !== undefined ? props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['ranks']), 0) + props.getAbilityMod(ability) + (ranks > 0 && isClass ? 3 : 0) + props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['misc']), 0) + props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['temp']), 0) - (hasAcPenalty ? props.getCurrentSkillCheckPenalty() : 0) + (hasAcPenalty ? '*' : '') : ""
+                isUntrainedUse || ranks !== undefined ? props.getState([].concat(_toConsumableArray(propKey), ['ranks']), 0) + props.getAbilityMod(ability) + (ranks > 0 && isClass ? 3 : 0) + props.getState([].concat(_toConsumableArray(propKey), ['misc']), 0) + props.getState([].concat(_toConsumableArray(propKey), ['temp']), 0) - (hasAcPenalty ? props.getCurrentSkillCheckPenalty() : 0) + (hasAcPenalty ? '*' : '') : ""
             )
         ),
         _react2.default.createElement(
@@ -2737,7 +2718,7 @@ function SkillRowBase(props) {
             _react2.default.createElement(
                 'small',
                 null,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['ranks']) }))
+                _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['ranks']) }))
             )
         ),
         _react2.default.createElement(
@@ -2764,7 +2745,7 @@ function SkillRowBase(props) {
             _react2.default.createElement(
                 'small',
                 null,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['misc']) }))
+                _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['misc']) }))
             )
         ),
         _react2.default.createElement(
@@ -2773,7 +2754,7 @@ function SkillRowBase(props) {
             _react2.default.createElement(
                 'small',
                 null,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['temp']) }))
+                _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['temp']) }))
             )
         )
     );
@@ -2789,7 +2770,7 @@ function SkillTableImpl(props) {
         var hasCategory = CATEGORY_SKILLS.indexOf(name) > -1;
         var isUntrainedUse = SKILLS_UNTRAINED_USE.indexOf(name) > -1;
         if (!hasCategory) {
-            rows = rows.concat(_react2.default.createElement(SkillRow, (0, _extends3.default)({}, props, { name: name,
+            rows = rows.concat(_react2.default.createElement(SkillRow, _extends({}, props, { name: name,
                 propKey: ['skill', name.toLowerCase()],
                 isUntrainedUse: isUntrainedUse,
                 ability: SKILL_ABILITIES[i], hasCategory: hasCategory })));
@@ -2801,7 +2782,7 @@ function SkillTableImpl(props) {
             if (categoryIndex > 0 && isEmpty(props.getState(prevKey, {})) && isEmpty(props.getState(propKey, {}))) {
                 continue;
             }
-            rows = rows.concat(_react2.default.createElement(SkillRow, (0, _extends3.default)({}, props, { name: name, propKey: propKey,
+            rows = rows.concat(_react2.default.createElement(SkillRow, _extends({}, props, { name: name, propKey: propKey,
                 isUntrainedUse: isUntrainedUse,
                 ability: SKILL_ABILITIES[i], hasCategory: hasCategory })));
         }
@@ -2814,10 +2795,10 @@ function SkillTableImpl(props) {
         if (categoryIndex > 0 && isEmpty(props.getState([].concat(prevKey, ['categ']), {})) && isEmpty(props.getState(propKey, {}))) {
             continue;
         }
-        customSkillRows = customSkillRows.concat(_react2.default.createElement(CustomSkillRow, (0, _extends3.default)({}, props, { propKey: propKey })));
+        customSkillRows = customSkillRows.concat(_react2.default.createElement(CustomSkillRow, _extends({}, props, { propKey: propKey })));
     }
     var totalSkillRanks = props.getClassTypeTotal('skill');
-    var assignedSkillRanks = props.skill && (0, _keys2.default)(props.skill).reduce(function (sum, skill) {
+    var assignedSkillRanks = props.skill && Object.keys(props.skill).reduce(function (sum, skill) {
         return sum + props.getState(['skill', skill, 'ranks'], 0);
     }, 0);
     var unassignedSkillRanks = totalSkillRanks - assignedSkillRanks;
@@ -2937,7 +2918,7 @@ function EquipmentTable(props) {
         if (i > 0 && isEmpty(props.getState(prevKey, {})) && isEmpty(props.getState(propKey, {}))) {
             continue;
         }
-        equipmentRows = equipmentRows.concat(_react2.default.createElement(EquipmentRow, (0, _extends3.default)({}, props, { propKey: propKey })));
+        equipmentRows = equipmentRows.concat(_react2.default.createElement(EquipmentRow, _extends({}, props, { propKey: propKey })));
     }
     return _react2.default.createElement(
         _reactBootstrap.Table,
@@ -2997,18 +2978,18 @@ function EquipmentRow(props) {
             _react2.default.createElement(
                 'small',
                 null,
-                _react2.default.createElement(NoteArea, (0, _extends3.default)({}, props, { placeholder: 'name note', propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['name']), onerow: true }))
+                _react2.default.createElement(NoteArea, _extends({}, props, { placeholder: 'name note', propKey: [].concat(_toConsumableArray(propKey), ['name']), onerow: true }))
             )
         ),
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['value']) }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['value']) }))
         ),
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['weight']) }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['weight']) }))
         )
     );
 }
@@ -3023,7 +3004,7 @@ function RagePanelImpl(props) {
     var rageState = getRageState(props);
     var headerCheckbox = _react2.default.createElement(
         CheckboxField,
-        (0, _extends3.default)({}, props, { inline: true, propKey: ['rage', 'enable'] }),
+        _extends({}, props, { inline: true, propKey: ['rage', 'enable'] }),
         rageState.header
     );
     var validationRageEnabled = props.getState(['rage', 'enable'], false) ? "success" : "";
@@ -3040,9 +3021,9 @@ function RagePanelImpl(props) {
                 _react2.default.createElement(
                     _reactBootstrap.Row,
                     null,
-                    _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { label: 'Class levels', propKey: ['rage', 'level'], xs: 3 })),
-                    _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { label: 'Misc rounds', propKey: ['rage', 'rounds', 'misc'], xs: 3 })),
-                    _react2.default.createElement(ColTextField, (0, _extends3.default)({}, props, { label: 'Used rounds', validationState: 'warning', propKey: ['rage', 'rounds', 'used'], xs: 3 })),
+                    _react2.default.createElement(ColTextField, _extends({}, props, { label: 'Class levels', propKey: ['rage', 'level'], xs: 3 })),
+                    _react2.default.createElement(ColTextField, _extends({}, props, { label: 'Misc rounds', propKey: ['rage', 'rounds', 'misc'], xs: 3 })),
+                    _react2.default.createElement(ColTextField, _extends({}, props, { label: 'Used rounds', validationState: 'warning', propKey: ['rage', 'rounds', 'used'], xs: 3 })),
                     _react2.default.createElement(
                         ColText,
                         { label: 'Rounds of rage left', validationState: 'success', xs: 3 },
@@ -3077,7 +3058,7 @@ function RagePanelImpl(props) {
             _react2.default.createElement(
                 _reactBootstrap.Col,
                 { sm: 4 },
-                _react2.default.createElement(NoteArea, (0, _extends3.default)({}, props, { noteKey: 'rage', val: props.note.rage }))
+                _react2.default.createElement(NoteArea, _extends({}, props, { noteKey: 'rage', val: props.note.rage }))
             )
         )
     );
@@ -3085,7 +3066,7 @@ function RagePanelImpl(props) {
 
 function SpellcasterPanels(props) {
     var panels = SPELLCASTERS.map(function (k) {
-        return _react2.default.createElement(SpellTablePanel, (0, _extends3.default)({}, props, { propKey: [k] }));
+        return _react2.default.createElement(SpellTablePanel, _extends({}, props, { propKey: [k] }));
     });
     return _react2.default.createElement(
         'div',
@@ -3114,7 +3095,7 @@ function SpellTablePanelHeader(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { bsSize: 'sm', propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['className']) }))
+                    _react2.default.createElement(TextField, _extends({}, props, { bsSize: 'sm', propKey: [].concat(_toConsumableArray(propKey), ['className']) }))
                 ),
                 _react2.default.createElement(
                     'td',
@@ -3124,7 +3105,7 @@ function SpellTablePanelHeader(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { bsSize: 'sm', propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['level']) }))
+                    _react2.default.createElement(TextField, _extends({}, props, { bsSize: 'sm', propKey: [].concat(_toConsumableArray(propKey), ['level']) }))
                 ),
                 _react2.default.createElement(
                     'td',
@@ -3134,7 +3115,7 @@ function SpellTablePanelHeader(props) {
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(SelectField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['ability']), options: STATS }))
+                    _react2.default.createElement(SelectField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['ability']), options: STATS }))
                 )
             )
         )
@@ -3147,9 +3128,9 @@ function SpellTablePanelRow(props) {
         level = props.level,
         dcPlaceholder = props.dcPlaceholder;
 
-    var prep = props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['prep']));
-    var used = props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['used']), 0);
-    var propsDC = (0, _extends3.default)({}, props, { placeholder: dcPlaceholder });
+    var prep = props.getState([].concat(_toConsumableArray(propKey), ['prep']));
+    var used = props.getState([].concat(_toConsumableArray(propKey), ['used']), 0);
+    var propsDC = _extends({}, props, { placeholder: dcPlaceholder });
     var prepCell = { className: prep > 0 ? "success" : "" };
     var usedCell = { className: prep < used ? "danger" : "warning" };
     return _react2.default.createElement(
@@ -3163,48 +3144,48 @@ function SpellTablePanelRow(props) {
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(CheckboxField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['SR']) }))
+            _react2.default.createElement(CheckboxField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['SR']) }))
         ),
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, propsDC, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['dc']) }))
+            _react2.default.createElement(TextField, _extends({}, propsDC, { propKey: [].concat(_toConsumableArray(propKey), ['dc']) }))
         ),
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['save']) }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['save']) }))
         ),
         _react2.default.createElement(
             'td',
             prepCell,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['prep']) }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['prep']) }))
         ),
         _react2.default.createElement(
             'td',
             usedCell,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['used']) }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['used']) }))
         ),
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(NoteArea, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['name']),
+            _react2.default.createElement(NoteArea, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['name']),
                 placeholder: 'spell name & description', onerow: true }))
         ),
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['school']) }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['school']) }))
         ),
         _react2.default.createElement(
             'td',
             null,
-            _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['duration']) }))
+            _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['duration']) }))
         ),
         _react2.default.createElement(
             'td',
             { className: 'spell-range' },
-            _react2.default.createElement(SelectField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['range']), options: RANGES,
+            _react2.default.createElement(SelectField, _extends({}, props, { propKey: [].concat(_toConsumableArray(propKey), ['range']), options: RANGES,
                 className: 'appearance-none' }))
         )
     );
@@ -3217,23 +3198,23 @@ function SpellTablePanel(props) {
         return null;
     }
     var spellTableRows = [];
-    var abilityMod = props.getAbilityMod(props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['ability'])), true);
+    var abilityMod = props.getAbilityMod(props.getState([].concat(_toConsumableArray(propKey), ['ability'])), true);
     var rows = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(function (lev) {
-        if (lev > 0 && props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['l' + (lev - 1), 'class'])) === undefined) return;
-        var levelKey = [].concat((0, _toConsumableArray3.default)(propKey), ['l' + lev]);
-        var hideLast = props.getState([].concat((0, _toConsumableArray3.default)(levelKey), ['class'])) === undefined ? 'hidden' : '';
+        if (lev > 0 && props.getState([].concat(_toConsumableArray(propKey), ['l' + (lev - 1), 'class'])) === undefined) return;
+        var levelKey = [].concat(_toConsumableArray(propKey), ['l' + lev]);
+        var hideLast = props.getState([].concat(_toConsumableArray(levelKey), ['class'])) === undefined ? 'hidden' : '';
         var abilityBonus = lev == 0 ? 0 : abilityMod;
-        for (var i = 0; i < props.getState([].concat((0, _toConsumableArray3.default)(levelKey), ['known']), 0); i++) {
-            if (i > 0 && props.getState([].concat((0, _toConsumableArray3.default)(levelKey), [String(i - 1)])) === undefined && props.getState([].concat((0, _toConsumableArray3.default)(levelKey), [String(i)])) === undefined) continue;
-            spellTableRows = [].concat((0, _toConsumableArray3.default)(spellTableRows), [_react2.default.createElement(SpellTablePanelRow, (0, _extends3.default)({}, props, {
-                dcPlaceholder: props.getState([].concat((0, _toConsumableArray3.default)(levelKey), ['dc']), 10 + lev + abilityMod),
-                propKey: [].concat((0, _toConsumableArray3.default)(levelKey), [String(i)]), level: lev }))]);
+        for (var i = 0; i < props.getState([].concat(_toConsumableArray(levelKey), ['known']), 0); i++) {
+            if (i > 0 && props.getState([].concat(_toConsumableArray(levelKey), [String(i - 1)])) === undefined && props.getState([].concat(_toConsumableArray(levelKey), [String(i)])) === undefined) continue;
+            spellTableRows = [].concat(_toConsumableArray(spellTableRows), [_react2.default.createElement(SpellTablePanelRow, _extends({}, props, {
+                dcPlaceholder: props.getState([].concat(_toConsumableArray(levelKey), ['dc']), 10 + lev + abilityMod),
+                propKey: [].concat(_toConsumableArray(levelKey), [String(i)]), level: lev }))]);
         }
-        var remainingSpells = props.getState([].concat((0, _toConsumableArray3.default)(levelKey), ['class'])) === undefined ? "" : abilityBonus - props.getState([].concat((0, _toConsumableArray3.default)(levelKey), ['used']), 0) + ['class', 'misc'].reduce(function (sum, key) {
-            return sum + props.getState([].concat((0, _toConsumableArray3.default)(levelKey), [key]), 0);
+        var remainingSpells = props.getState([].concat(_toConsumableArray(levelKey), ['class'])) === undefined ? "" : abilityBonus - props.getState([].concat(_toConsumableArray(levelKey), ['used']), 0) + ['class', 'misc'].reduce(function (sum, key) {
+            return sum + props.getState([].concat(_toConsumableArray(levelKey), [key]), 0);
         }, 0);
         var remainingProps = { className: remainingSpells > 0 ? "success" : "text-center" };
-        var usedProps = { className: props.getState([].concat((0, _toConsumableArray3.default)(levelKey), ['class'])) === undefined ? "" : remainingSpells < 0 ? "danger" : "warning" };
+        var usedProps = { className: props.getState([].concat(_toConsumableArray(levelKey), ['class'])) === undefined ? "" : remainingSpells < 0 ? "danger" : "warning" };
         return _react2.default.createElement(
             'tr',
             null,
@@ -3245,13 +3226,13 @@ function SpellTablePanel(props) {
             _react2.default.createElement(
                 'td',
                 null,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { className: hideLast,
-                    propKey: [].concat((0, _toConsumableArray3.default)(levelKey), ['known']) }))
+                _react2.default.createElement(TextField, _extends({}, props, { className: hideLast,
+                    propKey: [].concat(_toConsumableArray(levelKey), ['known']) }))
             ),
             _react2.default.createElement(
                 'td',
                 null,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { className: hideLast, propKey: [].concat((0, _toConsumableArray3.default)(levelKey), ['dc']),
+                _react2.default.createElement(TextField, _extends({}, props, { className: hideLast, propKey: [].concat(_toConsumableArray(levelKey), ['dc']),
                     placeholder: 10 + lev + abilityMod }))
             ),
             _react2.default.createElement(
@@ -3262,7 +3243,7 @@ function SpellTablePanel(props) {
             _react2.default.createElement(
                 'td',
                 null,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: [].concat((0, _toConsumableArray3.default)(levelKey), ['class']) }))
+                _react2.default.createElement(TextField, _extends({}, props, { propKey: [].concat(_toConsumableArray(levelKey), ['class']) }))
             ),
             _react2.default.createElement(
                 'td',
@@ -3272,20 +3253,20 @@ function SpellTablePanel(props) {
             _react2.default.createElement(
                 'td',
                 null,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { className: hideLast,
-                    propKey: [].concat((0, _toConsumableArray3.default)(levelKey), ['misc']) }))
+                _react2.default.createElement(TextField, _extends({}, props, { className: hideLast,
+                    propKey: [].concat(_toConsumableArray(levelKey), ['misc']) }))
             ),
             _react2.default.createElement(
                 'td',
                 usedProps,
-                _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { className: hideLast,
-                    propKey: [].concat((0, _toConsumableArray3.default)(levelKey), ['used']) }))
+                _react2.default.createElement(TextField, _extends({}, props, { className: hideLast,
+                    propKey: [].concat(_toConsumableArray(levelKey), ['used']) }))
             )
         );
     });
     return _react2.default.createElement(
         _reactBootstrap.Panel,
-        { header: SpellTablePanelHeader((0, _extends3.default)({}, props, { propKey: propKey })) },
+        { header: SpellTablePanelHeader(_extends({}, props, { propKey: propKey })) },
         _react2.default.createElement(
             _reactBootstrap.Row,
             null,
@@ -3426,23 +3407,23 @@ function SpellTablePanel(props) {
                             _react2.default.createElement(
                                 'th',
                                 { className: 'success' },
-                                25 + 5 * Math.floor(props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['level'])) / 2)
+                                25 + 5 * Math.floor(props.getState([].concat(_toConsumableArray(propKey), ['level'])) / 2)
                             ),
                             _react2.default.createElement(
                                 'th',
                                 { className: 'success' },
-                                100 + 10 * props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['level']))
+                                100 + 10 * props.getState([].concat(_toConsumableArray(propKey), ['level']))
                             ),
                             _react2.default.createElement(
                                 'th',
                                 { className: 'success' },
-                                400 + 40 * props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['level']))
+                                400 + 40 * props.getState([].concat(_toConsumableArray(propKey), ['level']))
                             )
                         )
                     )
                 ),
-                _react2.default.createElement(NoteArea, (0, _extends3.default)({}, props, { placeholder: 'Specialty, domain, familiar, etc. notes',
-                    propKey: [].concat((0, _toConsumableArray3.default)(propKey), ['note']), val: props.getState([].concat((0, _toConsumableArray3.default)(propKey), ['note'])) }))
+                _react2.default.createElement(NoteArea, _extends({}, props, { placeholder: 'Specialty, domain, familiar, etc. notes',
+                    propKey: [].concat(_toConsumableArray(propKey), ['note']), val: props.getState([].concat(_toConsumableArray(propKey), ['note'])) }))
             )
         ),
         _react2.default.createElement(
@@ -3840,19 +3821,19 @@ function LoadTable(props) {
                 _react2.default.createElement(
                     'td',
                     { className: loadClass('medium') },
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['load', 'medium', 'max-dex'],
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['load', 'medium', 'max-dex'],
                         placeholder: '3', className: 'width-2-digit' }))
                 ),
                 _react2.default.createElement(
                     'td',
                     { className: loadClass('heavy') },
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['load', 'heavy', 'max-dex'],
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['load', 'heavy', 'max-dex'],
                         placeholder: '1', className: 'width-2-digit' }))
                 ),
                 _react2.default.createElement(
                     'td',
                     null,
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['load', 'stagger', 'max-dex'],
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['load', 'stagger', 'max-dex'],
                         placeholder: '0', className: 'width-2-digit' }))
                 )
             ),
@@ -3872,13 +3853,13 @@ function LoadTable(props) {
                 _react2.default.createElement(
                     'td',
                     { className: loadClass('medium') },
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['load', 'medium', 'skill-penalty'],
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['load', 'medium', 'skill-penalty'],
                         placeholder: '3', className: 'width-2-digit' }))
                 ),
                 _react2.default.createElement(
                     'td',
                     { className: loadClass('heavy') },
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['load', 'heavy', 'skill-penalty'],
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['load', 'heavy', 'skill-penalty'],
                         placeholder: '6', className: 'width-2-digit' }))
                 ),
                 _react2.default.createElement('td', null)
@@ -3894,19 +3875,19 @@ function LoadTable(props) {
                 _react2.default.createElement(
                     'td',
                     { className: loadClass('light') },
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['load', 'light', 'base-speed'],
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['load', 'light', 'base-speed'],
                         className: 'width-5em' }))
                 ),
                 _react2.default.createElement(
                     'td',
                     { className: loadClass('medium') },
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['load', 'medium', 'base-speed'],
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['load', 'medium', 'base-speed'],
                         className: 'width-5em' }))
                 ),
                 _react2.default.createElement(
                     'td',
                     { className: loadClass('heavy') },
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['load', 'heavy', 'base-speed'],
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['load', 'heavy', 'base-speed'],
                         className: 'width-5em' }))
                 ),
                 _react2.default.createElement(
@@ -3931,13 +3912,13 @@ function LoadTable(props) {
                 _react2.default.createElement(
                     'td',
                     { className: armorClass(1) },
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['armor', 'medium', 'base-speed'],
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['armor', 'medium', 'base-speed'],
                         className: 'width-5em' }))
                 ),
                 _react2.default.createElement(
                     'td',
                     { className: armorClass(2) },
-                    _react2.default.createElement(TextField, (0, _extends3.default)({}, props, { propKey: ['armor', 'heavy', 'base-speed'],
+                    _react2.default.createElement(TextField, _extends({}, props, { propKey: ['armor', 'heavy', 'base-speed'],
                         className: 'width-5em' }))
                 )
             )
@@ -3950,144 +3931,16 @@ function invert(v) {
 }
 
 _reactDom2.default.render(_react2.default.createElement(App, null), document.getElementById('root'));
-;
 
-var _temp = function () {
-    if (typeof __REACT_HOT_LOADER__ === 'undefined') {
-        return;
-    }
+/***/ }),
 
-    __REACT_HOT_LOADER__.register(ColText, 'ColText', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
+/***/ 733:
+/***/ (function(module, exports, __webpack_require__) {
 
-    __REACT_HOT_LOADER__.register(ColTextField, 'ColTextField', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
+__webpack_require__(207);
+module.exports = __webpack_require__(315);
 
-    __REACT_HOT_LOADER__.register(SizeField, 'SizeField', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(InfoRowImpl, 'InfoRowImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(StatRow, 'StatRow', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(AbilityTableImpl, 'AbilityTableImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(TextField, 'TextField', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(NoteAreaImpl, 'NoteAreaImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(NoPrintAbbr, 'NoPrintAbbr', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(ClassRowImpl, 'ClassRowImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(ClassTableImpl, 'ClassTableImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(HPTableImpl, 'HPTableImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(InitTableImpl, 'InitTableImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(ResistanceTableImpl, 'ResistanceTableImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SpeedTable, 'SpeedTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(ACTableImpl, 'ACTableImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SaveTableRow, 'SaveTableRow', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SaveTableImpl, 'SaveTableImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(AttackTableImpl, 'AttackTableImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(ArmorTable, 'ArmorTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(WeaponTableImpl, 'WeaponTableImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(CheckboxField, 'CheckboxField', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SelectField, 'SelectField', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(CustomSkillRow, 'CustomSkillRow', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SkillRow, 'SkillRow', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SkillRowBase, 'SkillRowBase', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SkillTableImpl, 'SkillTableImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(getRageState, 'getRageState', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(EquipmentTable, 'EquipmentTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(EquipmentRow, 'EquipmentRow', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(RagePanelImpl, 'RagePanelImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SpellcasterPanels, 'SpellcasterPanels', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SpellTablePanelHeader, 'SpellTablePanelHeader', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SpellTablePanelRow, 'SpellTablePanelRow', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SpellTablePanel, 'SpellTablePanel', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(AddfieldsNavbarImpl, 'AddfieldsNavbarImpl', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(LoadTable, 'LoadTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(invert, 'invert', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(STATS, 'STATS', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(STAT_TYPES, 'STAT_TYPES', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(CLASSES, 'CLASSES', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(CLASS_TYPES, 'CLASS_TYPES', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(WEAPONS, 'WEAPONS', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SAVES, 'SAVES', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SPELLCASTERS, 'SPELLCASTERS', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(ARMOR_TYPES, 'ARMOR_TYPES', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(App, 'App', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(InfoRow, 'InfoRow', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(AbilityTable, 'AbilityTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(NoteArea, 'NoteArea', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(ClassRow, 'ClassRow', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(ClassTable, 'ClassTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(HPTable, 'HPTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(InitTable, 'InitTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(ResistanceTable, 'ResistanceTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(ACTable, 'ACTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SaveTable, 'SaveTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(AttackTable, 'AttackTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(WeaponTable, 'WeaponTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SKILL_AC_PENALTY_ABILITIES, 'SKILL_AC_PENALTY_ABILITIES', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(SkillTable, 'SkillTable', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(RagePanel, 'RagePanel', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(RANGES, 'RANGES', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-
-    __REACT_HOT_LOADER__.register(AddfieldsNavbar, 'AddfieldsNavbar', '/home/blomkim/src/pathfinder-web-sheet/src/index.jsx');
-}();
-
-;
 
 /***/ })
 
-},[211]);
+},[733]);

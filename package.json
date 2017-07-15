@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/kimb/pathfinder-web-sheet",
   "dependencies": {
+    "babel-polyfill": "^6.23.0",
     "lodash": "^4.17.4",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.1",
