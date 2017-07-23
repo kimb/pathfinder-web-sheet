@@ -1378,7 +1378,7 @@ function SkillTableImpl(props) {
             <tfoot className="small">
                 <tr>
                     <td colSpan={8}>
-                        *: denotes that current armor check penalty is applied:
+                        *: denotes that current skill check penalty is applied:
                         { props.getCurrentSkillCheckPenalty() }<br/>
                         (using a move action to drop your equipment would change it to:
                         { props.getArmedSkillCheckPenalty() })
