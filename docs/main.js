@@ -14,7 +14,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 __webpack_require__(207);
 
-var _lodash = __webpack_require__(576);
+var _lodash = __webpack_require__(577);
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -26,9 +26,11 @@ var _reactDom = __webpack_require__(35);
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactBootstrap = __webpack_require__(639);
+var _reactBootstrap = __webpack_require__(640);
 
-var _recompose = __webpack_require__(726);
+var _recompose = __webpack_require__(727);
+
+var _Speed = __webpack_require__(316);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -71,14 +73,14 @@ var App = function (_Component) {
                 },
                 medium: {
                     "base-speed": function baseSpeed(fn) {
-                        return Speed.reduceBase(fn.getValue('load.light.base-speed')).toString();
+                        return _Speed.Speed.reduceBase(fn.getValue('load.light.base-speed')).toString();
                     },
                     "max-dex": 3,
                     "skill-penalty": 3
                 },
                 heavy: {
                     "base-speed": function baseSpeed(fn) {
-                        return Speed.reduceRun(fn.getValue('load.medium.base-speed')).toString();
+                        return _Speed.Speed.reduceRun(fn.getValue('load.medium.base-speed')).toString();
                     },
                     "max-dex": 1,
                     "skill-penalty": 6
@@ -95,21 +97,21 @@ var App = function (_Component) {
                 },
                 medium: {
                     "base-speed": function baseSpeed(fn) {
-                        return Speed.reduceBase(fn.getValue('armor.light.base-speed')).toString();
+                        return _Speed.Speed.reduceBase(fn.getValue('armor.light.base-speed')).toString();
                     }
                 },
                 heavy: {
                     "base-speed": function baseSpeed(fn) {
-                        return Speed.reduceRun(fn.getValue('armor.medium.base-speed')).toString();
+                        return _Speed.Speed.reduceRun(fn.getValue('armor.medium.base-speed')).toString();
                     }
                 }
             },
             speed: {
                 swim: function swim(fn) {
-                    return Speed.halfBase(fn.getCurrentSpeed()).base + "/round";
+                    return _Speed.Speed.halfBase(fn.getCurrentSpeed()).base + "/round";
                 },
                 climb: function climb(fn) {
-                    return Speed.halfBase(fn.getCurrentSpeed()).base + "/round";
+                    return _Speed.Speed.halfBase(fn.getCurrentSpeed()).base + "/round";
                 }
             }
         };
@@ -459,17 +461,17 @@ var App = function (_Component) {
     }, {
         key: 'getArmedSpeed',
         value: function getArmedSpeed() {
-            return Speed.min(this.getValue('armor.' + this.getState('armor.type', 'Light').toLowerCase() + '.base-speed'), this.getValue('load.' + this.getLoadName(this.getArmedLoad()) + '.base-speed'));
+            return _Speed.Speed.min(this.getValue('armor.' + this.getState('armor.type', 'Light').toLowerCase() + '.base-speed'), this.getValue('load.' + this.getLoadName(this.getArmedLoad()) + '.base-speed'));
         }
     }, {
         key: 'getCurrentSpeed',
         value: function getCurrentSpeed() {
-            return Speed.min(this.getArmedSpeed(), this.getValue('load.' + this.getCurrentLoadName() + '.base-speed'));
+            return _Speed.Speed.min(this.getArmedSpeed(), this.getValue('load.' + this.getCurrentLoadName() + '.base-speed'));
         }
     }, {
         key: 'getOverlandSpeed',
         value: function getOverlandSpeed() {
-            return Speed.parse(this.getCurrentSpeed()).base / 10;
+            return _Speed.Speed.parse(this.getCurrentSpeed()).base / 10;
         }
     }, {
         key: 'getArmedSkillCheckPenalty',
@@ -2894,7 +2896,7 @@ function SkillTableImpl(props) {
                 _react2.default.createElement(
                     'td',
                     { colSpan: 8 },
-                    '*: denotes that current armor check penalty is applied:',
+                    '*: denotes that current skill check penalty is applied:',
                     props.getCurrentSkillCheckPenalty(),
                     _react2.default.createElement('br', null),
                     '(using a move action to drop your equipment would change it to:',
@@ -3935,7 +3937,48 @@ _reactDom2.default.render(_react2.default.createElement(App, null), document.get
 
 /***/ }),
 
-/***/ 733:
+/***/ 316:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Speed = Speed;
+function Speed(base, run) {
+    this.base = base;
+    this.run = run;
+}
+Speed.prototype.toString = function () {
+    return this.base + " (x" + this.run + ")";
+};
+Speed.parse = function (speed) {
+    if (speed instanceof Speed) return speed;
+    return new Speed(Number((speed + ' ').split(/[ (x)\/]+/)[0]), Number((speed + ' ').split(/[ (x)]+/)[1] || 4));
+};
+Speed.modifyBase = function (speedArg, multiplier) {
+    var speed = Speed.parse(speedArg);
+    return new Speed(Math.ceil(speed.base / 5 * multiplier) * 5, speed.run);
+};
+Speed.reduceBase = function (speedArg) {
+    return Speed.modifyBase(speedArg, 2 / 3);
+};
+Speed.halfBase = function (speedArg) {
+    return Speed.modifyBase(speedArg, 1 / 2);
+};
+Speed.reduceRun = function (speedArg) {
+    var speed = Speed.parse(speedArg);
+    return new Speed(speed.base, speed.run - 1);
+};
+Speed.min = function (s1, s2) {
+    return Speed.parse(s1).base <= Speed.parse(s2).base ? s1 : s2;
+};
+
+/***/ }),
+
+/***/ 734:
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(207);
@@ -3944,4 +3987,4 @@ module.exports = __webpack_require__(315);
 
 /***/ })
 
-},[733]);
+},[734]);

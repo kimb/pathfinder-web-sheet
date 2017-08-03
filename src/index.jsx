@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Glyphicon, Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button, ButtonGroup, DropdownButton, MenuItem, Navbar, Nav, NavDropdown, Panel } from 'react-bootstrap';
 import { pure, compose, onlyUpdateForKeys  } from 'recompose';
+import { Speed } from './Speed.jsx';
 
 const STATS = ['STR','DEX','CON', 'INT','WIS','CHA'];
 const STAT_TYPES = ['base','enhance','misc','temp'];
