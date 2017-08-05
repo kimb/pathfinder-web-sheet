@@ -60,11 +60,17 @@ var App = function (_Component) {
         var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
         _this.prevChangeWasToKey = '';
-        _this.state = { stat: { size: 0 } };
-        STATS.map(function (stat) {
-            _this.state.stat[stat] = { 'base': 10 };
-        });
+        _this.state = {};
         _this.default = {
+            stat: {
+                size: 0,
+                STR: { base: 10 },
+                DEX: { base: 10 },
+                CON: { base: 10 },
+                INT: { base: 10 },
+                WIS: { base: 10 },
+                CHA: { base: 10 }
+            },
             load: {
                 light: {
                     "base-speed": "30 (x4)",
@@ -376,7 +382,7 @@ var App = function (_Component) {
             return STAT_TYPES.filter(function (x) {
                 return !skipTemp || x !== 'temp';
             }).reduce(function (sum, type) {
-                return sum + _this8.getState(['stat', ability, type], 0);
+                return sum + _this8.getValue(['stat', ability, type], 0);
             }, 0) + rageBonus;
         }
     }, {
@@ -455,7 +461,7 @@ var App = function (_Component) {
                     return 2 * sizeMultiplier(sizeMod, 2);
                 }
             }
-            var maxLoad = Math.floor(baseMaxLoad(this.getAbilityTotal('STR')) * sizeMultiplier(this.getState(['stat', 'size']), this.getState(['stat', 'legs'], 2)));
+            var maxLoad = Math.floor(baseMaxLoad(this.getAbilityTotal('STR')) * sizeMultiplier(this.getValue(['stat', 'size']), this.getState(['stat', 'legs'], 2)));
             return [Math.floor(1 / 3 * maxLoad), Math.floor(2 / 3 * maxLoad), maxLoad, 2 * maxLoad, 5 * maxLoad, Infinity];
         }
     }, {
@@ -719,7 +725,7 @@ function SizeField(props) {
             _react2.default.createElement(
                 _reactBootstrap.FormControl,
                 { componentClass: 'select',
-                    value: props.getState(statePropKey),
+                    value: props.getValue(statePropKey),
                     onChange: props.handleChange(statePropKey) },
                 sizeOptions
             )

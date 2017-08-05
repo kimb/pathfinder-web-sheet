@@ -23,11 +23,17 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.prevChangeWasToKey = '';
-        this.state = {stat:{ size:0 } };
-        STATS.map( (stat) => {
-            this.state.stat[stat] = { 'base': 10 };
-        });
+        this.state = {};
         this.default = {
+            stat: {
+                size: 0,
+                STR: { base: 10 },
+                DEX: { base: 10 },
+                CON: { base: 10 },
+                INT: { base: 10 },
+                WIS: { base: 10 },
+                CHA: { base: 10 }
+            },
             load: {
                 light: {
                     "base-speed": "30 (x4)",
@@ -305,7 +311,7 @@ class App extends Component {
             ? getRageState(this.fn)[ability] || 0 : 0;
         return STAT_TYPES.filter(x=>!skipTemp||x!=='temp').reduce(
             (sum,type) =>
-            sum + this.getState(['stat',ability,type], 0), 0)
+            sum + this.getValue(['stat',ability,type], 0), 0)
             +rageBonus;
     }
     getAbilityMod(ability, skipTemp) {
@@ -366,7 +372,7 @@ class App extends Component {
         }
         const maxLoad = Math.floor(
             baseMaxLoad( this.getAbilityTotal('STR') )
-            * sizeMultiplier(this.getState(['stat','size']),
+            * sizeMultiplier(this.getValue(['stat','size']),
                 this.getState(['stat','legs'],2)) );
         return [Math.floor(1/3*maxLoad),
             Math.floor(2/3*maxLoad), maxLoad, 2*maxLoad, 5*maxLoad, Infinity];
@@ -540,7 +546,7 @@ function SizeField(props) {
                     <small>Size</small>
                 </ControlLabel>
                 <FormControl componentClass="select"
-                    value={props.getState(statePropKey)}
+                    value={props.getValue(statePropKey)}
                     onChange={props.handleChange(statePropKey)}>
                     {sizeOptions}
                 </FormControl>
