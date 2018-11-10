@@ -828,8 +828,8 @@ function SpeedTable(props) {
                 <thead>
                     <tr>
                         <th>Speed</th>
-                        <th><small>armed & armored wo/&nbsp;equipment</small></th>
-                        <th><small>a&a w/ all equipment</small></th>
+                        <th><small>combat equipped</small></th>
+                        <th><small>all equipment</small></th>
                         <th><small>Overland mph</small></th>
                         <th><small>Misc note</small></th>
                         <th><small>Temp note</small></th>
@@ -1754,7 +1754,7 @@ function LoadTable(props) {
                     <td className={fullLoadClass(4)}>{loadLevels[2]*5}</td>
                 </tr>
                 <tr>
-                    <th className="active">a&a load: <strong>{props.getArmedLoad()}</strong></th>
+                    <th className="active">Combat load: <strong>{props.getArmedLoad()}</strong></th>
                     <td className={loadClass('light')}>{loadLevels[0]}</td>
                     <td className={loadClass('medium')}>{loadLevels[1]}</td>
                     <td className={loadClass('heavy')}>{loadLevels[2]}</td>
