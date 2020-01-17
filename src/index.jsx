@@ -149,6 +149,7 @@ class App extends Component {
     }
 
     componentWillMount() {
+        // conversions to import old versions
         function convertKey(k) {
             if( STATS.indexOf( k.split('.')[0] )>-1 ) return 'stat.'+k;
             if( k == 'info.size' || k == 'size') return 'stat.size';
@@ -1553,34 +1554,35 @@ function SpellTablePanel(props) {
             if( i>0 && props.getState([...levelKey,String(i-1)]) === undefined
                 && props.getState([...levelKey,String(i)]) === undefined
             ) continue;
+            const rowPropKey=[...levelKey, String(i)];
             spellTableRows = [...spellTableRows, <SpellTablePanelRow {...props}
-            dcPlaceholder={props.getState([...levelKey,'dc'],10+lev+abilityMod)}
-            propKey={[...levelKey, String(i)]} level={lev} /> ]
-    }
-    const remainingSpells = props.getState([...levelKey,'class'])===undefined?"":
-    abilityBonus - props.getState([...levelKey,'used'],0)
+                dcPlaceholder={props.getState([...levelKey,'dc'],10+lev+abilityMod)}
+                propKey={rowPropKey} level={lev} key={rowPropKey.join('.')} /> ]
+        }
+        const remainingSpells = props.getState([...levelKey,'class'])===undefined?"":
+            abilityBonus - props.getState([...levelKey,'used'],0)
             + ['class','misc'].reduce( function(sum, key) {
                 return sum + props.getState([...levelKey,key],0);
             }, 0);
         const remainingProps = { className: remainingSpells>0 ? "success" : "text-center" };
         const usedProps = { className:
-        props.getState([...levelKey,'class'])===undefined ? "" :
-        remainingSpells<0 ? "danger" : "warning" };
+            props.getState([...levelKey,'class'])===undefined ? "" :
+            remainingSpells<0 ? "danger" : "warning" };
         return <tr>
             <th className="active">{lev}</th>
-            <td><TextField {...props} className={hideLast}
-                propKey={[...levelKey,'known']}/></td>
-        <td><TextField {...props} className={hideLast} propKey={[...levelKey,'dc']}
-            placeholder={10+lev+abilityMod} /></td>
-    <th {...remainingProps}>{remainingSpells}</th>
-    <td><TextField {...props} propKey={[...levelKey,'class']}/></td>
-    <td>{hideLast?'':abilityBonus||''}</td>
-    <td><TextField {...props} className={hideLast}
-        propKey={[...levelKey,'misc']}/></td>
-<td {...usedProps}><TextField {...props} className={hideLast}
-    propKey={[...levelKey,'used']}/></td>
+                <td><TextField {...props} className={hideLast}
+                    propKey={[...levelKey,'known']}/></td>
+                <td><TextField {...props} className={hideLast} propKey={[...levelKey,'dc']}
+                    placeholder={10+lev+abilityMod} /></td>
+            <th {...remainingProps}>{remainingSpells}</th>
+                <td><TextField {...props} propKey={[...levelKey,'class']}/></td>
+                <td>{hideLast?'':abilityBonus||''}</td>
+                <td><TextField {...props} className={hideLast}
+                    propKey={[...levelKey,'misc']}/></td>
+                <td {...usedProps}><TextField {...props} className={hideLast}
+                    propKey={[...levelKey,'used']}/></td>
             </tr>
-            });
+    });
     return (
         <Panel header={SpellTablePanelHeader({...props, propKey:propKey})}>
             <Row>
