@@ -653,7 +653,7 @@ function TextField(props) {
 
 const NoteArea = pure(NoteAreaImpl);
 function NoteAreaImpl(props) {
-    const id = props.noteKey + '-note' || props.propKey.join('-');
+    const id = (props.noteKey && props.noteKey + '-note') || props.propKey.join('-');
     const propKey = props.propKey || ['note', props.noteKey];
     const role = props.noteKey || props.propKey[props.propKey.length-1];
     const className = [props.className
