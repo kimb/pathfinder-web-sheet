@@ -1633,7 +1633,7 @@ function SpellTablePanel(props) {
             </Row>
             <Row>
                 <Col xs={12}>
-                    <Table condensed className="spell-list-table">
+                    <Table condensed className="spell-list-table small">
                         <thead>
                             <tr>
                                 <th><small>Lvl</small></th>

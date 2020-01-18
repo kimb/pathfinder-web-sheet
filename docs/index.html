@@ -15,10 +15,14 @@
             #root textarea { margin-bottom: 20px; }
             #root table textarea { margin-bottom: 0; }
             #root small input.form-control, #root small select.form-control,
-            #root .small input.form-control, #root .small select.form-control {
+            #root .small input.form-control, #root .small select.form-control,
+            #root .small textarea.form-control, #root .small .checkbox {
                 font-size: 100%; /*inherit small*/
-                height: 22px;
+                height: 20px;
+                margin: 0;
+                line-height: inherit;
             }
+            #root .small.table-condensed .form-control { padding: 2px; }
             #root .form-control-static .btn { margin-top: -5px; }
             #root .checkbox-inline input[type=text] {
                 display: inline;
@@ -83,10 +87,14 @@
             #root .width-5em { width: 5em; }
             #root .min-width-3-digits { min-width: 3.5em; }
             #root .line-height-1 { line-height: 1.0; }
-            #root textarea.form-control.onerow {
-                height: 34px;
+            #root textarea.autoresize.form-control.onerow {
+                height: 1.5em; /* initial default, will be  */
+            }
+            #root .small textarea.autoresize.form-control {
+                min-height: 20px;
             }
             #root textarea.autoresize {
+                min-height: 34px;
                 height: auto;
                 display: block;
                 overflow: hidden;
