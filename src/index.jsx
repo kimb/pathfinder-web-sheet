@@ -1513,6 +1513,18 @@ function SpellTablePanelHeader(props) {
 const RANGES = [ 'personal', 'touch', 'close', 'medium', 'long' ];
 function SpellTablePanelRow(props) {
     const {propKey,level,dcPlaceholder} = props;
+    const name = props.getState([...propKey, 'name']);
+    if (name === undefined) return (
+        <tr>
+            <th className="active">{level}</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <td><NoteArea {...props} propKey={[...propKey,'name']}
+                placeholder="spell name & description" onerow/></td>
+        </tr>)
     const prep = props.getState([...propKey, 'prep']);
     const used = props.getState([...propKey, 'used'], 0);
     const propsDC = { ...props, placeholder: dcPlaceholder };
