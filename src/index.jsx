@@ -1,10 +1,9 @@
-import "babel-polyfill";
-import _ from 'lodash';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Glyphicon, Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button, ButtonGroup, DropdownButton, MenuItem, Navbar, Nav, NavDropdown, Panel } from 'react-bootstrap';
 import { pure, compose, onlyUpdateForKeys  } from 'recompose';
 import { Speed } from './Speed.jsx';
+import './index.css'
 
 const STATS = ['STR','DEX','CON', 'INT','WIS','CHA'];
 const STAT_TYPES = ['base','enhance','misc','temp'];
@@ -82,7 +81,7 @@ class App extends Component {
                 }
             }
         }
-        this.prevHistoryPushWasWithKey;
+        this.prevHistoryPushWasWithKey = '';
         this.isLoading = false;
         this.fn = {};
         this.fn.handleChange =  this.handleChange.bind(this);
@@ -139,10 +138,10 @@ class App extends Component {
         }
         if ( ''+this.prevHistoryPushWasWithKey == ''+this.prevChangeWasToKey ) {
             console.debug('history.replaceState', title);
-            history.replaceState(this.state , title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
+            window.history.replaceState(this.state , title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
         } else {
             console.debug('history.pushState', title);
-            history.pushState(this.state, title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
+            window.history.pushState(this.state, title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
             this.prevHistoryPushWasWithKey = this.prevChangeWasToKey;
         }
         document.title = title;
@@ -1837,6 +1836,34 @@ function LoadTable(props) {
 
 function invert(v) {
     return (!!v) ? undefined : true;
+}
+function isEmpty(object) {
+    return object == null ||
+        typeof(object) === 'object' && Object.keys(object).length == 0;
+}
+var autoresizeFields = [];
+function addAutoresize(inputRef) {
+    if( !inputRef ) return;
+    autoresizeFields.push( inputRef );
+    inputRef.addEventListener('input', function(e) { autoresize_update(e.target) }, false);
+    autoresize_update( inputRef );
+}
+function autoresizeAll() {
+    console.debug( 'autoresizeAll' );
+    autoresizeFields.forEach( autoresize_update );
+}
+function autoresize_update( inputRef ) {
+    // console.log('autoresize_update',inputRef, inputRef.scrollHeight);
+    inputRef.style.height = '';
+    inputRef.style.height = inputRef.scrollHeight+'px';
+    //inputRef.scrollTop = inputRef.scrollHeight;
+    //window.scrollTo(window.scrollLeft,(inputRef.scrollTop+inputRef.scrollHeight));
+}
+// Polyfill
+if (!Array.isArray) {
+    Array.isArray = function(arg) {
+        return Object.prototype.toString.call(arg) === '[object Array]';
+    };
 }
 
 ReactDOM.render( <App />, document.getElementById('root'));

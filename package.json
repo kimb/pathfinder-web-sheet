@@ -6,10 +6,13 @@
   "description": "Web pathfinder character sheet. Full character saved as a single bookmarkable URL",
   "main": "index.html",
   "scripts": {
-    "clean": "rimraf dist/built",
-    "build": "webpack --progress --profile --colors -p",
-    "dev": "webpack --progress --profile --colors -d",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
   },
   "repository": {
     "type": "git",
@@ -20,28 +23,26 @@
   "bugs": {
     "url": "https://github.com/kimb/pathfinder-web-sheet/issues"
   },
-  "homepage": "https://github.com/kimb/pathfinder-web-sheet",
+  "homepage": ".",
   "dependencies": {
-    "babel-polyfill": "^6.23.0",
-    "lodash": "^4.17.4",
-    "react": "^15.6.1",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.4.0",
+    "@testing-library/user-event": "^7.2.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-scripts": "3.3.0",
     "react-bootstrap": "^0.31.1",
-    "react-dom": "^15.6.1",
     "recompose": "^0.24.0"
   },
-  "devDependencies": {
-    "babel-core": "^6.23.1",
-    "babel-loader": "^7.1",
-    "babel-plugin-transform-class-properties": "^6.22.0",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-plugin-transform-runtime": "^6.22.0",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-es2015": "6.22.0",
-    "babel-preset-react": "^6.23.0",
-    "babel-preset-stage-2": "^6.24.1",
-    "babel-runtime": "^6.22.0",
-    "react-hot-loader": "^3.0.0-beta.6",
-    "webpack": "^2.2.1",
-    "webpack-cleanup-plugin": "^0.4.2"
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version"
+    ]
   }
 }
