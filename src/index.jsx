@@ -109,8 +109,8 @@ class App extends Component {
     componentDidUpdate(prevProps, prevState) {
         const title = this.getState(['info','character'])
             + '(lvl' + this.getClassTypeTotal('levels') + ') '
-            + "v" + this.getState(['md','rev'],0)
-            + " / " + this.getState(['md','prevChangeTime'],'');
+            + "v" + this.getState(['meta','rev'],0)
+            + " / " + this.getState(['meta','prevChangeTime'],'');
         if( this.isLoading ) { // push no state while loading
             document.title = title;
             return;
@@ -151,6 +151,7 @@ class App extends Component {
     componentWillMount() {
         // conversions to import old versions
         function convertKey(k) {
+            if( k.indexOf('md.') === 0 ) return k.replace('md.', 'meta.');
             if( STATS.indexOf( k.split('.')[0] )>-1 ) return 'stat.'+k;
             if( k === 'info.size' || k === 'size') return 'stat.size';
             if( k.indexOf('info') === 0 ) k = k.toLowerCase();
@@ -241,9 +242,9 @@ class App extends Component {
         this.setState( (prevState, setProps) => {
             const newState = this.withPropKeyValue( prevState, propKey, newVal );
             if( !this.isLoading ) {
-                newState.md = {
+                newState.meta = {
                     prevChangeTime : new Date().toLocaleString('sv-SV'),
-                    rev : (prevState.md && (prevState.md.rev || 0) )+1
+                    rev : (prevState.meta && (prevState.meta.rev || 0) )+1
                 };
             }
             this.prevChangeWasToKey = propKey;
@@ -539,7 +540,7 @@ function SizeField(props) {
     const sizeValues = [8,4,2,1,0,-1,-2,-4,-8];
     const sizeOptions = ['Fine','Diminutive','Tiny','Small','Medium'
         ,'Large','Huge','Gargantuan','Colossal'].map( (sizeName,index) =>
-        <option value={sizeValues[index]}>
+        <option key={sizeName} value={sizeValues[index]}>
             {sizeName+': '+sizeValues[index]}</option> );
     const statePropKey = ['stat', 'size'];
     return (
@@ -597,8 +598,10 @@ function StatRow(props) {
     const raging = props.getState(['rage','enable'],false);
     const rageBonus = raging ? getRageState(props)[ability] : 0;
     const abilityFields = STAT_TYPES.map( (type) =>
-    <td><TextField {...props} propKey={['stat',ability,type]} /></td>
-    ).concat( <td className={raging?"":"hidden"}>{rageBonus||""}</td>);
+        <td key={type}>
+            <TextField {...props} propKey={['stat',ability,type]} />
+        </td>
+    ).concat( <td key="rage" className={raging?"":"hidden"}>{rageBonus||""}</td>);
     return (
         <tr>
             <th className="active">{ability}</th>
@@ -687,7 +690,7 @@ const ClassRow = pure(ClassRowImpl);
 function ClassRowImpl(props) {
     const rowName = props.name;
     const classFields = CLASS_TYPES.map( (type) =>
-    <td><TextField {...props} propKey={[rowName,type]} /></td>
+    <td key={type}><TextField {...props} propKey={[rowName,type]} /></td>
     );
     return (
         <tr>
@@ -702,7 +705,7 @@ function ClassTableImpl(props) {
     const classRows = CLASSES.map( function(classN,i) {
         if ( i>0 && isEmpty(props.getState(['class'+i]))
             && isEmpty(props.getState(['class'+(i+1)])) ) return null;
-        return <ClassRow {...props} name={classN} val={props[classN]} />;
+        return <ClassRow key={classN} {...props} name={classN} val={props[classN]} />;
     } );
     return (
         <Table condensed>
@@ -1046,7 +1049,7 @@ function AttackTableImpl(props) {
         {name: 'melee', ability: strMod, size: sizeMod}
         ,{name: 'ranged', ability: dexMod, size: sizeMod}
     ].map( attack =>
-    <tr>
+    <tr key={attack['name']}>
         <th className="active">{attack['name'].toUpperCase()}</th>
         <th className="success">
             { props.getClassTypeTotal('bab')
@@ -1131,10 +1134,10 @@ function ArmorTable(props) {
     const armorKeys = ['ac','max-dex','skill-penalty',
         'spell-fail','weight'];
     const armorControls = armorKeys.map( (key) =>
-    <td><TextField {...props} propKey={['armor',key]} /></td>
+    <td key={key}><TextField {...props} propKey={['armor',key]} /></td>
     );
     const shieldControls = armorKeys.map( (key) =>
-        <td><TextField {...props} propKey={['shield',key]} /></td>
+        <td key={key}><TextField {...props} propKey={['shield',key]} /></td>
     );
     return (
         <Table condensed className="armor-table">
@@ -1183,9 +1186,9 @@ function WeaponTableImpl(props) {
     for( var i = 0; i<20; i++) {
         if ( i>0 && isEmpty( props.getState(['weapon'+(i-1)])) ) break;
         const cells = weaponKeys.map( (key) =>
-        <td><TextField {...props} propKey={['weapon'+i,key]} /></td>
+        <td key={key}><TextField {...props} propKey={['weapon'+i,key]} /></td>
     );
-        const row = <tr>
+        const row = <tr key={i}>
             <td><NoteArea {...props} propKey={['weapon'+i,'desc']}
                 placeholder="name" onerow /></td>
         {cells}
@@ -1234,7 +1237,7 @@ function SelectField(props) {
     const currVal = props.getState(propKey);
     const emptyOption = options.indexOf(currVal) > -1 ? "" : <option />
     const optionList = options.map( (option,index) =>
-    <option value={option}>{option}</option> );
+    <option key={option} value={option}>{option}</option> );
     return (
         <FormGroup controlId={propKey.join('-')} bsSize={props.bsSize||"sm"}>
             <FormControl componentClass="select"
@@ -1328,7 +1331,7 @@ function SkillTableImpl(props) {
         const hasCategory = CATEGORY_SKILLS.indexOf(name) > -1;
         const isUntrainedUse = SKILLS_UNTRAINED_USE.indexOf(name) > -1;
         if (!hasCategory) {
-            rows=rows.concat(<SkillRow {...props} name={name}
+            rows=rows.concat(<SkillRow key={name} {...props} name={name}
             propKey={['skill',name.toLowerCase()]}
             isUntrainedUse={isUntrainedUse}
             ability={SKILL_ABILITIES[i]} hasCategory={hasCategory}/>);
@@ -1342,9 +1345,9 @@ function SkillTableImpl(props) {
                 && isEmpty(props.getState(propKey,{})) ) {
                 continue;
             }
-            rows=rows.concat(<SkillRow {...props} name={name} propKey={propKey}
-            isUntrainedUse={isUntrainedUse}
-            ability={SKILL_ABILITIES[i]} hasCategory={hasCategory}/>);
+            rows=rows.concat(<SkillRow key={name+'i'+categoryIndex} {...props}
+                name={name} propKey={propKey} isUntrainedUse={isUntrainedUse}
+                ability={SKILL_ABILITIES[i]} hasCategory={hasCategory}/>);
         }
         return rows;
     }, []);
@@ -1358,7 +1361,7 @@ function SkillTableImpl(props) {
             continue;
         }
         customSkillRows=customSkillRows.concat(
-            <CustomSkillRow {...props} propKey={propKey} />);
+            <CustomSkillRow key={propKey} {...props} propKey={propKey} />);
     }
     const totalSkillRanks = props.getClassTypeTotal('skill');
     const assignedSkillRanks = props.skill &&
@@ -1416,7 +1419,7 @@ function EquipmentTable(props) {
             continue;
         }
         equipmentRows=equipmentRows.concat(
-            <EquipmentRow {...props} propKey={propKey} />);
+            <EquipmentRow key={i} {...props} propKey={propKey} />);
     }
     return (
         <Table condensed className="equipment-table">
@@ -1489,7 +1492,7 @@ function RagePanelImpl(props) {
 
 function SpellcasterPanels(props) {
     const panels = SPELLCASTERS.map( function(k) {
-        return <SpellTablePanel {...props} propKey={[k]}/>
+        return <SpellTablePanel key={k} {...props} propKey={[k]}/>
         });
     return <div>{panels}</div>;
 }
@@ -1582,7 +1585,7 @@ function SpellTablePanel(props) {
         const usedProps = { className:
             props.getState([...levelKey,'class'])===undefined ? "" :
             remainingSpells<0 ? "danger" : "warning" };
-        return <tr>
+        return <tr key={lev}>
             <th className="active">{lev}</th>
                 <td><TextField {...props} className={hideLast}
                     propKey={[...levelKey,'known']}/></td>
@@ -1674,7 +1677,7 @@ function SpellTablePanel(props) {
 }
 
 const AddfieldsNavbar = compose(
-    onlyUpdateForKeys(['md','debug', 'react_perf']),
+    onlyUpdateForKeys(['meta','debug', 'react_perf']),
     pure)(AddfieldsNavbarImpl);
 function AddfieldsNavbarImpl(props) {
     function clearTemp(e) {
@@ -1695,16 +1698,16 @@ function AddfieldsNavbarImpl(props) {
         <Navbar fluid>
             <Navbar.Header>
                 <Navbar.Brand>
-                    { "Version: " + props.getState(['md','rev'],0) }
+                    { "Version: " + props.getState(['meta','rev'],0) }
                 </Navbar.Brand>
                 <Navbar.Toggle />
             </Navbar.Header>
             <Navbar.Collapse>
                 <Navbar.Text>
-                    { "last change at: " + props.getState(['md','prevChangeTime'],'N/A') }
+                    { "last change at: " + props.getState(['meta','prevChangeTime'],'N/A') }
                 </Navbar.Text>
                 <Nav>
-                    <NavDropdown title="TODO: Clear..." className="hidden">
+                    <NavDropdown id="nav-clear" title="TODO: Clear..." className="hidden">
                         <MenuItem onSelect={clearTemp}>Temporary bonuses</MenuItem>
                         <MenuItem onSelect={clearTempSubdual}>Temporary bonuses and subdual damage</MenuItem>
                         <MenuItem onSelect={clearUses}>Uses per day</MenuItem>
@@ -1712,7 +1715,7 @@ function AddfieldsNavbarImpl(props) {
                     </NavDropdown>
                 </Nav>
                 <Nav>
-                    <NavDropdown title="Add fields for...">
+                    <NavDropdown id="nav-add" title="Add fields for...">
                         <MenuItem onSelect={props.handleChange(['rage'],Object)}>Rage</MenuItem>
                         <MenuItem onSelect={props.handleChange([SPELLCASTERS.find(
                             x=>!props[x] )],Object)}>Spellcaster class and spell list</MenuItem>
@@ -1720,7 +1723,7 @@ function AddfieldsNavbarImpl(props) {
                     </NavDropdown>
                 </Nav>
                 <Nav pullRight>
-                    <NavDropdown pullRight title={<small>Debug</small>}>
+                    <NavDropdown id="nav-debug" pullRight title={<small>Debug</small>}>
                         <MenuItem onSelect={props.handleChange(['debug'],invert)}>
                             <Checkbox checked={props.getState(['debug'],false)}>
                                 console debug
