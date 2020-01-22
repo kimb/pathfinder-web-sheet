@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+// eslint-disable-next-line
 import { Glyphicon, Grid, Row, Col, Table, Form, Checkbox, FormGroup, FormControl, ControlLabel, ButtonToolbar, Button, ButtonGroup, DropdownButton, MenuItem, Navbar, Nav, NavDropdown, Panel } from 'react-bootstrap';
 import { pure, compose, onlyUpdateForKeys  } from 'recompose';
 import { Speed } from './Speed.jsx';
@@ -118,7 +119,7 @@ class App extends Component {
         function recurse (cur, prop) {
             if ( cur === undefined ) {
                 console.debug('componentDidUpdate: skipping undefined at', prop);
-            } else if( typeof(cur) == 'function' ) {
+            } else if( typeof(cur) === 'function' ) {
                 console.warn( 'componentDidUpdate: function at', prop);
             } else if (Object(cur) !== cur) {
                 console.debug( 'componentDidUpdate saving:', prop, cur, typeof cur);
@@ -136,12 +137,12 @@ class App extends Component {
         for (var k in result) {
             qp += "&" + k + "=" + encodeURIComponent( result[k] );
         }
-        if ( ''+this.prevHistoryPushWasWithKey == ''+this.prevChangeWasToKey ) {
+        if ( ''+this.prevHistoryPushWasWithKey === ''+this.prevChangeWasToKey ) {
             console.debug('history.replaceState', title);
-            window.history.replaceState(this.state , title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
+            window.history.replaceState(this.state , title, '?' + qp.slice(1).replace( /%20/g, '+' ));
         } else {
             console.debug('history.pushState', title);
-            window.history.pushState(this.state, title, '?' + qp.slice(1).replace( /\%20/g, '+' ));
+            window.history.pushState(this.state, title, '?' + qp.slice(1).replace( /%20/g, '+' ));
             this.prevHistoryPushWasWithKey = this.prevChangeWasToKey;
         }
         document.title = title;
@@ -151,25 +152,26 @@ class App extends Component {
         // conversions to import old versions
         function convertKey(k) {
             if( STATS.indexOf( k.split('.')[0] )>-1 ) return 'stat.'+k;
-            if( k == 'info.size' || k == 'size') return 'stat.size';
-            if( k.indexOf('info') == 0 ) k = k.toLowerCase();
-            if( k.indexOf('info.init') == 0 ) return k.replace('info.init', 'init');
-            if( k.indexOf('info.speed') == 0 ) return k.replace('info.speed', 'speed');
+            if( k === 'info.size' || k === 'size') return 'stat.size';
+            if( k.indexOf('info') === 0 ) k = k.toLowerCase();
+            if( k.indexOf('info.init') === 0 ) return k.replace('info.init', 'init');
+            if( k.indexOf('info.speed') === 0 ) return k.replace('info.speed', 'speed');
             if( k.indexOf('acrobatic.') > 0 ) return k.replace('acrobatic.', 'acrobatics.');
             if( /refl*\./.test(k) ) return k.replace(/refl*\./, 'refl.');
-            if( k == 'note.spell1' ) return "sp0.note";
-            if( k.indexOf('spell1.') == 0 ) return k.replace('spell1.', 'sp0.');
-            if( k.indexOf('speed.land') == 0 ) return "load.light.base-speed";
+            if( k === 'note.spell1' ) return "sp0.note";
+            if( k.indexOf('spell1.') === 0 ) return k.replace('spell1.', 'sp0.');
+            if( k.indexOf('speed.land') === 0 ) return "load.light.base-speed";
             return k;
         }
         function getQueryParams(qs) {
             qs = qs.split('+').join(' ');
             var params = {}, tokens, re = /[?&]?([^=]+)=([^&]*)/g;
+            // eslint-disable-next-line
             while (tokens = re.exec(qs)) {
                 let key = decodeURIComponent(tokens[1]);
                 let value = decodeURIComponent(tokens[2]);
-                if( key.indexOf('prevChangeWasToKey')==0 ) continue;
-                if( value == ({}).toString() ) continue;
+                if( key.indexOf('prevChangeWasToKey')===0 ) continue;
+                if( value === ({}).toString() ) continue;
                 params[ convertKey( key ) ] = value;
             }
             return params;
@@ -215,10 +217,11 @@ class App extends Component {
     }
 
     withPropKeyValue( prevState, propKey, newVal ) {
-        newVal = (newVal == parseFloat(newVal).toString()) ? parseFloat(newVal) : newVal;
+        newVal = (newVal === parseFloat(newVal).toString()) ? parseFloat(newVal) : newVal;
         newVal = newVal === 'false' ? false : newVal;
         const newState = {};
         let newLeaf = newState;
+        // eslint-disable-next-line
         let leaf = propKey.slice(0,-1).reduce(
             ( childState, key ) => {
                 if( childState[key] === undefined ) {
@@ -227,7 +230,7 @@ class App extends Component {
                 newLeaf = newLeaf[key] = {...childState[key]};
                 return childState[key];
             }, prevState );
-        const oldVal = leaf[propKey[propKey.length-1]];
+        //const oldVal = leaf[propKey[propKey.length-1]];
         newLeaf[propKey[propKey.length-1]] = newVal;
         //console.debug('with', propKey, newState, 'was', oldVal);
         return newState;
@@ -240,7 +243,7 @@ class App extends Component {
             if( !this.isLoading ) {
                 newState.md = {
                     prevChangeTime : new Date().toLocaleString('sv-SV'),
-                    rev : (prevState.md&&prevState.md.rev||0)+1
+                    rev : (prevState.md && (prevState.md.rev || 0) )+1
                 };
             }
             this.prevChangeWasToKey = propKey;
@@ -260,7 +263,7 @@ class App extends Component {
                 : e.target.value;
             const newVal =
                 typeof(evval)==='boolean' ? evval || undefined :
-                evval.length==0 ? undefined :
+                evval.length===0 ? undefined :
                 evval;
             console.log('handleChange event', propKey, newVal, evval, e.target);
             this.setStateByKey( propKey, newVal );
@@ -282,15 +285,15 @@ class App extends Component {
             throw new Error('propKey must be an array or dot-separated: ' + propKey);
         }
         const stateVal = propKey.reduce((tree, key) =>
-            typeof tree == 'object' && key in tree ? tree[key] : undefined, this.state );
+            typeof tree === 'object' && key in tree ? tree[key] : undefined, this.state );
         return stateVal !== undefined ? stateVal : defaultTo;
     }
     getDefault(propKey) {
         if( propKey.indexOf('.') > 0 )
             propKey = propKey.split('.');
         const value = propKey.reduce((tree, key) =>
-            typeof tree == 'object' && key in tree ? tree[key] : undefined, this.default );
-        return typeof value == 'function' ? value(this.fn) : value;
+            typeof tree === 'object' && key in tree ? tree[key] : undefined, this.default );
+        return typeof value === 'function' ? value(this.fn) : value;
     }
 
     getValue(propKey, defaultTo) {
@@ -306,7 +309,7 @@ class App extends Component {
             ( sum+this.getState([classN,type],0)), 0)
     }
     getAbilityTotal(ability, skipTemp=false) {
-        if (STATS.indexOf(ability) == -1) return NaN;
+        if (STATS.indexOf(ability) === -1) return NaN;
         const rageBonus = this.getState(['rage','enable']) && !skipTemp
             ? getRageState(this.fn)[ability] || 0 : 0;
         return STAT_TYPES.filter(x=>!skipTemp||x!=='temp').reduce(
@@ -357,16 +360,16 @@ class App extends Component {
             return [115, 130, 150, 175][str-11];
         }
         function sizeMultiplier(sizeMod, legs) {
-            if( legs == 2) {
+            if( legs === 2) {
                 if( sizeMod < 0 ) return -sizeMod*2;
-                if( sizeMod == 0 ) return 1;
-                if( sizeMod == 1 ) return 3/4;
+                if( sizeMod === 0 ) return 1;
+                if( sizeMod === 1 ) return 3/4;
                 return 1/sizeMod;
-            } else if( legs == 4 ) {
+            } else if( legs === 4 ) {
                 if( sizeMod < 1 )
                     return sizeMultiplier(sizeMod,2)*3/2;
-                if( sizeMod == 1 ) return 1;
-                if( sizeMod == 2 ) return 3/4;
+                if( sizeMod === 1 ) return 1;
+                if( sizeMod === 2 ) return 3/4;
                 return 2*sizeMultiplier(sizeMod,2);
             }
         }
@@ -1557,10 +1560,10 @@ function SpellTablePanel(props) {
     let spellTableRows = [];
     const abilityMod = props.getAbilityMod( props.getState([...propKey,'ability']), true );
     const rows = [0,1,2,3,4,5,6,7,8,9].map( function(lev) {
-        if( lev>0 && props.getState([...propKey,'l'+(lev-1),'class']) === undefined ) return;
+        if( lev>0 && props.getState([...propKey,'l'+(lev-1),'class']) === undefined ) return '';
         const levelKey = [...propKey,'l'+lev];
         const hideLast = props.getState([...levelKey,'class']) === undefined?'hidden':'';
-        const abilityBonus = lev==0 ? 0 : abilityMod;
+        const abilityBonus = lev===0 ? 0 : abilityMod;
         for( let i = 0; i<props.getState([...levelKey,'known'],0); i++ ) {
             if( i>0 && props.getState([...levelKey,String(i-1)]) === undefined
                 && props.getState([...levelKey,String(i)]) === undefined
@@ -1746,10 +1749,10 @@ function LoadTable(props) {
     }
     const armedLoadName = props.getArmedLoadName();
     function loadClass(loadName) {
-        return armedLoadName == loadName ? "success" : "";
+        return armedLoadName === loadName ? "success" : "";
     }
     function armorClass(armorLevel) {
-        return ARMOR_TYPES[armorLevel] == props.getState('armor.type') ?
+        return ARMOR_TYPES[armorLevel] === props.getState('armor.type') ?
             "success" : "";
     }
     return (
@@ -1838,8 +1841,7 @@ function invert(v) {
     return (!!v) ? undefined : true;
 }
 function isEmpty(object) {
-    return object == null ||
-        typeof(object) === 'object' && Object.keys(object).length == 0;
+    return (object === null || typeof(object) === 'object') && Object.keys(object).length === 0;
 }
 var autoresizeFields = [];
 function addAutoresize(inputRef) {

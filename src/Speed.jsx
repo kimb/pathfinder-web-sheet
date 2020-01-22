@@ -5,8 +5,8 @@ export function Speed(base, run) {
 Speed.prototype.toString = function() { return this.base + " (x" + this.run + ")";};
 Speed.parse = function(speed) {
     if( speed instanceof Speed ) return speed;
-    return new Speed(Number((speed+' ').split(/[ (x)\/]+/)[0]),
-        Number((speed+' ').split(/[ (x)]+/)[1] || 4));
+    return new Speed(Number((speed+' ').split(/[ (x)/]+/)[0]),
+        Number((speed+' ').split(/[ (x)/]+/)[1] || 4));
 }
 Speed.modifyBase = function(speedArg, multiplier) {
     const speed = Speed.parse(speedArg);
