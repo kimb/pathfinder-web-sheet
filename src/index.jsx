@@ -1844,7 +1844,8 @@ function invert(v) {
     return (!!v) ? undefined : true;
 }
 function isEmpty(object) {
-    return (object === null || typeof(object) === 'object') && Object.keys(object).length === 0;
+    return object === null || object === undefined
+        || ( typeof(object) === 'object' && Object.keys(object).length === 0 );
 }
 var autoresizeFields = [];
 function addAutoresize(inputRef) {
