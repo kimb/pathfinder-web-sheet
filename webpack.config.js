@@ -5,7 +5,10 @@ var WebpackCleanupPlugin = require('webpack-cleanup-plugin');
 
 module.exports = {
   name: 'bundle',
-  entry: ['babel-polyfill', './src/index.jsx'],
+  entry: [
+    //'babel-polyfill',
+    './src/index.jsx',
+  ],
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'docs')
